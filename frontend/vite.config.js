@@ -9,7 +9,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5002,
+    port: 3000,
     proxy: {
       // Проксируем запросы к API
       '/api': {
