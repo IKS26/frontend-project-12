@@ -1,19 +1,22 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/authSlice.js';
 import { Formik, Form, Field } from 'formik';
 import { Container, Row, Col, Button, Alert, Form as BootstrapForm } from 'react-bootstrap';
 
 const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     try {
       const response = await axios.post('/api/v1/login', values);
       const { token } = response.data;
 		
-      localStorage.setItem('token', token);
+		dispatch(login(token));
       navigate('/');
     } catch (error) {
       if (error.response && error.response.status === 401) {
