@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import init from './init.jsx';
