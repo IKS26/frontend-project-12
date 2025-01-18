@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+body {
+	background: #4d4d4d;
+}
+
+.navbar-custom {
+	background-color: #333333; 
+}
+
+.channels-bg {
+	background-color: #d9d9d9;
+}
+
+.messages-bg {
+	background-color: #e6e6e6;
+}
+
+.chat-bg {
+	background-color: #f2f2f2;
+}
+
+.input-message-bg {
+	background-color: #e6e6e6;
+}

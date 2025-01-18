@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import LoginPage from './LoginPage.jsx';
 import HomePage from './HomePage.jsx';
 import PageNotFound from './PageNotFound.jsx';
+import Navbar from './Navbar.jsx';
 
 const ProtectedRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -14,6 +15,7 @@ const ProtectedRoute = () => {
 const App = () => {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<HomePage />} />
