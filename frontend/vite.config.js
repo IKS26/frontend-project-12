@@ -9,17 +9,21 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3000,
+    port: 5002,
     proxy: {
-      // Проксируем запросы к API
       '/api': {
-        target: 'http://localhost:5001'
+        target: 'http://localhost:5001',
+        changeOrigin: true
       },
-      // Проксируем WebSocket соединения
       '/socket.io': {
-        target: 'ws://localhost:5001',
+        target: 'http://localhost:5001',
         ws: true,
-        rewriteWsOrigin: true
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('proxyReqWs', (proxyReq) => {
+            proxyReq.setHeader('Origin', 'http://localhost:5002');
+          });
+        }
       }
     }
   }

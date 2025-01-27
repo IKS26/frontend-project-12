@@ -1,67 +1,127 @@
-import React, { useEffect } from 'react';
-import { BsPlusSquare, BsArrowRightSquare } from "react-icons/bs";
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchChannels } from '../store/channelsSlice.js';
-import { fetchMessages } from '../store/messagesSlice.js';
+import {
+  fetchMessages,
+  addMessage,
+  selectAllMessages,
+} from '../store/messagesSlice.js';
+import {
+  fetchChannels,
+  addNewChannel,
+  removeChannel,
+  renameChannel,
+  selectAllChannels,
+  selectCurrentChannelId,
+} from '../store/channelsSlice.js';
+import { selectModalState } from '../store/modalSlice.js';
+import socket, {
+  connectSocket,
+  subscribeToEvents,
+  disconnectSocket,
+} from '../services/socket.js';
+import ChannelsList from './ChannelsList.jsx';
+import MessagesBox from './MessagesBox.jsx';
+import MessageInput from './MessageInput.jsx';
+import Modal from './modals/index.jsx';
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const channels = useSelector((state) => state.channels.channels);
-  const messages = useSelector((state) => state.messages.messages);
+
+  const channels = useSelector(selectAllChannels);
+  const messages = useSelector(selectAllMessages);
+  console.log('messages:', messages);
+  const currentChannelId = useSelector(selectCurrentChannelId);
+  const modalState = useSelector(selectModalState);
+
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchChannels());
-    dispatch(fetchMessages());
+    const initializeData = async () => {
+      await dispatch(fetchChannels());
+      connectSocket(localStorage.getItem('token'));
+    };
+
+    initializeData();
+
+    const handleNewMessage = (response) => {
+      console.log('Получено новое сообщение (useEffect):', response.data);
+      dispatch(addMessage(response.data));
+    };
+    const handleNewChannel = (channel) => dispatch(addNewChannel(channel));
+    const handleRemoveChannel = (channelId) => dispatch(removeChannel(channelId));
+    const handleRenameChannel = (channel) => dispatch(renameChannel(channel));
+
+    subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
+
+    socket.on('connect', () => {
+      console.log('WebSocket connected');
+    });
+
+    socket.on('disconnect', (reason) => {
+      console.log('WebSocket disconnected:', reason);
+    });
+
+    return () => {
+      disconnectSocket();
+    };
   }, [dispatch]);
+
+  // Загрузка сообщений при смене канала
+  useEffect(() => {
+    dispatch(fetchMessages(currentChannelId));
+  }, [dispatch, currentChannelId]);
+
+  // Обработчик отправки сообщения
+  const handleSendMessage = (newMessage) => {
+      console.log('Отправка сообщения:', newMessage);
+		console.log('Текущий канал:', currentChannelId);
+      setIsSending(true);
+
+      socket.emit(
+        'newMessage',
+        {
+          body: newMessage,
+          channelId: currentChannelId,
+          username: localStorage.getItem('username'),
+        },
+        (response) => {
+          console.log('Ответ сервера:', response);
+          if (response && response.status === 'ok') {
+            console.log('Сообщение отправлено успешно');
+          } else {
+            console.log('Ошибка при отправке сообщения');
+          }
+          setIsSending(false);
+        }
+      );
+    };
+
+  const shouldRenderModal = useMemo(() => modalState.isOpen && modalState.type, [modalState]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 flex-md-row chat-bg">
         <div className="col-4 col-md-2 border-end px-0 flex-column h-100 d-flex channels-bg">
-          <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-            <b className="text-dark">Каналы</b>
-            <button type="button" className="p-0 text-primary btn btn-group-vertical">
-              <BsPlusSquare size={20} />
-              <span className="visually-hidden">+</span>
-            </button>
-          </div>
-          <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-            {channels.map((channel) => (
-              <li key={channel.id} className="nav-item w-100">
-                <button type="button" className="w-100 rounded-0 text-start btn">
-                  <span className="me-1">#</span>{channel.name}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <ChannelsList
+            channels={channels}
+            currentChannelId={currentChannelId}
+          />
         </div>
         <div className="col p-0 h-100">
           <div className="d-flex flex-column h-100">
-            <div className="mb-4 p-3 shadow-sm small messages-bg">
-              <p className="m-0">
-                <b className="text-dark"># {channels.find(channel => channel.id === messages[0]?.channelId)?.name || 'undefined'}</b>
-              </p>
-              <span className="text-muted">{messages.length} сообщений</span>
-            </div>
-            <div id="messages-box" className="chat-messages overflow-auto px-5">
-              {messages.map((message) => (
-                <div key={message.id}>{message.text}</div>
-              ))}
-            </div>
-            <div className="mt-auto px-5 py-3">
-              <form noValidate className="py-1 border rounded-2">
-                <div className="input-group has-validation">
-                  <input name="body" aria-label="Новое сообщение" placeholder="Введите сообщение..." className="border-1 p-0 ps-2 form-control input-message-bg" />
-                  <button type="submit" className="btn btn-group-vertical">
-                    <BsArrowRightSquare size={20} />
-                    <span className="visually-hidden">Отправить</span>
-                  </button>
-                </div>
-              </form>
-            </div>
+            <MessagesBox
+              messages={messages}
+              channels={channels}
+              currentChannelId={currentChannelId}
+            />
+            <MessageInput
+              handleSendMessage={handleSendMessage}
+              isSending={isSending}
+            />
           </div>
         </div>
       </div>
+      {shouldRenderModal && <Modal />}
     </div>
   );
 };

@@ -2,9 +2,8 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Slack-Chat",
-  "main": "src/index.jsx",
+  "main": "./frontend/src/index.jsx",
   "scripts": {
-	 "dev": "npm run dev --prefix frontend",
     "build": "npm run build --prefix frontend",
     "start": "start-server -s ./frontend/dist",
     "test": "echo \"Error: no test specified\" && exit 1",

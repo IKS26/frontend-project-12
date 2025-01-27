@@ -1,9 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
+const TOKEN_KEY = 'token';
+
 const initialState = {
-  isAuthenticated: !!localStorage.getItem('token'),
-  token: localStorage.getItem('token') || null
+  isAuthenticated: !!localStorage.getItem(TOKEN_KEY),
+  token: localStorage.getItem(TOKEN_KEY) || null
 };
 
 const authSlice = createSlice({
@@ -13,12 +15,13 @@ const authSlice = createSlice({
     login(state, action) {
       state.isAuthenticated = true;
       state.token = action.payload;
-      localStorage.setItem('token', action.payload);
+      localStorage.setItem(TOKEN_KEY, action.payload);
     },
     logout(state) {
       state.isAuthenticated = false;
       state.token = null;
-      localStorage.removeItem('token');
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.clear();
     }
   }
 });
