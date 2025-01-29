@@ -1,28 +1,28 @@
-import React, { useCallback, memo } from 'react';
+import React, { memo } from 'react';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { BsPlusSquare } from 'react-icons/bs';
 import { openModal } from '../store/modalSlice.js';
 import { setCurrentChannelId } from '../store/channelsSlice.js';
 
-const ChannelsList = memo(({ channels, currentChannelId }) => {
+const ChannelsList = memo(({ channels, currentChannelId}) => {
   const dispatch = useDispatch();
 
-  const handleChannelSelect = useCallback((channelId) => {
-	dispatch(setCurrentChannelId(channelId));;
-  }, [dispatch]);
+  const handleChannelSelect = (channelId) => {
+    dispatch(setCurrentChannelId(channelId));
+  };
 
-  const handleAddChannel = useCallback(() => {
+  const handleAddChannel = () => {
     dispatch(openModal({ type: 'add' }));
-  }, [dispatch]);
+  };
 
-  const handleRemoveChannel = useCallback((channelId) => {
+  const handleRemoveChannel = (channelId) => {
     dispatch(openModal({ type: 'remove', channelId }));
-  }, [dispatch]);
+  };
 
-  const handleRenameChannel = useCallback((channelId) => {
+  const handleRenameChannel = (channelId) => {
     dispatch(openModal({ type: 'rename', channelId }));
-  }, [dispatch]);
+  };
 
   return (
     <>
@@ -38,7 +38,7 @@ const ChannelsList = memo(({ channels, currentChannelId }) => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills">
-        {channels.map((channel) => (
+        {channels && channels.map((channel) => (
           <li key={channel.id} className="nav-item w-100">
             <Dropdown as={ButtonGroup} className="d-flex mb-2">
               <Button

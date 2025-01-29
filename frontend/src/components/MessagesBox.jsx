@@ -1,8 +1,18 @@
 import React, { memo } from 'react';
-import { DEFAULT_CHANNEL_ID } from '../store/channelsSlice';
+import { useSelector } from 'react-redux';
+import { selectChannelById } from '../store/channelsSlice';
+import { selectCurrentChannelMessages } from '../store/messagesSlice';
 
-const MessagesBox = memo(({ messages, channels, currentChannelId }) => {
-  const currentChannel = channels.find((channel) => channel.id === currentChannelId) || DEFAULT_CHANNEL_ID;
+const MessagesBox = memo(({ currentChannelId }) => {
+  const currentChannel = useSelector((state) => selectChannelById(state, currentChannelId));
+  const messages = useSelector(selectCurrentChannelMessages);
+
+  console.log('currentChannel:', currentChannel);
+  console.log('messages:', messages);
+
+  if (!currentChannel) {
+    return <p className="text-muted">Загрузка канала...</p>;
+  }
 
   return (
     <>
@@ -16,7 +26,7 @@ const MessagesBox = memo(({ messages, channels, currentChannelId }) => {
         {messages.length > 0 ? (
           messages.map((message) => (
             <div key={message.id} className="text-break mb-2">
-              <b>{message.username}:</b> {message.body}
+              <b>{message.username || 'Unknown'}:</b> {message.body}
             </div>
           ))
         ) : (

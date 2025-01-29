@@ -1,15 +1,16 @@
 import React from 'react';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import { addNewChannel, selectAllChannelNames } from '../../store/channelsSlice.js';
+import { selectAllChannelNames } from '../../store/channelsSlice.js';
+import { useAddChannelMutation } from '../../services/dataApi';
 
 const AddChannelModal = ({ handleClose }) => {
-  const dispatch = useDispatch();
   const channelNames = useSelector(selectAllChannelNames);
+  const [addChannel, { isLoading }] = useAddChannelMutation();
 
   const validationSchema = yup.object().shape({
     name: yup
@@ -28,7 +29,7 @@ const AddChannelModal = ({ handleClose }) => {
       const cleanName = leoProfanity.clean(values.name);
       setSubmitting(true);
       try {
-        await dispatch(addNewChannel({ name: cleanName })).unwrap();
+        await addChannel({ name: cleanName }).unwrap();
         toast.success('Канал добавлен');
         console.log('Канал добавлен');
         handleClose();
@@ -58,6 +59,7 @@ const AddChannelModal = ({ handleClose }) => {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.name && !!formik.errors.name}
               placeholder="Введите имя канала"
+              disabled={isLoading}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
@@ -67,7 +69,7 @@ const AddChannelModal = ({ handleClose }) => {
             <Button variant="secondary" onClick={handleClose} className="me-2">
               Отмена
             </Button>
-            <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
+            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
               Добавить
             </Button>
           </div>

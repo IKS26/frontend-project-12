@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Container, Row, Col, Button, Alert, Form as BootstrapForm } from 'react-bootstrap';
 import { login } from '../store/authSlice.js';
-import api from '../services/api.js';
 
 const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -13,10 +13,11 @@ const LoginPage = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await api.post('/login', values);
+      const response = await axios.post('/api/v1/login', values);
       const { token } = response.data;
 
       localStorage.setItem('token', token);
+		localStorage.setItem('username', values.username);
       dispatch(login(token));
       navigate('/');
     } catch (error) {

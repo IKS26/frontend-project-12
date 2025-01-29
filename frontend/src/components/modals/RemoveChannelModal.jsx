@@ -1,17 +1,17 @@
 import React from 'react';
 import { Modal as BootstrapModal, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { removeChannel } from '../../store/channelsSlice.js';
+import { useRemoveChannelMutation } from '../../services/dataApi';
 import { selectModalState } from '../../store/modalSlice.js';
 
 const RemoveChannelModal = ({ handleClose }) => {
-  const dispatch = useDispatch();
   const { channelId } = useSelector(selectModalState);
+  const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
   const handleRemove = async () => {
     try {
-      await dispatch(removeChannel(channelId)).unwrap();
+      await removeChannel(channelId).unwrap();
       toast.success('Канал удалён');
       handleClose();
     } catch (error) {
@@ -31,7 +31,7 @@ const RemoveChannelModal = ({ handleClose }) => {
         <Button variant="secondary" onClick={handleClose}>
           Отмена
         </Button>
-        <Button variant="danger" onClick={handleRemove}>
+        <Button variant="danger" onClick={handleRemove} disabled={isLoading}>
           Удалить
         </Button>
       </BootstrapModal.Footer>

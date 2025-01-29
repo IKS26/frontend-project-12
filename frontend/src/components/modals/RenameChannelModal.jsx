@@ -1,22 +1,22 @@
 import React, { useEffect, useRef } from 'react';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import {
-  renameChannel,
-  selectChannelById,
-  selectAllChannelNames,
-} from '../../store/channelsSlice.js';
+import { selectChannelById } from '../../store/channelsSlice.js';
 import { selectModalState } from '../../store/modalSlice.js';
+import { useFetchChannelsQuery, useRenameChannelMutation } from '../../services/dataApi';
 
 const RenameChannelModal = ({ handleClose }) => {
-  const dispatch = useDispatch();
+  const { data: channels, isLoading } = useFetchChannelsQuery();
   const { channelId } = useSelector(selectModalState);
   const currentChannel = useSelector((state) => selectChannelById(state, channelId));
-  const channelNames = useSelector(selectAllChannelNames);
+
+  if (!channels || !currentChannel) return null;
+
+  const [renameChannel] = useRenameChannelMutation();
   const inputRef = useRef();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const RenameChannelModal = ({ handleClose }) => {
       .required('Имя канала обязательно')
       .min(3, 'Имя канала должно быть от 3 до 20 символов')
       .max(20, 'Имя канала должно быть от 3 до 20 символов')
-      .notOneOf(channelNames, 'Канал с таким именем уже существует'),
+      .notOneOf(channels.map((ch) => ch.name), 'Канал с таким именем уже существует'),
   });
 
   const formik = useFormik({
@@ -39,7 +39,7 @@ const RenameChannelModal = ({ handleClose }) => {
     onSubmit: async ({ name }) => {
       const cleanName = leoProfanity.clean(name);
       try {
-        await dispatch(renameChannel({ id: channelId, name: cleanName })).unwrap();
+        await renameChannel({ id: channelId, name: cleanName }).unwrap();
         toast.success('Канал переименован');
         handleClose();
       } catch (error) {
@@ -65,6 +65,7 @@ const RenameChannelModal = ({ handleClose }) => {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.name && !!formik.errors.name}
               placeholder="Введите новое имя"
+              disabled={isLoading}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
@@ -74,7 +75,7 @@ const RenameChannelModal = ({ handleClose }) => {
             <Button variant="secondary" onClick={handleClose} className="me-2">
               Отмена
             </Button>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
               Сохранить
             </Button>
           </div>

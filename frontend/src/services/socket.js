@@ -6,17 +6,30 @@ const socket = io('http://localhost:5002', {
   transports: ['websocket']
 });
 
-socket.on('connect_error', (error) => {
-  console.error('Ошибка подключения к WebSocket:', error);
-});
-
-socket.on('disconnect', (reason) => {
-  console.log('WebSocket disconnected:', reason);
-});
+let isConnected = false;
 
 export const connectSocket = (token) => {
+  if (isConnected) {
+    console.warn('WebSocket уже подключен');
+    return;
+  }
   socket.auth = { token };
   socket.connect();
+  isConnected = true;
+
+  socket.on('connect', () => {
+    console.log('WebSocket подключен');
+  });
+};
+
+export const disconnectSocket = () => {
+  if (!isConnected) {
+    console.warn('WebSocket уже отключён');
+    return;
+  }
+  socket.disconnect();
+  isConnected = false;
+  console.log('WebSocket отключён');
 };
 
 export const subscribeToEvents = (
@@ -25,45 +38,14 @@ export const subscribeToEvents = (
   onRemoveChannel,
   onRenameChannel
 ) => {
-  socket.on('newMessage', (payload) => {
-    console.log('Получено новое сообщение (subscribeToEvents):', payload);
-    try {
-      onMessage(payload);
-    } catch (error) {
-      console.error('Error handling newMessage event:', error);
-    }
-  });
-
-  socket.on('newChannel', (payload) => {
-    console.log('Получено новое сообщение (subscribeToEvents):', payload);
-    try {
-      onChannel(payload);
-    } catch (error) {
-      console.error('Error handling newChannel event:', error);
-    }
-  });
-
-  socket.on('removeChannel', (payload) => {
-    console.log('Получено новое сообщение (subscribeToEvents):', payload);
-    try {
-      onRemoveChannel(payload.id);
-    } catch (error) {
-      console.error('Error handling removeChannel event:', error);
-    }
-  });
-
-  socket.on('renameChannel', (payload) => {
-    console.log('Получено новое сообщение (subscribeToEvents):', payload);
-    try {
-      onRenameChannel(payload);
-    } catch (error) {
-      console.error('Error handling renameChannel event:', error);
-    }
-  });
-};
-
-export const disconnectSocket = () => {
-  socket.disconnect();
+  socket.off('newMessage');
+  socket.off('newChannel');
+  socket.off('removeChannel');
+  socket.off('renameChannel');
+  socket.on('newMessage', onMessage);
+  socket.on('newChannel', onChannel);
+  socket.on('removeChannel', onRemoveChannel);
+  socket.on('renameChannel', onRenameChannel);
 };
 
 export default socket;

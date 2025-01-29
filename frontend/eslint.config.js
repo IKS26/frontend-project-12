@@ -52,7 +52,10 @@ export default defineConfig([
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
       'prettier/prettier': 'error',
-      'import/extensions': 0,
+      'import/extensions': ["error", "ignorePackages", {
+			"js": "never",
+			"jsx": "never"
+		 }],
       'import/no-unresolved': 0,
       'react/prop-types': 0,
       'no-console': 0,
