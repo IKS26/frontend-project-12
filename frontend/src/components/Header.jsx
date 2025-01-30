@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Navbar as BootstrapNavbar } from 'react-bootstrap';
+import { Button, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice.js';
 
-const Navbar = () => {
+const Header = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
@@ -13,15 +13,15 @@ const Navbar = () => {
   };
 
   return (
-    <BootstrapNavbar expand="lg" className="navbar-custom shadow-sm">
+    <Navbar expand="lg" className="navbar-custom shadow-sm">
       <div className="container">
-        <BootstrapNavbar.Brand as={Link} to="/" className="text-light">
-		  <strong>Slack-Chat</strong>
-        </BootstrapNavbar.Brand>
+        <Navbar.Brand as={Link} to="/" className="text-light">
+		  <strong>Hexlet Chat</strong>
+        </Navbar.Brand>
         {isAuthenticated && <Button onClick={handleLogout} variant="outline-light">Выйти</Button>}
       </div>
-    </BootstrapNavbar>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default Header;

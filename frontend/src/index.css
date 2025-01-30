@@ -35,3 +35,7 @@ body {
 .input-message-bg {
 	background-color: #e6e6e6;
 }
+
+.text-yellow {
+  color: yellow;
+}
