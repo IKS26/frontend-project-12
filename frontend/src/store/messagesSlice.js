@@ -10,7 +10,7 @@ const messagesSlice = createSlice({
   initialState,
   reducers: {
     addMessage: messagesAdapter.addOne,
-    addMessages: messagesAdapter.setAll,
+    addMessages: messagesAdapter.addMany,
     removeMessagesByChannelId: (state, { payload: channelId }) => {
       const remainingMessages = Object.values(state.entities).filter(
         (message) => message.channelId !== channelId

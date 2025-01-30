@@ -7,7 +7,8 @@ export const DEFAULT_CHANNEL_ID = 1; // ID канала "general"
 const channelsAdapter = createEntityAdapter();
 
 const initialState = channelsAdapter.getInitialState({
-  currentChannelId: null
+  channels: [],
+  currentChannelId: DEFAULT_CHANNEL_ID
 });
 
 const channelsSlice = createSlice({
@@ -15,23 +16,26 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {
     setCurrentChannelId: (state, { payload }) => {
-      state.currentChannelId = payload;
+      console.log('Смена канала на:', payload);
+      state.currentChannelId = String(payload);
     },
     addChannel: (state, { payload }) => {
       const { id, name, removable } = payload;
+      console.log('Добавление канала в store:', payload);
       channelsAdapter.addOne(state, { id, name, removable });
+      state.currentChannelId = id;
     },
     addChannels: (state, { payload }) => {
+      console.log('addChannels вызван, payload:', payload);
       channelsAdapter.setAll(state, payload);
 
-      // Если currentChannelId не установлен, выбираем default-канал
-      if (
-        !state.currentChannelId ||
-        !payload.some((ch) => ch.id === state.currentChannelId)
-      ) {
-        state.currentChannelId = DEFAULT_CHANNEL_ID;
+      if (!state.currentChannelId) {
+        const firstChannel = payload[0]?.id ?? DEFAULT_CHANNEL_ID;
+        console.log('Устанавливаем currentChannelId:', firstChannel);
+        state.currentChannelId = firstChannel;
       }
     },
+
     removeChannel: (state, { payload: id }) => {
       channelsAdapter.removeOne(state, id);
 
@@ -65,8 +69,12 @@ export const selectAllChannelNames = createSelector(
 export const selectCurrentChannelId = (state) =>
   state.channels.currentChannelId;
 
-export const selectCurrentChannel = (state) =>
-  selectors.selectById(state, state.channels.currentChannelId);
+export const selectCurrentChannel = (state) => {
+  const channel =
+    state.channels.entities[state.channels.currentChannelId] || null;
+  console.log('Текущий канал в selectCurrentChannel:', channel);
+  return channel;
+};
 
 export const selectChannelById = (state, channelId) => {
   if (!channelId) return undefined;

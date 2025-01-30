@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  useFetchChannelsQuery
+  useFetchChannelsQuery,
+  useFetchMessagesQuery
 } from '../services/dataApi';
 import { selectModalState } from '../store/modalSlice';
-import { selectCurrentChannelId, addChannels } from '../store/channelsSlice';
+import { selectCurrentChannelId, addChannels, setCurrentChannelId, DEFAULT_CHANNEL_ID } from '../store/channelsSlice';
 import { addMessage, removeMessagesByChannelId } from '../store/messagesSlice';
 import ChannelsList from './ChannelsList';
 import MessagesBox from './MessagesBox';
@@ -17,10 +18,11 @@ const HomePage = () => {
   const modalState = useSelector(selectModalState);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const { data: channels, isLoading, refetch } = useFetchChannelsQuery();
+  const { data: messages, refetch: refetchMessages } = useFetchMessagesQuery(currentChannelId, { skip: !currentChannelId });
 
   useEffect(() => {
     if (channels) {
-      dispatch(addChannels(channels)); // Записываем каналы в Redux
+      dispatch(addChannels(channels));
     }
   }, [channels, dispatch]);
 
@@ -29,7 +31,6 @@ const HomePage = () => {
     connectSocket(token);
 
     const handleNewMessage = (message) => {
-      console.log('Новое сообщение:', message);
       dispatch(addMessage(message));
     };
 
@@ -64,7 +65,7 @@ const HomePage = () => {
         </div>
         <div className="col p-0 h-100">
           <div className="d-flex flex-column h-100">
-            <MessagesBox currentChannelId={currentChannelId} />
+            <MessagesBox  currentChannelId={currentChannelId} />
             <MessageInput currentChannelId={currentChannelId} />
           </div>
         </div>

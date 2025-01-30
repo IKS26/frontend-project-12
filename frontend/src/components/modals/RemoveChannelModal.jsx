@@ -1,11 +1,13 @@
 import React from 'react';
 import { Modal as BootstrapModal, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../services/dataApi';
-import { selectModalState } from '../../store/modalSlice.js';
+import { selectModalState, closeModal } from '../../store/modalSlice.js';
+import { setCurrentChannelId, DEFAULT_CHANNEL_ID } from '../../store/channelsSlice.js';
 
-const RemoveChannelModal = ({ handleClose }) => {
+const RemoveChannelModal = () => {
+  const dispatch = useDispatch();
   const { channelId } = useSelector(selectModalState);
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
@@ -13,7 +15,8 @@ const RemoveChannelModal = ({ handleClose }) => {
     try {
       await removeChannel(channelId).unwrap();
       toast.success('Канал удалён');
-      handleClose();
+      dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
+      dispatch(closeModal());
     } catch (error) {
       toast.error('Не удалось удалить канал');
     }
@@ -28,7 +31,7 @@ const RemoveChannelModal = ({ handleClose }) => {
         Вы уверены, что хотите удалить этот канал? Все сообщения будут удалены.
       </BootstrapModal.Body>
       <BootstrapModal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={() => dispatch(closeModal())}>
           Отмена
         </Button>
         <Button variant="danger" onClick={handleRemove} disabled={isLoading}>

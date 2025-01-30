@@ -1,25 +1,32 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectChannelById } from '../store/channelsSlice';
+import { selectCurrentChannel } from '../store/channelsSlice';
 import { selectCurrentChannelMessages } from '../store/messagesSlice';
 
 const MessagesBox = memo(({ currentChannelId }) => {
-  const currentChannel = useSelector((state) => selectChannelById(state, currentChannelId));
+  const currentChannel = useSelector((state) => {
+		const channel = selectCurrentChannel(state);
+		console.log('Ререндер: currentChannel:', channel);
+		return channel;
+	 });	 
   const messages = useSelector(selectCurrentChannelMessages);
+  const bottomRef = useRef(null);
 
-  console.log('currentChannel:', currentChannel);
-  console.log('messages:', messages);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-  if (!currentChannel) {
-    return <p className="text-muted">Загрузка канала...</p>;
-  }
+  // console.log('currentChannel:', currentChannel);
+  // console.log('currentChannelId:', currentChannelId);
 
   return (
     <>
       <div className="mb-4 p-3 shadow-sm small messages-bg">
-        <p className="m-0">
-          <b className="text-dark"># {currentChannel.name}</b>
-        </p>
+		{currentChannel && (
+       <p className="m-0">
+         <b className="text-dark"># {currentChannel.name}</b>
+       </p>
+      )}
         <span className="text-muted">{messages.length} сообщений</span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5 text-dark">
@@ -32,6 +39,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
         ) : (
           <p className="text-muted">Сообщений нет</p>
         )}
+		  <div ref={bottomRef} />
       </div>
     </>
   );

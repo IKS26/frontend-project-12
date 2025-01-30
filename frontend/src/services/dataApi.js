@@ -4,9 +4,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
   DEFAULT_CHANNEL_ID,
   setCurrentChannelId,
-  addChannels
+  addChannels,
+  addChannel as addChannelToStore
 } from '../store/channelsSlice.js';
-import { removeMessagesByChannelId } from '../store/messagesSlice.js';
+import {
+  removeMessagesByChannelId,
+  addMessages
+} from '../store/messagesSlice.js';
 
 export const dataApi = createApi({
   reducerPath: 'dataApi',
@@ -53,7 +57,9 @@ export const dataApi = createApi({
           })
         );
         try {
-          await queryFulfilled;
+          const { data: addedChannel } = await queryFulfilled;
+          dispatch(addChannelToStore(addedChannel));
+          dispatch(setCurrentChannelId(addedChannel.id));
         } catch {
           patchResult.undo();
         }
@@ -111,7 +117,15 @@ export const dataApi = createApi({
       }
     }),
     fetchMessages: builder.query({
-      query: (channelId) => `messages?channelId=${channelId}`
+      query: (channelId) => `messages?channelId=${channelId}`,
+      async onQueryStarted(channelId, { dispatch, queryFulfilled }) {
+        try {
+          const { data: messages } = await queryFulfilled;
+          dispatch(addMessages(messages));
+        } catch (error) {
+          console.error('Ошибка загрузки сообщений:', error);
+        }
+      }
     }),
     sendMessage: builder.mutation({
       query: ({ body, channelId }) => {

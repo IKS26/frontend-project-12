@@ -1,15 +1,23 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { BsPlusSquare } from 'react-icons/bs';
 import { openModal } from '../store/modalSlice.js';
-import { setCurrentChannelId } from '../store/channelsSlice.js';
+import { setCurrentChannelId, DEFAULT_CHANNEL_ID } from '../store/channelsSlice.js';
 
-const ChannelsList = memo(({ channels, currentChannelId}) => {
+const ChannelsList = memo(({ channels, currentChannelId }) => {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (!currentChannelId && channels?.length > 0) {
+      dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
+    }
+  }, [channels, currentChannelId, dispatch]);
+
   const handleChannelSelect = (channelId) => {
-    dispatch(setCurrentChannelId(channelId));
+    if (currentChannelId !== channelId) {
+      dispatch(setCurrentChannelId(channelId));
+    }
   };
 
   const handleAddChannel = () => {
@@ -41,13 +49,13 @@ const ChannelsList = memo(({ channels, currentChannelId}) => {
         {channels && channels.map((channel) => (
           <li key={channel.id} className="nav-item w-100">
             <Dropdown as={ButtonGroup} className="d-flex mb-2">
-              <Button
-                variant={channel.id === currentChannelId ? 'secondary' : 'light'}
-                className="w-100 text-start text-truncate"
-                onClick={() => handleChannelSelect(channel.id)}
-              >
-                # {channel.name}
-              </Button>
+				<Button
+  variant={String(channel.id) === String(currentChannelId) ? 'secondary' : 'light'}
+  className="w-100 text-start text-truncate"
+  onClick={() => handleChannelSelect(channel.id)}
+>
+  # {channel.name}
+</Button>
               {channel.removable && (
                 <>
                   <Dropdown.Toggle split variant="light" id={`dropdown-toggle-${channel.id}`} />

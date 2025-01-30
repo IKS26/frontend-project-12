@@ -1,14 +1,15 @@
 import React from 'react';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import { selectAllChannelNames } from '../../store/channelsSlice.js';
+import { selectAllChannelNames, setCurrentChannelId } from '../../store/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/dataApi';
 
 const AddChannelModal = ({ handleClose }) => {
+  const dispatch = useDispatch();
   const channelNames = useSelector(selectAllChannelNames);
   const [addChannel, { isLoading }] = useAddChannelMutation();
 
@@ -29,9 +30,17 @@ const AddChannelModal = ({ handleClose }) => {
       const cleanName = leoProfanity.clean(values.name);
       setSubmitting(true);
       try {
-        await addChannel({ name: cleanName }).unwrap();
+        const newChannel = await addChannel({ name: cleanName }).unwrap();
+
+        console.log('Добавленный канал:', newChannel);
+
+        if (newChannel?.id) {
+          dispatch(setCurrentChannelId(newChannel.id));
+        } else {
+          console.error('Ошибка: не удалось получить ID нового канала');
+        }
+
         toast.success('Канал добавлен');
-        console.log('Канал добавлен');
         handleClose();
         resetForm();
       } catch (error) {
