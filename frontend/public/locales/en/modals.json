@@ -4,7 +4,7 @@
     "placeholder": "Enter channel name",
     "submit": "Add",
     "cancel": "Cancel",
-    "success": "Channel added",
+    "success": "Channel <strong>\"{{newChannelName}}\"</strong> added",
     "error": "Failed to add channel",
     "validation": {
       "required": "Channel name is required",
@@ -13,19 +13,19 @@
     }
   },
   "removeChannel": {
-    "title": "Remove Channel",
+    "title": "Remove Channel <strong>\"{{channelToRemove}}\"</strong>",
     "confirmation": "Are you sure you want to delete this channel? All messages will be deleted.",
     "submit": "Delete",
     "cancel": "Cancel",
-    "success": "Channel deleted",
+    "success": "Channel <strong>\"{{channelToRemove}}\"</strong> deleted",
     "error": "Failed to delete channel"
   },
   "renameChannel": {
-    "title": "Rename Channel",
+    "title": "Rename Channel <strong>\"{{channelToRename}}\"</strong>",
     "placeholder": "Enter new name",
     "submit": "Save",
     "cancel": "Cancel",
-    "success": "Channel renamed",
+    "success": "Channel <strong>\"{{channelToRename}}\"</strong> has been renamed to <strong>\"{{newChannelName}}\"</strong>",
     "error": "Failed to rename channel",
     "validation": {
       "required": "Channel name is required",

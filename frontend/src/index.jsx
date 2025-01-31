@@ -12,11 +12,12 @@ const app = async () => {
   const vdom = await init();
   root.render(
   //<StrictMode>
+    <ErrorBoundary>
 	 <Provider store={store}>
-	 <ErrorBoundary>
+	 
 	 {vdom}
-	 </ErrorBoundary>
     </Provider>
+	 </ErrorBoundary>
   //</StrictMode>
 );
 };

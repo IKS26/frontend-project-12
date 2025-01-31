@@ -58,21 +58,19 @@ const HomePage = () => {
   }, [dispatch, isLoading, refetch]);
 
   return (
-    <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      <div className="row h-100 flex-md-row chat-bg">
-        <div className="col-4 col-md-2 border-end px-0 flex-column h-100 d-flex channels-bg">
-          <ChannelsList channels={channels} currentChannelId={currentChannelId} />
-        </div>
-        <div className="col p-0 h-100">
-          <div className="d-flex flex-column h-100">
-            <MessagesBox  currentChannelId={currentChannelId} />
-            <MessageInput currentChannelId={currentChannelId} />
-          </div>
-        </div>
-      </div>
-      {modalState.isOpen && <Modal />}
-    </div>
-  );
+	<div className="container h-100 my-4 rounded shadow overflow-hidden">
+	  <div className="row h-100 flex-md-row chat-bg">
+		 <div className="col-4 col-md-2 border-end px-0 d-flex flex-column channels-bg">
+			<ChannelsList channels={channels} currentChannelId={currentChannelId} />
+		 </div>
+		 <div className="col p-0 d-flex flex-column">
+			<MessagesBox currentChannelId={currentChannelId} />
+			<MessageInput currentChannelId={currentChannelId} />
+		 </div>
+	  </div>
+	  {modalState.isOpen && <Modal />}
+	</div>
+ );
 };
 
 export default HomePage;

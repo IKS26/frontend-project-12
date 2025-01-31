@@ -4,7 +4,7 @@
     "placeholder": "Введите имя канала",
     "submit": "Добавить",
     "cancel": "Отмена",
-    "success": "Канал добавлен",
+    "success": "Канал <strong>\"{{newChannelName}}\"</strong> добавлен",
     "error": "Не удалось добавить канал",
     "validation": {
       "required": "Имя канала обязательно",
@@ -13,19 +13,19 @@
     }
   },
   "removeChannel": {
-    "title": "Удалить канал",
+    "title": "Удалить канал <strong>\"{{channelToRemove}}\"</strong>",
     "confirmation": "Вы уверены, что хотите удалить этот канал? Все сообщения будут удалены.",
     "submit": "Удалить",
     "cancel": "Отмена",
-    "success": "Канал удалён",
+    "success": "Канал <strong>\"{{channelToRemove}}\"</strong> удалён",
     "error": "Не удалось удалить канал"
   },
   "renameChannel": {
-    "title": "Переименовать канал",
+    "title": "Переименовать канал <strong>\"{{channelToRename}}\"</strong>",
     "placeholder": "Введите новое имя",
     "submit": "Сохранить",
     "cancel": "Отмена",
-    "success": "Канал переименован",
+    "success": "Канал <strong>\"{{channelToRename}}\"</strong> был переименован в <strong>\"{{newChannelName}}\"</strong>",
     "error": "Не удалось переименовать канал",
     "validation": {
       "required": "Имя канала обязательно",

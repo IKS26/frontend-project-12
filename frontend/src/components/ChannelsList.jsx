@@ -65,7 +65,10 @@ const ChannelsList = memo(({ channels, currentChannelId }) => {
                     <Dropdown.Item onClick={() => handleRenameChannel(channel.id)}>
                       {t('channels.rename')}
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleRemoveChannel(channel.id)}>
+                    <Dropdown.Item onClick={() => {
+						  handleRemoveChannel(channel.id);
+						  dispatch(setCurrentChannelId(channel.id));
+						  }}>
                       {t('channels.remove')}
                     </Dropdown.Item>
                   </Dropdown.Menu>

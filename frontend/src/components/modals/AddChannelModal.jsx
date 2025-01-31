@@ -1,5 +1,5 @@
 import React, { startTransition } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -37,7 +37,9 @@ const AddChannelModal = ({ handleClose }) => {
           if (newChannel?.id) {
             dispatch(setCurrentChannelId(newChannel.id));
           }
-          toast.success(t('addChannel.success'));
+          toast.success(
+				<div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
+			 );			 
           handleClose();
           resetForm();
         } catch {

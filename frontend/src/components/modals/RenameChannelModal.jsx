@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -15,6 +15,7 @@ const RenameChannelModal = ({ handleClose }) => {
   const { data: channels, isLoading } = useFetchChannelsQuery();
   const { channelId } = useSelector(selectModalState);
   const currentChannel = useSelector((state) => selectChannelById(state, channelId));
+  const channelToRename = currentChannel.name;
 
   if (!channels || !currentChannel) return null;
 
@@ -42,7 +43,9 @@ const RenameChannelModal = ({ handleClose }) => {
       const cleanName = leoProfanity.clean(name);
       try {
         await renameChannel({ id: channelId, name: cleanName }).unwrap();
-        toast.success(t('renameChannel.success'));
+        toast.success(
+			<div dangerouslySetInnerHTML={{ __html: t('renameChannel.success', { channelToRename, newChannelName: cleanName })}} />
+		);
         handleClose();
       } catch {
         toast.error(t('renameChannel.error'));
@@ -53,7 +56,9 @@ const RenameChannelModal = ({ handleClose }) => {
   return (
     <>
       <BootstrapModal.Header closeButton>
-        <BootstrapModal.Title>{t('renameChannel.title')}</BootstrapModal.Title>
+        <BootstrapModal.Title>
+			<Trans i18nKey="renameChannel.title" values={{ channelToRename }} />
+		  </BootstrapModal.Title>
       </BootstrapModal.Header>
       <BootstrapModal.Body>
         <Form onSubmit={formik.handleSubmit}>
