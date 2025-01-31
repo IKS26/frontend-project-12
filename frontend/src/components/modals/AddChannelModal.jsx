@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { startTransition } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -9,6 +10,7 @@ import { selectAllChannelNames, setCurrentChannelId } from '../../store/channels
 import { useAddChannelMutation } from '../../services/dataApi';
 
 const AddChannelModal = ({ handleClose }) => {
+  const { t } = useTranslation('modals');
   const dispatch = useDispatch();
   const channelNames = useSelector(selectAllChannelNames);
   const [addChannel, { isLoading }] = useAddChannelMutation();
@@ -17,45 +19,40 @@ const AddChannelModal = ({ handleClose }) => {
     name: yup
       .string()
       .trim()
-      .required('Имя канала обязательно')
-      .min(3, 'Имя канала должно быть от 3 до 20 символов')
-      .max(20, 'Имя канала должно быть от 3 до 20 символов')
-      .notOneOf(channelNames, 'Канал с таким именем уже существует'),
+      .required(t('addChannel.validation.required'))
+      .min(3, t('addChannel.validation.minMax'))
+      .max(20, t('addChannel.validation.minMax'))
+      .notOneOf(channelNames, t('addChannel.validation.unique')),
   });
 
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      const cleanName = leoProfanity.clean(values.name);
-      setSubmitting(true);
-      try {
-        const newChannel = await addChannel({ name: cleanName }).unwrap();
-
-        console.log('Добавленный канал:', newChannel);
-
-        if (newChannel?.id) {
-          dispatch(setCurrentChannelId(newChannel.id));
-        } else {
-          console.error('Ошибка: не удалось получить ID нового канала');
+      startTransition(async () => {
+        const cleanName = leoProfanity.clean(values.name);
+        setSubmitting(true);
+        try {
+          const newChannel = await addChannel({ name: cleanName }).unwrap();
+          if (newChannel?.id) {
+            dispatch(setCurrentChannelId(newChannel.id));
+          }
+          toast.success(t('addChannel.success'));
+          handleClose();
+          resetForm();
+        } catch {
+          toast.error(t('addChannel.error'));
+        } finally {
+          setSubmitting(false);
         }
-
-        toast.success('Канал добавлен');
-        handleClose();
-        resetForm();
-      } catch (error) {
-        toast.error('Не удалось добавить канал');
-        console.error('Ошибка при добавлении канала:', error);
-      } finally {
-        setSubmitting(false);
-      }
+      });
     },
   });
 
   return (
     <>
       <BootstrapModal.Header closeButton>
-        <BootstrapModal.Title>Добавить канал</BootstrapModal.Title>
+        <BootstrapModal.Title>{t('addChannel.title')}</BootstrapModal.Title>
       </BootstrapModal.Header>
       <BootstrapModal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -67,7 +64,7 @@ const AddChannelModal = ({ handleClose }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.name && !!formik.errors.name}
-              placeholder="Введите имя канала"
+              placeholder={t('addChannel.placeholder')}
               disabled={isLoading}
             />
             <Form.Control.Feedback type="invalid">
@@ -76,10 +73,10 @@ const AddChannelModal = ({ handleClose }) => {
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button variant="secondary" onClick={handleClose} className="me-2">
-              Отмена
+              {t('addChannel.cancel')}
             </Button>
             <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
-              Добавить
+              {t('addChannel.submit')}
             </Button>
           </div>
         </Form>

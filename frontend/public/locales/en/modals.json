@@ -1,0 +1,36 @@
+{
+  "addChannel": {
+    "title": "Add Channel",
+    "placeholder": "Enter channel name",
+    "submit": "Add",
+    "cancel": "Cancel",
+    "success": "Channel added",
+    "error": "Failed to add channel",
+    "validation": {
+      "required": "Channel name is required",
+      "minMax": "Channel name must be between 3 and 20 characters",
+      "unique": "A channel with this name already exists"
+    }
+  },
+  "removeChannel": {
+    "title": "Remove Channel",
+    "confirmation": "Are you sure you want to delete this channel? All messages will be deleted.",
+    "submit": "Delete",
+    "cancel": "Cancel",
+    "success": "Channel deleted",
+    "error": "Failed to delete channel"
+  },
+  "renameChannel": {
+    "title": "Rename Channel",
+    "placeholder": "Enter new name",
+    "submit": "Save",
+    "cancel": "Cancel",
+    "success": "Channel renamed",
+    "error": "Failed to rename channel",
+    "validation": {
+      "required": "Channel name is required",
+      "minMax": "Channel name must be between 3 and 20 characters",
+      "unique": "A channel with this name already exists"
+    }
+  }
+}

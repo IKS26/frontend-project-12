@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ErrorBoundary = ({ children }) => {
+  const { t } = useTranslation('errors');
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const ErrorBoundary = ({ children }) => {
   }, []);
 
   if (hasError) {
-    return <h1>Что-то пошло не так.</h1>;
+    return <h1>{t('errorBoundary.title')}</h1>;
   }
 
   return children;

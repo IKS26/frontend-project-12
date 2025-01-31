@@ -1,0 +1,18 @@
+{
+  "header": {
+    "title": "Hexlet Chat",
+    "logout": "Logout"
+  },
+  "channels": {
+    "title": "Channels",
+    "rename": "Rename",
+    "remove": "Delete",
+    "add": "Add Channel"
+  },
+  "messages": {
+    "noMessages": "No messages",
+    "messageCount": "{{count}} messages",
+    "newMessage": "Enter your message...",
+    "send": "Send"
+  }
+}
