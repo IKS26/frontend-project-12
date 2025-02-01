@@ -29,6 +29,10 @@ const AddChannelModal = ({ handleClose }) => {
     initialValues: { name: '' },
     validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
+      if (leoProfanity.check(values.name)) {
+        toast.error(t('addChannel.validation.errorProfanityChannelName'));
+      }
+
       startTransition(async () => {
         const cleanName = leoProfanity.clean(values.name);
         setSubmitting(true);
@@ -38,8 +42,8 @@ const AddChannelModal = ({ handleClose }) => {
             dispatch(setCurrentChannelId(newChannel.id));
           }
           toast.success(
-				<div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
-			 );			 
+            <div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
+          );
           handleClose();
           resetForm();
         } catch {

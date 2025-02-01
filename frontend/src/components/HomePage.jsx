@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import leoProfanity from 'leo-profanity';
 import {
   useFetchChannelsQuery,
   useFetchMessagesQuery
@@ -56,6 +57,12 @@ const HomePage = () => {
       disconnectSocket();
     };
   }, [dispatch, isLoading, refetch]);
+
+  useEffect(() => {
+	leoProfanity.loadDictionary();
+	leoProfanity.add(leoProfanity.getDictionary('ru'));
+	leoProfanity.add(leoProfanity.getDictionary('en'));
+  }, []);
 
   return (
 	<div className="container h-100 my-4 rounded shadow overflow-hidden">

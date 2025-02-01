@@ -13,6 +13,7 @@
     "noMessages": "No messages",
     "messageCount": "{{count}} messages",
     "newMessage": "Enter your message...",
-    "send": "Send"
+    "send": "Send",
+	 "errorProfanityDetected": "Your message contains prohibited words. Please modify it and try again."
   }
 }

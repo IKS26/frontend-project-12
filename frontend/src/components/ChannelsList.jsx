@@ -60,7 +60,11 @@ const ChannelsList = memo(({ channels, currentChannelId }) => {
               </Button>
               {channel.removable && (
                 <>
-                  <Dropdown.Toggle split variant="light" id={`dropdown-toggle-${channel.id}`} />
+                  <Dropdown.Toggle
+						 split
+						 variant={String(channel.id) === String(currentChannelId) ? 'secondary' : 'light'}
+						 id={`dropdown-toggle-${channel.id}`}
+						/>
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => handleRenameChannel(channel.id)}>
                       {t('channels.rename')}

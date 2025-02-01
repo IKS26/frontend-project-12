@@ -1,8 +1,10 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { BsArrowRightSquare } from 'react-icons/bs';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
+import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
+import { BsArrowRightSquare } from 'react-icons/bs';
 import { useSendMessageMutation } from '../services/dataApi';
 
 const MessageInput = ({ currentChannelId }) => {
@@ -15,8 +17,13 @@ const MessageInput = ({ currentChannelId }) => {
       message: Yup.string().trim().required(t('messages.newMessage')),
     }),
     onSubmit: async (values, { resetForm }) => {
+      if (leoProfanity.check(values.message)) {
+        toast.error(t('messages.errorProfanityDetected'));  
+      }
+
       try {
-        await sendMessage({ body: values.message, channelId: currentChannelId });
+        const cleanMessage = leoProfanity.clean(values.message);
+        await sendMessage({ body: cleanMessage, channelId: currentChannelId });
         resetForm();
       } catch (err) {
         console.error('Ошибка отправки сообщения:', err);
