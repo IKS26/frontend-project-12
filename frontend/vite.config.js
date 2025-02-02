@@ -7,9 +7,9 @@ export default defineConfig({
   base: '/', // Важно для правильных путей!
   resolve: {
     alias: {
-      i18next: path.resolve(__dirname, 'node_modules/i18next')
+      'i18next': path.resolve(__dirname, 'node_modules/i18next')
     }
-  },
+  },	
   build: {
     outDir: 'dist', // Должно совпадать с тем, что мы раздаём
     rollupOptions: {
