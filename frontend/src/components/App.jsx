@@ -7,15 +7,12 @@ import Header from './Header.jsx';
 import HomePage from './HomePage.jsx';
 import SignUpPage from './SignUpPage.jsx';
 import PageNotFound from './PageNotFound.jsx';
-import i18next from 'i18next';
 
 const ProtectedRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
-
-console.log('i18next:', i18next);
 const App = () => {
   return (
     <BrowserRouter>

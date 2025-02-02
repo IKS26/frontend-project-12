@@ -18,9 +18,6 @@ const MessagesBox = memo(({ currentChannelId }) => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // console.log('currentChannel:', currentChannel);
-  // console.log('currentChannelId:', currentChannelId);
-
   return (
 	<>
 	  <div className="mb-4 p-3 shadow-sm small messages-bg">
