@@ -20,7 +20,7 @@ export default defineConfig({
         changeOrigin: true
       },
       '/socket.io': {
-        target: 'ws://localhost:5001',
+        target: 'http://localhost:5001',
         ws: true,
         changeOrigin: true
       }
