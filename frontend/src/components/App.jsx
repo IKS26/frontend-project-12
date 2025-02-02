@@ -1,14 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Slide, ToastContainer, Zoom } from 'react-toastify';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Slide, ToastContainer } from 'react-toastify';
 import LoginPage from './LoginPage.jsx';
 import Header from './Header.jsx';
 import HomePage from './HomePage.jsx';
 import SignUpPage from './SignUpPage.jsx';
 import PageNotFound from './PageNotFound.jsx';
-import { t } from 'i18next';
 
 const ProtectedRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
