@@ -3,7 +3,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  base: '/', // Важно для правильных путей!
   build: {
+    outDir: 'dist', // Должно совпадать с тем, что мы раздаём
     rollupOptions: {
       external: ['i18next', 'react-i18next']
     }
