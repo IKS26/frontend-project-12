@@ -2,10 +2,10 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Slack-Chat",
-  "main": "frontend/dist/index.html",
+  "main": "./frontend/src/index.jsx",
   "scripts": {
     "build": "cd frontend ; npm run build",
-    "start": "cd frontend && serve -s dist",
+    "start": "npx start-server -s ./frontend/dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd frontend && rm -rf node_modules && npm ci"
   },
