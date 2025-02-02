@@ -7,7 +7,7 @@
     "build": "cd frontend ; npm run build",
     "start": "cd frontend && serve -s dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd frontend && npm ci"
+    "postinstall": "cd frontend && rm -rf node_modules && npm ci"
   },
   "repository": {
     "type": "git",
