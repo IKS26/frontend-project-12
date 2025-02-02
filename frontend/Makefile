@@ -1,11 +1,11 @@
 install:
-    npm ci
+	cd frontend && npm ci
 
 start:
-    npm start
+	npx start-server -s ./frontend/dist
 
 build:
-    npm run build
+	npm run build --prefix frontend
 
 lint:
-    npx eslint --ext js,jsx --no-eslintrc --config eslint.config.js .
+	npx eslint --ext js,jsx --no-eslintrc --config eslint.config.js .
