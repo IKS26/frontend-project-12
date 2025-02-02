@@ -13,21 +13,16 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5000,
+    port: 5002,
     proxy: {
       '/api': {
         target: 'http://localhost:5001',
         changeOrigin: true
       },
       '/socket.io': {
-        target: 'http://localhost:5001',
+        target: 'ws://localhost:5001',
         ws: true,
-        changeOrigin: true,
-        configure: (proxy) => {
-          proxy.on('proxyReqWs', (proxyReq) => {
-            proxyReq.setHeader('Origin', 'http://localhost:5000');
-          });
-        }
+        changeOrigin: true
       }
     }
   }
