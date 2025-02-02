@@ -13,7 +13,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5002,
+    port: 5000,
     proxy: {
       '/api': {
         target: 'http://localhost:5001',
@@ -25,7 +25,7 @@ export default defineConfig({
         changeOrigin: true,
         configure: (proxy) => {
           proxy.on('proxyReqWs', (proxyReq) => {
-            proxyReq.setHeader('Origin', 'http://localhost:5002');
+            proxyReq.setHeader('Origin', 'http://localhost:5000');
           });
         }
       }
