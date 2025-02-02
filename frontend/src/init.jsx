@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import i18next from 'i18next/dist/esm/i18next.js';
-import * as reactI18next from 'react-i18next';
-const { I18nextProvider, initReactI18next } = reactI18next;
+const { I18nextProvider, initReactI18next } = 'react-i18next/dist/es/index.js';
 import HttpApi from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import App from './components/App.jsx';
