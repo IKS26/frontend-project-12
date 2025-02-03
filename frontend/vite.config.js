@@ -7,21 +7,18 @@ export default defineConfig({
     include: ['i18next', 'react-i18next']
   },
   build: {
-    outDir: 'dist',
-    rollupOptions: {
-      external: ['i18next', 'react-i18next']
-    }
+    outDir: 'dist'
   },
   server: {
-    host: true,
     port: 5002,
+    open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'http://127.0.0.1:5001',
         changeOrigin: true
       },
       '/socket.io': {
-        target: 'ws://localhost:5001',
+        target: 'ws://127.0.0.1:5001',
         ws: true,
         rewriteWsOrigin: true
       }
