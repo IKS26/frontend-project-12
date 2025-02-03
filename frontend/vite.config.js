@@ -11,14 +11,14 @@ export default defineConfig({
   },
   server: {
     port: 5002,
-    open: false,
+    open: true,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:5001',
+        target: 'http://0.0.0.1:5001',
         changeOrigin: true
       },
       '/socket.io': {
-        target: 'ws://127.0.0.1:5001',
+        target: 'ws://0.0.0.1:5001',
         ws: true,
         rewriteWsOrigin: true
       }
