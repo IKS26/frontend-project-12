@@ -9,6 +9,7 @@
 /dist
 
 # misc
+.env
 .DS_Store
 .vscode
 .env.local
