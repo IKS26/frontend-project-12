@@ -2,7 +2,7 @@ CLIENT_DIR=frontend
 
 install-client:
 	@echo "Installing client dependencies..."
-	cd $(CLIENT_DIR) && npm install 
+	cd $(CLIENT_DIR) && npm install
 
 install-server:
 	@echo "Installing server dependencies..."
@@ -24,12 +24,16 @@ local:
 
 lint:
 	@echo "Running ESLint..."
-	cd $(CLIENT_DIR) && npx eslint src
+	cd $(CLIENT_DIR) && npx eslint .
 
 lint-fix:
 	@echo "Running ESLint with --fix..."
-	cd $(CLIENT_DIR) && npx eslint src --fix
+	cd $(CLIENT_DIR) && npx eslint . --fix
 
-clean:
-	@echo "Cleaning up build files..."
-	cd $(CLIENT_DIR) && npm run clean
+wait-for-frontend:
+	@echo "Waiting for frontend to be ready..."
+	cd $(CLIENT_DIR) && npx wait-on http://localhost:5000
+
+test: wait-for-frontend
+	@echo "Running tests..."
+	npx playwright test

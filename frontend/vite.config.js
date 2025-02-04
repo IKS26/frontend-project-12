@@ -10,17 +10,14 @@ export default defineConfig({
     outDir: 'dist'
   },
   server: {
-    port: 5002,
-    open: true,
+    host: true,
+    port: 5000,
     proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:5001',
-        changeOrigin: true
-      },
+      '/api': { target: 'http://localhost:5001', changeOrigin: true },
       '/socket.io': {
-        target: 'ws://127.0.0.1:5001',
+        target: 'http://localhost:5001',
         ws: true,
-        rewriteWsOrigin: true
+        changeOrigin: true
       }
     }
   }
