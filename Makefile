@@ -1,13 +1,35 @@
-install:
-	cd frontend && npm ci
+CLIENT_DIR=frontend
 
-start:
-	npx start-server -s ./frontend/dist
+install-client:
+	@echo "Installing client dependencies..."
+	cd $(CLIENT_DIR) && npm install 
 
-dev:
-	npm run dev --prefix frontend
+install-server:
+	@echo "Installing server dependencies..."
+	npm install
+
+install: install-client install-server
 
 build:
-	npm run build --prefix frontend
-	
+	@echo "Building client app..."
+	cd $(CLIENT_DIR) && npm run build
+
+start:
+	@echo "Starting the app..."
+	cd $(CLIENT_DIR) && npx start-server -s ./dist
+
+local:
+	@echo "Running app in local development mode..."
+	cd $(CLIENT_DIR) && npm run dev
+
 lint:
+	@echo "Running ESLint..."
+	cd $(CLIENT_DIR) && npx eslint src
+
+lint-fix:
+	@echo "Running ESLint with --fix..."
+	cd $(CLIENT_DIR) && npx eslint src --fix
+
+clean:
+	@echo "Cleaning up build files..."
+	cd $(CLIENT_DIR) && npm run clean
