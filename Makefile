@@ -10,17 +10,17 @@ install-server:
 
 install: install-client install-server
 
+dev:
+	@echo "Running app in local development mode..."
+	cd $(CLIENT_DIR) && npm run dev
+
 build:
 	@echo "Building client app..."
 	cd $(CLIENT_DIR) && npm run build
 
-start:
+start: build
 	@echo "Starting the app..."
 	cd $(CLIENT_DIR) && npx start-server -s ./dist
-
-local:
-	@echo "Running app in local development mode..."
-	cd $(CLIENT_DIR) && npm run dev
 
 lint:
 	@echo "Running ESLint..."
@@ -32,7 +32,7 @@ lint-fix:
 
 wait-for-frontend:
 	@echo "Waiting for frontend to be ready..."
-	cd $(CLIENT_DIR) && npx wait-on http://localhost:5000
+	cd $(CLIENT_DIR) && npx wait-on http://localhost:5002
 
 test: wait-for-frontend
 	@echo "Running tests..."

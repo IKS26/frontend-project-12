@@ -15,7 +15,7 @@ import {
 export const dataApi = createApi({
   reducerPath: 'dataApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
+    baseUrl: 'http://localhost:5001/api/v1',
     prepareHeaders: (headers) => {
       const token = localStorage.getItem('token');
       if (token) {
