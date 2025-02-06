@@ -5,7 +5,7 @@ build:
 	npm run build
 
 start:
-	npm run server
+	npm run start
 
 lint:
 	make -C frontend lint
