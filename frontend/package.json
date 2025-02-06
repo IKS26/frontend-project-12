@@ -6,9 +6,10 @@
   "scripts": {
     "clean": "rimraf dist",
     "dev": "vite",
-    "prebuild": "rimraf node_modules/.vite",
     "build": "npm run clean ; vite build",
+	 "start": "npx start-server -s ./dist",
     "lint": "eslint .",
+	 "lint-fix": "eslint . --fix",
     "preview": "vite preview"
   },
   "dependencies": {
