@@ -36,10 +36,6 @@ export const subscribeToEvents = (
   onRemoveChannel,
   onRenameChannel
 ) => {
-  socket.off('newMessage');
-  socket.off('newChannel');
-  socket.off('removeChannel');
-  socket.off('renameChannel');
   socket.on('newMessage', onMessage);
   socket.on('newChannel', onChannel);
   socket.on('removeChannel', onRemoveChannel);
