@@ -17,6 +17,7 @@
 		"messages_many": "{{count}} messages"
 	 },
     "newMessage": "Enter your message...",
+	 "newMessageLabel": "New message",
     "send": "Send",
 	 "errorProfanityDetected": "Your message contains prohibited words. Please modify it and try again."
   }

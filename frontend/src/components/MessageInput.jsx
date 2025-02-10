@@ -37,7 +37,7 @@ const MessageInput = ({ currentChannelId }) => {
         <div className="input-group has-validation">
           <input
             name="message"
-            aria-label={t('messages.newMessage')}
+            aria-label={t('messages.newMessageLabel')}
             placeholder={t('messages.newMessage')}
             {...formik.getFieldProps('message')}
             className={`border-1 p-0 ps-2 form-control input-message-bg ${
