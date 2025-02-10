@@ -1,5 +1,5 @@
-import React, { startTransition } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -31,28 +31,25 @@ const AddChannelModal = ({ handleClose }) => {
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       if (leoProfanity.check(values.name)) {
         toast.error(t('addChannel.validation.errorProfanityChannelName'));
+        return;
       }
 
-      startTransition(async () => {
-        const cleanName = leoProfanity.clean(values.name);
-        setSubmitting(true);
-        try {
-          const newChannel = await addChannel({ name: cleanName }).unwrap();
-          if (newChannel?.id) {
-            dispatch(setCurrentChannelId(newChannel.id));
-          }
-          toast.success(
-				  t('addChannel.created')
-         //   <div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
-          );
-          handleClose();
-          resetForm();
-        } catch {
-          toast.error(t('addChannel.error'));
-        } finally {
-          setSubmitting(false);
+      const cleanName = leoProfanity.clean(values.name);
+      setSubmitting(true);
+      try {
+        const newChannel = await addChannel({ name: cleanName }).unwrap();
+        if (newChannel?.id) {
+          dispatch(setCurrentChannelId(newChannel.id));
         }
-      });
+        toast.success(t('addChannel.created'));
+		  // <div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
+        handleClose();
+        resetForm();
+      } catch {
+        toast.error(t('addChannel.error'));
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
 

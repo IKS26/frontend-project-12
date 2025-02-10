@@ -14,7 +14,9 @@ const MessageInput = ({ currentChannelId }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
+	requestAnimationFrame(() => {
+	  inputRef.current?.focus();
+	});
   }, [currentChannelId]);
 
   const formik = useFormik({
