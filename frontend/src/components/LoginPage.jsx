@@ -50,14 +50,14 @@ const LoginPage = () => {
             {({ isSubmitting }) => (
               <Form>
                 <BootstrapForm.Group className="mb-3" controlId="username">
-                  <BootstrapForm.Label>{t('username')}</BootstrapForm.Label>
+                  <BootstrapForm.Label>{t('nickname')}</BootstrapForm.Label>
                   <Field
                     as={BootstrapForm.Control}
                     name="username"
                     type="text"
-                    placeholder={t('enterUsername')}
+                    placeholder={t('enterNickname')}
                     autoComplete="username"
-                    innerref={inputEl}
+                    ref={inputEl}
                   />
                 </BootstrapForm.Group>
                 <BootstrapForm.Group className="mb-3" controlId="password">
