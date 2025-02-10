@@ -5,13 +5,17 @@
   },
   "channels": {
     "title": "Channels",
+	 "setupChannel": "Setup channel",
     "rename": "Rename",
-    "remove": "Delete",
-    "add": "Add Channel"
+    "remove": "Delete"
   },
   "messages": {
     "noMessages": "No messages",
-    "messageCount": "{{count}} messages",
+	 "messageCount": {
+		"messages_one": "{{count}} message",
+		"messages_few": "{{count}} messages",
+		"messages_many": "{{count}} messages"
+	 },
     "newMessage": "Enter your message...",
     "send": "Send",
 	 "errorProfanityDetected": "Your message contains prohibited words. Please modify it and try again."

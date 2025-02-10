@@ -44,7 +44,8 @@ const RenameChannelModal = ({ handleClose }) => {
       try {
         await renameChannel({ id: channelId, name: cleanName }).unwrap();
         toast.success(
-			<div dangerouslySetInnerHTML={{ __html: t('renameChannel.success', { channelToRename, newChannelName: cleanName })}} />
+			t('renameChannel.renamed')
+		//	<div dangerouslySetInnerHTML={{ __html: t('renameChannel.success', { channelToRename, newChannelName: cleanName })}} />
 		);
         handleClose();
       } catch {

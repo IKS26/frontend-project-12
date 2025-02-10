@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
 
 const SignUpPage = () => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('auth', 'errors');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,7 +47,9 @@ const SignUpPage = () => {
         dispatch(login(token));
         navigate('/');
       } catch (error) {
-        if (error.response?.status === 409) {
+		  if (axios.isAxiosError(error)) {
+			 setErrorMessage(t('axiosError'));
+		  } else if (error.response?.status === 409) {
           setErrorMessage(t('errorUsernameExists'));
         } else {
           setErrorMessage(t('errorTryLater'));
@@ -68,7 +70,7 @@ const SignUpPage = () => {
               <Form.Control
                 type="text"
                 name="username"
-                placeholder={t('enterUsername')}
+                placeholder={t('username')}
                 autoComplete="off"
                 value={formik.values.username}
                 onChange={formik.handleChange}

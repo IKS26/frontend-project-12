@@ -18,7 +18,8 @@ const RemoveChannelModal = () => {
     try {
       await removeChannel(channelId).unwrap();
       toast.success(
-			<div dangerouslySetInnerHTML={{ __html: t('removeChannel.success', { channelToRemove }) }} />
+			t('removeChannel.removed')
+		//	<div dangerouslySetInnerHTML={{ __html: t('removeChannel.success', { channelToRemove }) }} />
       );
       dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
       dispatch(closeModal());

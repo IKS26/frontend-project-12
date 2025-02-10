@@ -8,7 +8,7 @@ import { Container, Row, Col, Button, Alert, Form as BootstrapForm } from 'react
 import { login } from '../store/authSlice.js';
 
 const LoginPage = () => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('auth', 'errors');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,7 +23,9 @@ const LoginPage = () => {
       dispatch(login(token));
       navigate('/');
     } catch (error) {
-      if (error.response?.status === 401) {
+		if (axios.isAxiosError(error)) {
+			setErrorMessage(t('axiosError'));
+		} else if (error.response?.status === 401) {
         setErrorMessage(t('errorInvalidCredentials'));
       } else {
         setErrorMessage(t('errorTryLater'));

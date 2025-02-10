@@ -42,7 +42,8 @@ const AddChannelModal = ({ handleClose }) => {
             dispatch(setCurrentChannelId(newChannel.id));
           }
           toast.success(
-            <div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
+				  t('addChannel.created')
+         //   <div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
           );
           handleClose();
           resetForm();
@@ -73,9 +74,10 @@ const AddChannelModal = ({ handleClose }) => {
               placeholder={t('addChannel.placeholder')}
               disabled={isLoading}
             />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.name}
-            </Form.Control.Feedback>
+            <Form.Label className='visually-hidden' htmlFor='name'>{t('addChannel.name')}</Form.Label>
+            {formik.errors.name && 
+              <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback> 
+            }
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button variant="secondary" onClick={handleClose} className="me-2">

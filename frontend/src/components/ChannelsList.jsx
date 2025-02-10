@@ -44,7 +44,7 @@ const ChannelsList = memo(({ channels, currentChannelId }) => {
           onClick={handleAddChannel}
         >
           <BsPlusSquare size={20} />
-          <span className="visually-hidden">{t('channels.add')}</span>
+          <span className="visually-hidden">+</span>
         </button>
       </div>
       <ul className="nav flex-column nav-pills">
@@ -64,7 +64,9 @@ const ChannelsList = memo(({ channels, currentChannelId }) => {
 						 split
 						 variant={String(channel.id) === String(currentChannelId) ? 'secondary' : 'light'}
 						 id={`dropdown-toggle-${channel.id}`}
-						/>
+						>
+						   <span className="visually-hidden">{t('channels.setupChannel')}</span>
+						</Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => handleRenameChannel(channel.id)}>
                       {t('channels.rename')}

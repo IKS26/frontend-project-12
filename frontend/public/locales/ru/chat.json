@@ -5,13 +5,17 @@
   },
   "channels": {
     "title": "Каналы",
+	 "setupChannel": "Управление каналом",
     "rename": "Переименовать",
-    "remove": "Удалить",
-    "add": "Добавить канал"
+    "remove": "Удалить"
   },
   "messages": {
     "noMessages": "Сообщений нет",
-    "messageCount": "{{count}} сообщений",
+    "messagesCount": {
+		"messages_one": "{{count}} сообщение",
+		"messages_few": "{{count}} сообщения",
+		"messages_many": "{{count}} сообщений"
+	 },
     "newMessage": "Введите сообщение...",
     "send": "Отправить",
 	 "errorProfanityDetected": "Ваше сообщение содержит запрещенные слова. Пожалуйста, измените его и попробуйте еще раз."

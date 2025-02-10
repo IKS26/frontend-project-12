@@ -8,10 +8,10 @@ const MessagesBox = memo(({ currentChannelId }) => {
   const { t } = useTranslation('chat');	
   const currentChannel = useSelector((state) => {
 		const channel = selectCurrentChannel(state);
-		console.log('Ререндер: currentChannel:', channel);
 		return channel;
 	 });	 
   const messages = useSelector(selectCurrentChannelMessages);
+  const messagesCount = messages?.length || 0;
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
 			  <b className="text-dark"># {currentChannel.name}</b>
 			</p>
 		 )}
-		 <span className="text-muted">{t('messages.messageCount', { count: messages.length })}</span>
+		 <span className="text-muted">{t('messages.messagesCount.messages', { count: messagesCount })}</span>
 	  </div>
 	  <div id="messages-box" className="chat-messages overflow-auto px-5 text-dark">
 		 {messages.length > 0 ? (
