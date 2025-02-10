@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -15,10 +15,11 @@ const LoginPage = () => {
   const inputEl = useRef(null);
 
   useEffect(() => {
-	inputEl.current.focus();
+    inputEl.current?.focus();
   }, []);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
+    setErrorMessage('');
     try {
       const response = await axios.post('/api/v1/login', values);
       const { token } = response.data;
@@ -28,17 +29,14 @@ const LoginPage = () => {
       dispatch(login(token));
       navigate('/');
     } catch (error) {
-		if (axios.isAxiosError(error)) {
-		  setErrorMessage(t('axiosError'));
-		  inputEl.current.select();
-		  return; 
-		} else if (error.response?.status === 401) {
+      if (error.response?.status === 401) {
         setErrorMessage(t('errorInvalidCredentials'));
-		  inputEl.current.select();
-		  return;
       } else {
-        setErrorMessage(t('errorTryLater'));
+        setErrorMessage(t('axiosError'));
       }
+      inputEl.current?.select();
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -49,8 +47,8 @@ const LoginPage = () => {
           <h1 className="text-center mb-4">{t('login')}</h1>
           {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
           <Formik initialValues={{ username: '', password: '' }} onSubmit={handleSubmit}>
-            {({ handleChange, handleBlur }) => (
-              <Form as={BootstrapForm}>
+            {({ isSubmitting }) => (
+              <Form>
                 <BootstrapForm.Group className="mb-3" controlId="username">
                   <BootstrapForm.Label>{t('username')}</BootstrapForm.Label>
                   <Field
@@ -59,9 +57,7 @@ const LoginPage = () => {
                     type="text"
                     placeholder={t('enterUsername')}
                     autoComplete="username"
-						  ref={inputEl}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                    innerref={inputEl}
                   />
                 </BootstrapForm.Group>
                 <BootstrapForm.Group className="mb-3" controlId="password">
@@ -72,22 +68,19 @@ const LoginPage = () => {
                     type="password"
                     placeholder={t('enterPassword')}
                     autoComplete="current-password"
-						  ref={inputEl}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
                   />
                 </BootstrapForm.Group>
                 <div className="d-grid">
-                  <Button variant="primary" type="submit">{t('loginButton')}</Button>
+                  <Button variant="primary" type="submit" disabled={isSubmitting}>
+                    {t('loginButton')}
+                  </Button>
                 </div>
               </Form>
             )}
           </Formik>
-          <div className="card-footer p-4">
-            <div className="text-center text-yellow">
-              <span>{t('noAccount')} </span>
-              <Link to="/signup" className="text-yellow">{t('signup')}</Link>
-            </div>
+          <div className="card-footer p-4 text-center">
+            <span>{t('noAccount')} </span>
+            <Link to="/signup" className="text-yellow">{t('signup')}</Link>
           </div>
         </Col>
       </Row>

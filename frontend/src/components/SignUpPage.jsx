@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -17,29 +17,19 @@ const SignUpPage = () => {
   const inputEl = useRef(null);
 
   useEffect(() => {
-	 inputEl.current.focus();
+    inputEl.current?.focus();
   }, []);
 
   const validationSchema = yup.object({
-    username: yup
-      .string()
-      .min(3, t('errorUsernameShort'))
-      .max(20, t('errorUsernameLong'))
-      .required(t('usernameRequired')),
-    password: yup
-      .string()
-      .min(6, t('errorPasswordShort'))
-      .required(t('passwordRequired')),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password')], t('errorPasswordsMatch'))
-      .required(t('confirmPasswordRequired')),
+    username: yup.string().min(3, t('errorUsernameShort')).max(20, t('errorUsernameLong')).required(t('usernameRequired')),
+    password: yup.string().min(6, t('errorPasswordShort')).required(t('passwordRequired')),
+    confirmPassword: yup.string().oneOf([yup.ref('password')], t('errorPasswordsMatch')).required(t('confirmPasswordRequired')),
   });
 
   const formik = useFormik({
     initialValues: { username: '', password: '', confirmPassword: '' },
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setErrorMessage('');
       try {
         const response = await axios.post('/api/v1/signup', {
@@ -53,17 +43,15 @@ const SignUpPage = () => {
         dispatch(login(token));
         navigate('/');
       } catch (error) {
-		  if (axios.isAxiosError(error)) {
-			 setErrorMessage(t('axiosError'));
-			 inputEl.current.select();
-          toast.error(t('axiosError'));
-          return; 
-		  } else if (error.response?.status === 409) {
+        if (error.response?.status === 409) {
           setErrorMessage(t('errorUsernameExists'));
-			 inputEl.current.select();
         } else {
-          setErrorMessage(t('errorTryLater'));
+          setErrorMessage(t('axiosError'));
+          toast.error(t('axiosError'));
         }
+        inputEl.current?.select();
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -80,12 +68,10 @@ const SignUpPage = () => {
               <Form.Control
                 type="text"
                 name="username"
-                placeholder={t('username')}
+                placeholder={t('enterUsername')}
                 autoComplete="off"
-					 ref={inputEl}
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                ref={inputEl}
+                {...formik.getFieldProps('username')}
                 isInvalid={formik.touched.username && !!formik.errors.username}
               />
               <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
@@ -96,11 +82,8 @@ const SignUpPage = () => {
                 type="password"
                 name="password"
                 placeholder={t('enterPassword')}
-                autoComplete="off"
-					 ref={inputEl}
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                autoComplete="new-password"
+                {...formik.getFieldProps('password')}
                 isInvalid={formik.touched.password && !!formik.errors.password}
               />
               <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
@@ -111,17 +94,16 @@ const SignUpPage = () => {
                 type="password"
                 name="confirmPassword"
                 placeholder={t('enterConfirmPassword')}
-                autoComplete="off"
-					 ref={inputEl}
-                value={formik.values.confirmPassword}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                autoComplete="new-password"
+                {...formik.getFieldProps('confirmPassword')}
                 isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
               />
               <Form.Control.Feedback type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
             </Form.Group>
             <div className="d-grid">
-              <Button variant="primary" type="submit">{t('signupButton')}</Button>
+              <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
+                {t('signupButton')}
+              </Button>
             </div>
           </Form>
         </Col>
