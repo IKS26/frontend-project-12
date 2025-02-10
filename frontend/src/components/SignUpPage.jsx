@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Form, Container, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { login } from '../store/authSlice.js';
 
 const SignUpPage = () => {
@@ -13,6 +14,11 @@ const SignUpPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+	 inputEl.current.focus();
+  }, []);
 
   const validationSchema = yup.object({
     username: yup
@@ -49,8 +55,12 @@ const SignUpPage = () => {
       } catch (error) {
 		  if (axios.isAxiosError(error)) {
 			 setErrorMessage(t('axiosError'));
+			 inputEl.current.select();
+          toast.error(t('axiosError'));
+          return; 
 		  } else if (error.response?.status === 409) {
           setErrorMessage(t('errorUsernameExists'));
+			 inputEl.current.select();
         } else {
           setErrorMessage(t('errorTryLater'));
         }
@@ -72,6 +82,7 @@ const SignUpPage = () => {
                 name="username"
                 placeholder={t('username')}
                 autoComplete="off"
+					 ref={inputEl}
                 value={formik.values.username}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -86,6 +97,7 @@ const SignUpPage = () => {
                 name="password"
                 placeholder={t('enterPassword')}
                 autoComplete="off"
+					 ref={inputEl}
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -100,12 +112,13 @@ const SignUpPage = () => {
                 name="confirmPassword"
                 placeholder={t('enterConfirmPassword')}
                 autoComplete="off"
+					 ref={inputEl}
                 value={formik.values.confirmPassword}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
               />
-              <Form.Control.Feedback type="invalid">{errorMessage}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
             </Form.Group>
             <div className="d-grid">
               <Button variant="primary" type="submit">{t('signupButton')}</Button>

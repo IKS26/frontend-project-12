@@ -12,6 +12,11 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+	inputEl.current.focus();
+  }, []);
 
   const handleSubmit = async (values) => {
     try {
@@ -24,9 +29,13 @@ const LoginPage = () => {
       navigate('/');
     } catch (error) {
 		if (axios.isAxiosError(error)) {
-			setErrorMessage(t('axiosError'));
+		  setErrorMessage(t('axiosError'));
+		  inputEl.current.select();
+		  return; 
 		} else if (error.response?.status === 401) {
         setErrorMessage(t('errorInvalidCredentials'));
+		  inputEl.current.select();
+		  return;
       } else {
         setErrorMessage(t('errorTryLater'));
       }
@@ -50,6 +59,7 @@ const LoginPage = () => {
                     type="text"
                     placeholder={t('enterUsername')}
                     autoComplete="username"
+						  ref={inputEl}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
@@ -62,6 +72,7 @@ const LoginPage = () => {
                     type="password"
                     placeholder={t('enterPassword')}
                     autoComplete="current-password"
+						  ref={inputEl}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
