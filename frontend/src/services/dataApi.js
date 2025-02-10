@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/extensions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
@@ -7,10 +7,7 @@ import {
   addChannels,
   addChannel as addChannelToStore
 } from '../store/channelsSlice.js';
-import {
-  removeMessagesByChannelId,
-  addMessages
-} from '../store/messagesSlice.js';
+import { addMessages } from '../store/messagesSlice.js';
 
 export const dataApi = createApi({
   reducerPath: 'dataApi',
@@ -24,6 +21,7 @@ export const dataApi = createApi({
       return headers;
     }
   }),
+  tagTypes: ['Channels', 'Messages'],
   endpoints: (builder) => ({
     fetchChannels: builder.query({
       query: () => 'channels',
@@ -42,8 +40,16 @@ export const dataApi = createApi({
         } catch (error) {
           console.error('Ошибка загрузки каналов:', error);
         }
-      }
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Channels', id })),
+              { type: 'Channels', id: 'LIST' }
+            ]
+          : [{ type: 'Channels', id: 'LIST' }]
     }),
+
     addChannel: builder.mutation({
       query: (newChannel) => ({
         url: 'channels',
@@ -51,20 +57,17 @@ export const dataApi = createApi({
         body: newChannel
       }),
       async onQueryStarted(newChannel, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-            draft.push({ ...newChannel, id: Date.now() });
-          })
-        );
         try {
           const { data: addedChannel } = await queryFulfilled;
           dispatch(addChannelToStore(addedChannel));
           dispatch(setCurrentChannelId(addedChannel.id));
-        } catch {
-          patchResult.undo();
+        } catch (error) {
+          console.error('Ошибка добавления канала:', error);
         }
-      }
+      },
+      invalidatesTags: [{ type: 'Channels', id: 'LIST' }]
     }),
+
     removeChannel: builder.mutation({
       query: (id) => ({
         url: `channels/${id}`,
@@ -78,44 +81,34 @@ export const dataApi = createApi({
           dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
         }
 
-        const patchChannels = dispatch(
-          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-            return draft.filter((channel) => channel.id !== id);
-          })
-        );
-
-        const patchMessages = dispatch(removeMessagesByChannelId(id));
-
         try {
           await queryFulfilled;
-        } catch {
-          patchChannels.undo();
-          patchMessages.undo();
+        } catch (error) {
+          console.error('Ошибка удаления канала:', error);
         }
-      }
+      },
+      invalidatesTags: [
+        { type: 'Channels', id: 'LIST' },
+        { type: 'Messages', id: 'ALL' }
+      ]
     }),
+
     renameChannel: builder.mutation({
       query: ({ id, name }) => ({
         url: `channels/${id}`,
         method: 'PATCH',
         body: { name }
       }),
-      async onQueryStarted({ id, name }, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-            const channel = draft.find((channel) => channel.id === id);
-            if (channel) {
-              channel.name = name;
-            }
-          })
-        );
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-        } catch {
-          patchResult.undo();
+        } catch (error) {
+          console.error('Ошибка переименования канала:', error);
         }
-      }
+      },
+      invalidatesTags: (result, error, { id }) => [{ type: 'Channels', id }]
     }),
+
     fetchMessages: builder.query({
       query: (channelId) => `messages?channelId=${channelId}`,
       async onQueryStarted(channelId, { dispatch, queryFulfilled }) {
@@ -125,8 +118,16 @@ export const dataApi = createApi({
         } catch (error) {
           console.error('Ошибка загрузки сообщений:', error);
         }
-      }
+      },
+      providesTags: (result, error, channelId) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Messages', id })),
+              { type: 'Messages', id: channelId }
+            ]
+          : [{ type: 'Messages', id: channelId }]
     }),
+
     sendMessage: builder.mutation({
       query: ({ body, channelId }) => {
         const username = localStorage.getItem('username') || 'Anonymous';
@@ -136,19 +137,16 @@ export const dataApi = createApi({
           body: { body, channelId, username }
         };
       },
-      async onQueryStarted({ body, channelId }, { dispatch, queryFulfilled }) {
-        const username = localStorage.getItem('username') || 'Anonymous';
-        const patchResult = dispatch(
-          dataApi.util.updateQueryData('fetchMessages', channelId, (draft) => {
-            draft.push({ body, channelId, username, id: Date.now() });
-          })
-        );
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-        } catch {
-          patchResult.undo();
+        } catch (error) {
+          console.error('Ошибка при отправке сообщения:', error);
         }
-      }
+      },
+      invalidatesTags: (result, error, { channelId }) => [
+        { type: 'Messages', id: channelId }
+      ]
     })
   })
 });
