@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import { BsArrowRightSquare } from 'react-icons/bs';
+import { Form, Button } from 'react-bootstrap';
 import { useSendMessageMutation } from '../services/dataApi';
 
 const MessageInput = ({ currentChannelId }) => {
   const { t } = useTranslation('chat');
   const [sendMessage, { isLoading }] = useSendMessageMutation();
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [currentChannelId]);
 
   const formik = useFormik({
     initialValues: { message: '' },
@@ -18,42 +26,50 @@ const MessageInput = ({ currentChannelId }) => {
     }),
     onSubmit: async (values, { resetForm }) => {
       if (leoProfanity.check(values.message)) {
-        toast.error(t('messages.errorProfanityDetected'));  
+        toast.error(t('messages.errorProfanityDetected'));
+        return;
       }
 
       try {
         const cleanMessage = leoProfanity.clean(values.message);
         await sendMessage({ body: cleanMessage, channelId: currentChannelId });
         resetForm();
+
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 0);
       } catch (err) {
-        console.error('Ошибка отправки сообщения:', err);
+        console.error('Ошибка при отправке сообщения:', err);
+        toast.error(t('messages.sendError'));
       }
     },
   });
 
   return (
     <div className="mt-auto px-5 py-3">
-      <form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2">
-        <div className="input-group has-validation">
-          <input
+      <Form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2">
+        <Form.Group className="input-group has-validation">
+          <Form.Control
             name="message"
+            ref={inputRef}
             aria-label={t('messages.newMessageLabel')}
             placeholder={t('messages.newMessage')}
-            {...formik.getFieldProps('message')}
-            className={`border-1 p-0 ps-2 form-control input-message-bg ${
-              formik.errors.message && formik.touched.message ? 'is-invalid' : ''
-            }`}
+            className="border-1 p-0 ps-2 input-message-bg"
+            value={formik.values.message}
+            onChange={formik.handleChange}
+            isInvalid={formik.touched.message && !!formik.errors.message}
             disabled={isLoading}
+            autoFocus
           />
-          {formik.touched.message && formik.errors.message && (
-            <div className="invalid-feedback">{formik.errors.message}</div>
-          )}
-          <button type="submit" className="btn btn-group-vertical" disabled={isLoading}>
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.message}
+          </Form.Control.Feedback>
+          <Button type="submit" className="btn-group-vertical" variant="light" disabled={isLoading || !formik.values.message.trim()}>
             <BsArrowRightSquare size={20} />
             <span className="visually-hidden">{t('messages.send')}</span>
-          </button>
-        </div>
-      </form>
+          </Button>
+        </Form.Group>
+      </Form>
     </div>
   );
 };

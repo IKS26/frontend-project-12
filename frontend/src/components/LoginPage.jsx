@@ -57,7 +57,7 @@ const LoginPage = () => {
                     type="text"
                     placeholder={t('enterNickname')}
                     autoComplete="username"
-                    ref={inputEl}
+                    innerref={inputEl}
                   />
                 </BootstrapForm.Group>
                 <BootstrapForm.Group className="mb-3" controlId="password">

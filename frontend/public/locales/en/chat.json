@@ -19,6 +19,7 @@
     "newMessage": "Enter your message...",
 	 "newMessageLabel": "New message",
     "send": "Send",
+	 "sendError": "Error sending message",
 	 "errorProfanityDetected": "Your message contains prohibited words. Please modify it and try again."
   }
 }
