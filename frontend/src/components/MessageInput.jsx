@@ -14,9 +14,7 @@ const MessageInput = ({ currentChannelId }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    inputRef.current?.focus();
   }, [currentChannelId]);
 
   const formik = useFormik({
@@ -32,12 +30,14 @@ const MessageInput = ({ currentChannelId }) => {
 
       try {
         const cleanMessage = leoProfanity.clean(values.message);
+        console.log('Отправка сообщения:', cleanMessage);
         await sendMessage({ body: cleanMessage, channelId: currentChannelId });
-        resetForm();
 
-        setTimeout(() => {
+        resetForm();
+        
+        requestAnimationFrame(() => {
           inputRef.current?.focus();
-        }, 0);
+        });
       } catch (err) {
         console.error('Ошибка при отправке сообщения:', err);
         toast.error(t('messages.sendError'));
