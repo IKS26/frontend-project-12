@@ -4,11 +4,11 @@
   "description": "Slack-Chat",
   "main": "./frontend/src/index.jsx",
   "scripts": {
-	 "build": "npm run build --prefix frontend",
-	 "start": "start-server -s ./frontend/dist",
-	 "test": "echo \"Error: no test specified\" && exit 1",
-	 "postinstall": "echo 'Running postinstall...' ; cd frontend ; npm ci"
-	},
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "echo 'Running postinstall...' ; cd frontend ; npm ci"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IKS26/frontend-project-12.git"
@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/IKS26/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "2.0.2"
+    "@hexlet/chat-server": "^2.0.4"
   }
 }
