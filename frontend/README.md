@@ -1,1 +1,1 @@
-# Slack-Chat Application
+# Chat application
