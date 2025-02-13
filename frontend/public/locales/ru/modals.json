@@ -27,6 +27,7 @@
   "renameChannel": {
     "title": "Переименовать канал <strong>\"{{channelToRename}}\"</strong>",
     "placeholder": "Введите новое имя",
+	 "name": "Имя канала",
     "submit": "Сохранить",
     "cancel": "Отмена",
 	 "renamed": "Канал переименован",

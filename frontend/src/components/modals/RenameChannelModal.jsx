@@ -56,39 +56,41 @@ const RenameChannelModal = ({ handleClose }) => {
 
   return (
     <>
-      <BootstrapModal.Header closeButton>
-        <BootstrapModal.Title>
-			<Trans i18nKey="renameChannel.title" values={{ channelToRename }} />
+		<BootstrapModal.Header closeButton>
+		  <BootstrapModal.Title>
+			 <Trans i18nKey="renameChannel.title" values={{ channelToRename }} />
 		  </BootstrapModal.Title>
-      </BootstrapModal.Header>
-      <BootstrapModal.Body>
-        <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Control
-              ref={inputRef}
-              type="text"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.name && !!formik.errors.name}
-              placeholder={t('renameChannel.placeholder')}
-              disabled={isLoading}
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.name}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <div className="d-flex justify-content-end">
-            <Button variant="secondary" onClick={handleClose} className="me-2">
-              {t('renameChannel.cancel')}
-            </Button>
-            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
-              {t('renameChannel.submit')}
-            </Button>
-          </div>
-        </Form>
-      </BootstrapModal.Body>
+		</BootstrapModal.Header>
+		<BootstrapModal.Body>
+		 <Form onSubmit={formik.handleSubmit}>
+			<Form.Group className="mb-3">
+				<Form.Label className='visually-hidden' htmlFor='name'>{t('renameChannel.name')}</Form.Label>
+				<Form.Control
+				ref={inputRef}
+				type="text"
+				id="name"
+				name="name"
+				value={formik.values.name}
+				onChange={formik.handleChange}
+				onBlur={formik.handleBlur}
+				isInvalid={formik.touched.name && !!formik.errors.name}
+				placeholder={t('renameChannel.placeholder')}
+				disabled={isLoading}
+				/>
+				<Form.Control.Feedback type="invalid">
+				{formik.errors.name}
+				</Form.Control.Feedback>
+			</Form.Group>
+			<div className="d-flex justify-content-end">
+				<Button variant="secondary" onClick={handleClose} className="me-2">
+				{t('renameChannel.cancel')}
+				</Button>
+				<Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
+				{t('renameChannel.submit')}
+				</Button>
+			</div>
+		 </Form>
+		</BootstrapModal.Body>  
     </>
   );
 };

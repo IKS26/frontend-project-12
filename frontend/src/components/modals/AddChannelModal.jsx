@@ -54,39 +54,38 @@ const AddChannelModal = ({ handleClose }) => {
   });
 
   return (
-    <>
-      <BootstrapModal.Header closeButton>
-        <BootstrapModal.Title>{t('addChannel.title')}</BootstrapModal.Title>
-      </BootstrapModal.Header>
-      <BootstrapModal.Body>
-        <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="text"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.name && !!formik.errors.name}
-              placeholder={t('addChannel.placeholder')}
-              disabled={isLoading}
-            />
-            <Form.Label className='visually-hidden' htmlFor='name'>{t('addChannel.name')}</Form.Label>
-            {formik.errors.name && 
-              <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback> 
-            }
-          </Form.Group>
-          <div className="d-flex justify-content-end">
-            <Button variant="secondary" onClick={handleClose} className="me-2">
-              {t('addChannel.cancel')}
-            </Button>
-            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
-              {t('addChannel.submit')}
-            </Button>
-          </div>
-        </Form>
-      </BootstrapModal.Body>
-    </>
+	  <>
+	     <BootstrapModal.Header closeButton>
+		     <BootstrapModal.Title>{t('addChannel.title')}</BootstrapModal.Title>
+	     </BootstrapModal.Header>
+	     <BootstrapModal.Body>
+			  <Form onSubmit={formik.handleSubmit}>
+				  <Form.Group className="mb-3">
+					  <Form.Label className='visually-hidden' htmlFor='name'>{t('addChannel.name')}</Form.Label>
+					  <Form.Control
+						  type="text"
+						  id="name"
+						  name="name"
+						  value={formik.values.name}
+						  onChange={formik.handleChange}
+						  onBlur={formik.handleBlur}
+						  isInvalid={formik.touched.name && !!formik.errors.name}
+						  placeholder={t('addChannel.placeholder')}
+						  disabled={isLoading} />
+					  {formik.errors.name &&
+						  <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>}
+				  </Form.Group>
+				  <div className="d-flex justify-content-end">
+					  <Button variant="secondary" onClick={handleClose} className="me-2">
+						  {t('addChannel.cancel')}
+					  </Button>
+					  <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
+						  {t('addChannel.submit')}
+					  </Button>
+				  </div>
+			  </Form>
+		  </BootstrapModal.Body>
+	  </>
   );
 };
 

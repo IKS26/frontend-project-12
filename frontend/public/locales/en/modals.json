@@ -27,6 +27,7 @@
   "renameChannel": {
     "title": "Rename Channel <strong>\"{{channelToRename}}\"</strong>",
     "placeholder": "Enter new name",
+	 "name": "Channel name",
     "submit": "Save",
     "cancel": "Cancel",
 	 "renamed": "Channel renamed",
