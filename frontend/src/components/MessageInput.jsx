@@ -27,7 +27,6 @@ const MessageInput = ({ currentChannelId }) => {
     onSubmit: async (values, { resetForm }) => {
       if (leoProfanity.check(values.message)) {
         toast.error(t('messages.errorProfanityDetected'));
-        return;
       }
 
       try {
