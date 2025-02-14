@@ -148,7 +148,7 @@ export const dataApi = createApi({
         }
       },
       invalidatesTags: (result, error, { channelId }) => [
-        { type: 'Messages', id: channelId }
+        { type: 'Messages', id: 'ALL' }
       ]
     })
   })
