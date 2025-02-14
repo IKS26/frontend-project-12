@@ -19,7 +19,7 @@ const HomePage = () => {
   const modalState = useSelector(selectModalState);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const { data: channels, isLoading, refetch } = useFetchChannelsQuery();
-  const { data: messages, refetch: refetchMessages } = useFetchMessagesQuery(currentChannelId, { skip: !currentChannelId });
+  const { data: messages, refetch: refetchMessages } = useFetchMessagesQuery(currentChannelId, { skip: !currentChannelId, pollingInterval: 1000 });
 
   useEffect(() => {
     if (channels) {

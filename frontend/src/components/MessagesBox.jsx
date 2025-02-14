@@ -15,7 +15,9 @@ const MessagesBox = memo(({ currentChannelId }) => {
   const bottomRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+	setTimeout(() => {
+		bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+	}, 100);
   }, [messages]);
 
   return (
