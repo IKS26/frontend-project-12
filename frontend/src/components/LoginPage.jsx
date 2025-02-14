@@ -22,11 +22,9 @@ const LoginPage = () => {
     setErrorMessage('');
     try {
       const response = await axios.post('/api/v1/login', values);
-      const { token } = response.data;
+      const { token, username } = response.data;
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('username', values.username);
-      dispatch(login(token));
+      dispatch(login({ token, username: values.username }));
       navigate('/');
     } catch (error) {
       if (error.response?.status === 401) {

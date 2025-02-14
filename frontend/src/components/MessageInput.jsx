@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
@@ -10,6 +11,7 @@ import { useSendMessageMutation } from '../services/dataApi';
 
 const MessageInput = ({ currentChannelId }) => {
   const { t } = useTranslation('chat');
+  const username = useSelector((state) => state.auth.username);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
   const inputRef = useRef(null);
 
@@ -31,16 +33,13 @@ const MessageInput = ({ currentChannelId }) => {
 
       try {
         const cleanMessage = leoProfanity.clean(values.message);
-        console.log('Отправка сообщения:', cleanMessage);
-        await sendMessage({ body: cleanMessage, channelId: currentChannelId });
+        await sendMessage({ body: cleanMessage, channelId: currentChannelId, username });
 
         resetForm();
-        
         requestAnimationFrame(() => {
           inputRef.current?.focus();
         });
       } catch (err) {
-        console.error('Ошибка при отправке сообщения:', err);
         toast.error(t('messages.sendError'));
       }
     },

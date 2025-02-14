@@ -7,7 +7,7 @@ import {
   addChannels,
   addChannel as addChannelToStore
 } from '../store/channelsSlice.js';
-import { addMessages } from '../store/messagesSlice.js';
+import { addMessage, addMessages } from '../store/messagesSlice.js';
 
 export const dataApi = createApi({
   reducerPath: 'dataApi',
@@ -129,17 +129,20 @@ export const dataApi = createApi({
     }),
 
     sendMessage: builder.mutation({
-      query: ({ body, channelId }) => {
-        const username = localStorage.getItem('username') || 'Anonymous';
+      query: ({ body, channelId, username }) => {
         return {
           url: 'messages',
           method: 'POST',
           body: { body, channelId, username }
         };
       },
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      async onQueryStarted(
+        { body, channelId, username },
+        { dispatch, queryFulfilled }
+      ) {
         try {
-          await queryFulfilled;
+          const { data: newMessage } = await queryFulfilled;
+          dispatch(addMessage(newMessage));
         } catch (error) {
           console.error('Ошибка при отправке сообщения:', error);
         }
