@@ -69,12 +69,17 @@ export const selectAllChannelNames = createSelector(
 export const selectCurrentChannelId = (state) =>
   state.channels.currentChannelId;
 
-export const selectCurrentChannel = (state) => {
-  const channel =
-    state.channels.entities[state.channels.currentChannelId] || null;
-  console.log('Текущий канал в selectCurrentChannel:', channel);
-  return channel;
-};
+export const selectCurrentChannel = createSelector(
+  [
+    (state) => state.channels.currentChannelId,
+    (state) => state.channels.entities
+  ],
+  (currentChannelId, entities) => {
+    const channel = entities[currentChannelId] || null;
+    console.log('Текущий канал в selectCurrentChannel:', channel);
+    return channel;
+  }
+);
 
 export const selectChannelById = (state, channelId) => {
   if (!channelId) return undefined;

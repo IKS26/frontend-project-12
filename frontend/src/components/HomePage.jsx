@@ -28,9 +28,11 @@ const HomePage = () => {
   }, [channels, dispatch]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    connectSocket(token);
+	 if (!channels || isLoading) return;
 
+	 const token = localStorage.getItem('token');
+	 connectSocket(token);
+ 
     const handleNewMessage = (message) => {
       dispatch(addMessage(message));
     };
@@ -43,6 +45,7 @@ const HomePage = () => {
 
     const handleRemoveChannel = (channelId) => {
       dispatch(removeMessagesByChannelId(channelId));
+      refetch();
     };
 
     const handleRenameChannel = () => {
@@ -68,7 +71,7 @@ const HomePage = () => {
 	<div className="container h-100 my-4 rounded shadow overflow-hidden">
 	  <div className="row h-100 flex-md-row chat-bg">
 		 <div className="col-4 col-md-2 border-end px-0 d-flex flex-column channels-bg">
-			<ChannelsList channels={channels} currentChannelId={currentChannelId} />
+			<ChannelsList currentChannelId={currentChannelId} />
 		 </div>
 		 <div className="col p-0 d-flex flex-column">
 			<MessagesBox currentChannelId={currentChannelId} />
