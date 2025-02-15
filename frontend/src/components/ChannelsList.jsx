@@ -13,24 +13,26 @@ const ChannelsList = memo(({ currentChannelId }) => {
 
   useEffect(() => {
     if (!Array.isArray(channels) || channels.length === 0 || !currentChannelId) {
-		return;
-	 }
+      return;
+    }
 
-	 const isCurrentChannelValid = channels.some((channel) => channel.id === currentChannelId);
-	 const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
+    const isCurrentChannelValid = channels.some((channel) => channel.id === currentChannelId);
+    const lastCreatedChannelId = Number(localStorage.getItem('lastCreatedChannelId'));
 
     if (!isCurrentChannelValid) {
-    if (currentChannelId === lastCreatedChannelId) {
-      console.log('Инициатор остаётся в новом канале:', currentChannelId);
-    } else {
-      console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
-      dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
+      if (currentChannelId === lastCreatedChannelId) {
+        console.log('Инициатор остаётся в новом канале:', currentChannelId);
+      } else {
+        console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
+        dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
+      }
     }
-  }
   }, [channels, currentChannelId, dispatch]);
 
   const handleChannelSelect = (channelId) => {
-    if (currentChannelId !== channelId) {
+    const lastCreatedChannelId = Number(localStorage.getItem('lastCreatedChannelId'));
+
+    if (channelId === lastCreatedChannelId) {
       dispatch(setCurrentChannelId(channelId));
     }
   };
@@ -62,13 +64,13 @@ const ChannelsList = memo(({ currentChannelId }) => {
       </div>
       <ul className="nav flex-column nav-pills">
         {channels.map((channel) => {
-			const isActive = channel.id === currentChannelId;
+          const isActive = channel.id === currentChannelId;
           return (
             <li key={channel.id} className="nav-item w-100">
               <Dropdown as={ButtonGroup} className="d-flex mb-2">
                 <Button
                   variant={isActive ? 'secondary' : 'light'}
-                  className={`w-100 rounded-0 text-start text-truncate`}
+                  className={`w-100 rounded-0 text-start text-truncate btn btn-${isActive ? 'secondary' : 'light'}`}
                   onClick={() => handleChannelSelect(channel.id)}
                 >
                   # {channel.name}
