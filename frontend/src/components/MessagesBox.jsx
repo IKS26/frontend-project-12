@@ -18,8 +18,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
 	setTimeout(() => {
 		bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
 	}, 100);
-	console.log('Обновляем сообщения для канала:', currentChannelId);
-  }, [messages, currentChannelId]);
+  }, [messages]);
 
   return (
 	<>
