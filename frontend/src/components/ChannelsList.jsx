@@ -30,9 +30,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
   }, [channels, currentChannelId, dispatch]);
 
   const handleChannelSelect = (channelId) => {
-    if (currentChannelId !== channelId) {
-      dispatch(setCurrentChannelId(channelId));
-    }
+	  dispatch(setCurrentChannelId(channelId));
   };
 
   const handleAddChannel = () => {
