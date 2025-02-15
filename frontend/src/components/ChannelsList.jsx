@@ -68,7 +68,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
               <Dropdown as={ButtonGroup} className="d-flex mb-2">
                 <Button
                   variant={isActive ? 'secondary' : 'light'}
-                  className={`w-100 rounded-0 text-start text-truncate btn btn-${isActive ? 'secondary' : 'light'}`}
+                  className={`w-100 rounded-0 text-start text-truncate`}
                   onClick={() => handleChannelSelect(channel.id)}
                 >
                   # {channel.name}
