@@ -38,7 +38,7 @@ const AddChannelModal = ({ handleClose }) => {
       try {
         const newChannel = await addChannel({ name: cleanName }).unwrap();
         if (newChannel?.id) {
-          dispatch(setCurrentChannelId(newChannel.id));
+			 handleChannelCreated(newChannel.id);
         }
         toast.success(t('addChannel.created'));
 		  // <div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
@@ -51,6 +51,11 @@ const AddChannelModal = ({ handleClose }) => {
       }
     },
   });
+
+  const handleChannelCreated = (channelId) => {
+	localStorage.setItem('lastCreatedChannelId', channelId);
+	dispatch(setCurrentChannelId(channelId));
+  };
 
   return (
 	  <>
