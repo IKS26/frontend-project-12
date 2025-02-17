@@ -16,17 +16,14 @@ const ChannelsList = memo(({ currentChannelId }) => {
 		return;
 	 }
 
-	 const isCurrentChannelValid = channels.some((channel) => channel.id === currentChannelId);
 	 const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
 
-    if (!isCurrentChannelValid) {
     if (currentChannelId === lastCreatedChannelId) {
       console.log('Инициатор остаётся в новом канале:', currentChannelId);
     } else {
       console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
       dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
     }
-  }
   }, [channels, currentChannelId, dispatch]);
 
   const handleChannelSelect = (channelId) => {
