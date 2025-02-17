@@ -6,7 +6,7 @@ import {
   useFetchMessagesQuery
 } from '../services/dataApi';
 import { selectModalState } from '../store/modalSlice';
-import { selectCurrentChannelId, addChannels } from '../store/channelsSlice';
+import { selectCurrentChannelId, addChannels, addChannel } from '../store/channelsSlice';
 import { addMessage, removeMessagesByChannelId } from '../store/messagesSlice';
 import ChannelsList from './ChannelsList';
 import MessagesBox from './MessagesBox';

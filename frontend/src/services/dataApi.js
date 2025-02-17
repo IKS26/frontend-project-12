@@ -65,7 +65,7 @@ export const dataApi = createApi({
           console.error('Ошибка добавления канала:', error);
         }
       },
-      invalidatesTags: [{ type: 'Channels', id: 'LIST' }]
+      invalidatesTags: [{ type: 'Channels', id: 'ALL' }]
     }),
 
     removeChannel: builder.mutation({
