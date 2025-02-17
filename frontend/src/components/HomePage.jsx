@@ -35,7 +35,6 @@ const HomePage = () => {
  
 	const handleNewMessage = (message) => {
 	  dispatch(addMessage(message));
-	  refetchMessages();
 	};
  
 	const handleNewChannel = (channel) => {
