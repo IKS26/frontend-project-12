@@ -45,9 +45,9 @@ export const dataApi = createApi({
         result
           ? [
               ...result.map(({ id }) => ({ type: 'Channels', id })),
-              { type: 'Channels', id: 'LIST' }
+              { type: 'Channels', id: 'ALL' }
             ]
-          : [{ type: 'Channels', id: 'LIST' }]
+          : [{ type: 'Channels', id: 'ALL' }]
     }),
 
     addChannel: builder.mutation({
@@ -88,7 +88,7 @@ export const dataApi = createApi({
         }
       },
       invalidatesTags: [
-        { type: 'Channels', id: 'LIST' },
+        { type: 'Channels', id: 'ALL' },
         { type: 'Messages', id: 'ALL' }
       ]
     }),
