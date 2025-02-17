@@ -41,13 +41,7 @@ export const dataApi = createApi({
           console.error('Ошибка загрузки каналов:', error);
         }
       },
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: 'Channels', id })),
-              { type: 'Channels', id: 'ALL' }
-            ]
-          : [{ type: 'Channels', id: 'ALL' }]
+      providesTags: ['Channels']
     }),
 
     addChannel: builder.mutation({
@@ -65,7 +59,7 @@ export const dataApi = createApi({
           console.error('Ошибка добавления канала:', error);
         }
       },
-      invalidatesTags: [{ type: 'Channels', id: 'ALL' }]
+      invalidatesTags: ['Channels']
     }),
 
     removeChannel: builder.mutation({
@@ -87,10 +81,7 @@ export const dataApi = createApi({
           console.error('Ошибка удаления канала:', error);
         }
       },
-      invalidatesTags: [
-        { type: 'Channels', id: 'ALL' },
-        { type: 'Messages', id: 'ALL' }
-      ]
+      invalidatesTags: ['Channels', 'Messages']
     }),
 
     renameChannel: builder.mutation({
@@ -106,7 +97,7 @@ export const dataApi = createApi({
           console.error('Ошибка переименования канала:', error);
         }
       },
-      invalidatesTags: (result, error, { id }) => [{ type: 'Channels', id }]
+      invalidatesTags: ['Channels']
     }),
 
     fetchMessages: builder.query({
@@ -119,13 +110,7 @@ export const dataApi = createApi({
           console.error('Ошибка загрузки сообщений:', error);
         }
       },
-      providesTags: (result, error, channelId) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: 'Messages', id })),
-              { type: 'Messages', id: channelId }
-            ]
-          : [{ type: 'Messages', id: channelId }]
+      providesTags: ['Messages']
     }),
 
     sendMessage: builder.mutation({
@@ -147,9 +132,7 @@ export const dataApi = createApi({
           console.error('Ошибка при отправке сообщения:', error);
         }
       },
-      invalidatesTags: (result, error, { channelId }) => [
-        { type: 'Messages', id: 'ALL' }
-      ]
+      invalidatesTags: ['Messages']
     })
   })
 });
