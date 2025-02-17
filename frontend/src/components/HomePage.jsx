@@ -6,7 +6,7 @@ import {
   useFetchMessagesQuery
 } from '../services/dataApi';
 import { selectModalState } from '../store/modalSlice';
-import { selectCurrentChannelId, addChannels, addChannel, removeChannel, updateChannel } from '../store/channelsSlice';
+import { selectCurrentChannelId, addChannels } from '../store/channelsSlice';
 import { addMessage, removeMessagesByChannelId } from '../store/messagesSlice';
 import ChannelsList from './ChannelsList';
 import MessagesBox from './MessagesBox';
@@ -25,7 +25,7 @@ const HomePage = () => {
     if (channels) {
       dispatch(addChannels(channels));
     }
-  }, [channels, dispatch]);
+  }, [dispatch, channels, currentChannelId]);
 
   useEffect(() => {
 	if (!channels || isLoading) return;
@@ -34,31 +34,31 @@ const HomePage = () => {
 	connectSocket(token);
  
 	const handleNewMessage = (message) => {
-	  dispatch(addMessage(message));
-	};
- 
-	const handleNewChannel = (channel) => {
-	  dispatch(addChannel(channel));
-	  refetch();
-	};
- 
-	const handleRemoveChannel = (channelId) => {
-	  dispatch(removeMessagesByChannelId(channelId));
-	  dispatch(removeChannel(channelId));
-	  refetch();
-	};
- 
-	const handleRenameChannel = (channel) => {
-	  dispatch(updateChannel({ id: channel.id, changes: { name: channel.name } }));
-	  refetch();
-	};
- 
-	subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
- 
-	return () => {
-	  disconnectSocket();
-	};
-  }, [dispatch, channels, isLoading]);
+      dispatch(addMessage(message));
+    };
+
+    const handleNewChannel = () => {
+      if (!isLoading) {
+        refetch();
+      }
+    };
+
+    const handleRemoveChannel = (channelId) => {
+      dispatch(removeMessagesByChannelId(channelId));
+      refetch();
+    };
+
+    const handleRenameChannel = () => {
+      if (!isLoading) {
+        refetch();
+      }
+    };
+
+    subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
+    return () => {
+      disconnectSocket();
+    };
+  }, [dispatch, isLoading, refetch]);
  
 
   useEffect(() => {
