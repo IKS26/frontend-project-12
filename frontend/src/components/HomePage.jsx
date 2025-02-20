@@ -38,19 +38,21 @@ const HomePage = () => {
     };
 
     const handleNewChannel = (newChannel) => {
-		if (!isLoading) {
+		if (!isLoading && channels) {
 			dispatch(addChannel(newChannel));
 			refetch();
 		}
 	 };
 
     const handleRemoveChannel = (channelId) => {
+		if (!isLoading && channels) {
       dispatch(removeMessagesByChannelId(channelId));
       refetch();
+		}
     };
 
     const handleRenameChannel = () => {
-      if (!isLoading) {
+      if (!isLoading && channels) {
         refetch();
       }
     };
