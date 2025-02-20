@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import leoProfanity from 'leo-profanity';
 import {
   useFetchChannelsQuery,
-  useFetchMessagesQuery
+  useFetchMessagesQuery,
 } from '../services/dataApi';
 import { selectModalState } from '../store/modalSlice';
-import { selectCurrentChannelId, addChannels } from '../store/channelsSlice';
+import { selectCurrentChannelId, addChannels, addChannel } from '../store/channelsSlice';
 import { addMessage, removeMessagesByChannelId } from '../store/messagesSlice';
 import ChannelsList from './ChannelsList';
 import MessagesBox from './MessagesBox';
@@ -37,11 +37,12 @@ const HomePage = () => {
       dispatch(addMessage(message));
     };
 
-    const handleNewChannel = () => {
-      if (!isLoading) {
-        refetch();
-      }
-    };
+    const handleNewChannel = (newChannel) => {
+		if (!isLoading) {
+			dispatch(addChannel(newChannel));
+			refetch();
+		}
+	 };
 
     const handleRemoveChannel = (channelId) => {
       dispatch(removeMessagesByChannelId(channelId));
