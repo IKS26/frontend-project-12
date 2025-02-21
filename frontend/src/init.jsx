@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -7,9 +7,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import App from './components/App.jsx';
 import store from './store/store.js';
-import {
+import socket, {
   connectSocket,
-  disconnectSocket,
   subscribeToEvents,
 } from './services/socket.js';
 import { dataApi } from './services/dataApi.js';
@@ -25,12 +24,16 @@ const SocketHandler = () => {
   const channels = useSelector(selectChannels);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const isLoading = useSelector((state) => state.channels.isLoading);
+  const token = localStorage.getItem('token');
+
+  const isSocketConnected = useRef(false);
 
   useEffect(() => {
-    if (!channels || isLoading) return;
+    if (!channels || isLoading || !token || isSocketConnected.current) return;
 
-    const token = localStorage.getItem('token');
+    console.log('Подключение к WebSocket...');
     connectSocket(token);
+    isSocketConnected.current = true;
 
     const handleNewMessage = (message) => {
       dispatch(
@@ -41,6 +44,7 @@ const SocketHandler = () => {
     };
 
     const handleNewChannel = (newChannel) => {
+      dispatch(dataApi.util.invalidateTags(['Channels']));
       dispatch(
         dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
           draft.push(newChannel);
@@ -49,23 +53,25 @@ const SocketHandler = () => {
     };
 
     const handleRemoveChannel = (channelId) => {
+      dispatch(dataApi.util.invalidateTags(['Channels', 'Messages']));
+
       dispatch(
-        dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-          return draft.filter((channel) => channel.id !== channelId);
-        })
+        dataApi.util.updateQueryData('fetchChannels', undefined, (draft) =>
+          draft.filter((channel) => channel.id !== channelId)
+        )
       );
       dispatch(
-        dataApi.util.updateQueryData('fetchMessages', channelId, () => {
-          return [];
-        })
+        dataApi.util.updateQueryData('fetchMessages', channelId, () => [])
       );
+
       if (currentChannelId === channelId) {
         dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
-      };
-		dispatch(dataApi.util.invalidateTags(['Channels']));
+      }
     };
 
     const handleRenameChannel = ({ id, name }) => {
+      dispatch(dataApi.util.invalidateTags(['Channels']));
+
       dispatch(
         dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
           const channel = draft.find((channel) => channel.id === id);
@@ -79,9 +85,13 @@ const SocketHandler = () => {
     subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
 
     return () => {
-      disconnectSocket();
+      console.log('Отписка от событий WebSocket...');
+      socket.off('newMessage', handleNewMessage);
+      socket.off('newChannel', handleNewChannel);
+      socket.off('removeChannel', handleRemoveChannel);
+      socket.off('renameChannel', handleRenameChannel);
     };
-  }, [dispatch, isLoading, channels, currentChannelId]);
+  }, [dispatch, isLoading, channels, currentChannelId, token]);
 
   return null;
 };

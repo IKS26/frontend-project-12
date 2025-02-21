@@ -54,7 +54,11 @@ export const dataApi = createApi({
         try {
           const { data: addedChannel } = await queryFulfilled;
           dispatch(addChannelToStore(addedChannel));
-          dispatch(setCurrentChannelId(addedChannel.id));
+
+          const isInitiator = localStorage.getItem('isInitiator') === 'true';
+          if (isInitiator) {
+            dispatch(setCurrentChannelId(addedChannel.id));
+          }
         } catch (error) {
           console.error('Ошибка добавления канала:', error);
         }

@@ -18,6 +18,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (channels) {
+		console.log('Обновление списка каналов:', channels);
       dispatch(addChannels(channels));
     }
   }, [dispatch, channels]);
