@@ -30,7 +30,6 @@ const AddChannelModal = ({ handleClose }) => {
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       if (leoProfanity.check(values.name)) {
         toast.error(t('addChannel.validation.errorProfanityChannelName'));
-        return;
       }
 
       const cleanName = leoProfanity.clean(values.name);
