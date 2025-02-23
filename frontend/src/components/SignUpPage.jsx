@@ -36,9 +36,9 @@ const SignUpPage = () => {
           username: values.username,
           password: values.password,
         });
-        const { token } = response.data;
+        const { token, username } = response.data;
 
-        dispatch(login({ token, username: values.username }));
+        dispatch(login({ token, username }));
         navigate('/');
       } catch (error) {
         if (error.response?.status === 409) {

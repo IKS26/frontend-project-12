@@ -24,7 +24,7 @@ const LoginPage = () => {
       const response = await axios.post('/api/v1/login', values);
       const { token, username } = response.data;
 
-      dispatch(login({ token, username: values.username }));
+      dispatch(login({ token, username }));
       navigate('/');
     } catch (error) {
       if (error.response?.status === 401) {
