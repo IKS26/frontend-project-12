@@ -35,7 +35,7 @@ const MessageInput = ({ currentChannelId }) => {
 			const cleanMessage = leoProfanity.clean(values.message);
 			const newMessage = { body: cleanMessage, channelId: currentChannelId, username };
 	  
-			await sendMessage(newMessage);
+			await sendMessage(newMessage).unwrap();
 			resetForm();
 
 			requestAnimationFrame(() => {

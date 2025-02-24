@@ -17,9 +17,9 @@ const MessagesBox = memo(({ currentChannelId }) => {
   const { data: fetchedMessages = [], isSuccess } = useFetchMessagesQuery(currentChannelId, { skip: !currentChannelId });
 
   useEffect(() => {
-    if (isSuccess && fetchedMessages) {
-      dispatch(addMessages(fetchedMessages));
-    }
+	if (isSuccess && fetchedMessages.length > 0) {
+		dispatch(addMessages([...messages, ...fetchedMessages]));
+	}
   }, [isSuccess, fetchedMessages, dispatch]);
 
   useEffect(() => {

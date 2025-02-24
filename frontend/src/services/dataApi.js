@@ -122,6 +122,7 @@ export const dataApi = createApi({
               }
             )
           );
+          dispatch(dataApi.util.invalidateTags(['Messages']));
         } catch (error) {
           console.error('Ошибка при отправке сообщения:', error);
         }
