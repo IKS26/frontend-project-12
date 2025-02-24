@@ -39,3 +39,8 @@ body {
 .text-yellow {
   color: yellow;
 }
+
+#messages-box {
+	max-height: 100%;
+	overflow-y: auto;
+}

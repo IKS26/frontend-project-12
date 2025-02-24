@@ -16,7 +16,7 @@ const ProtectedRoute = () => {
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column h-100">
+      <div className="d-flex flex-column min-vh-100">
         <Header />
         <div className="flex-grow-1 d-flex flex-column">
           <Routes>

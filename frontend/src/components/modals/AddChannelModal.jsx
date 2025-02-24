@@ -1,16 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import { selectAllChannelNames } from '../../store/channelsSlice.js';
+import { selectAllChannelNames, setCurrentChannelId } from '../../store/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/dataApi';
 
 const AddChannelModal = ({ handleClose }) => {
   const { t } = useTranslation('modals');
+  const dispatch = useDispatch();
   const channelNames = useSelector(selectAllChannelNames);
   const [addChannel, { isLoading }] = useAddChannelMutation();
 
@@ -34,13 +35,19 @@ const AddChannelModal = ({ handleClose }) => {
 
       const cleanName = leoProfanity.clean(values.name);
       setSubmitting(true);
+
       try {
-        await addChannel({ name: cleanName }).unwrap();
+        const newChannel = await addChannel({ name: cleanName }).unwrap();
+
+        if (newChannel?.id) {
+          localStorage.setItem('lastCreatedChannelId', newChannel.id);
+          dispatch(setCurrentChannelId(newChannel.id));
+        }
+
         toast.success(t('addChannel.created'));
-		  // <div dangerouslySetInnerHTML={{ __html: t('addChannel.success', { newChannelName: cleanName }) }} />
-        handleClose();
         resetForm();
-      } catch {
+        handleClose();
+      } catch (error) {
         toast.error(t('addChannel.error'));
       } finally {
         setSubmitting(false);

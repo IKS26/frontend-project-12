@@ -7,9 +7,9 @@
     "clean": "rimraf dist",
     "dev": "vite",
     "build": "npm run clean ; vite build",
-	 "start": "npx start-server -s ./dist",
+    "start": "npx start-server -s ./dist",
     "lint": "eslint .",
-	 "lint-fix": "eslint . --fix",
+    "lint-fix": "eslint . --fix",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "i18next-browser-languagedetector": "^8.0.2",
     "i18next-http-backend": "^3.0.2",
     "leo-profanity": "^1.7.0",
+    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^18.3.1",

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -12,7 +12,7 @@ import socket, {
   subscribeToEvents,
 } from './services/socket.js';
 import { dataApi } from './services/dataApi.js';
-import { setCurrentChannelId, selectChannels, selectCurrentChannelId, DEFAULT_CHANNEL_ID } from './store/channelsSlice.js';
+import { setCurrentChannelId, selectCurrentChannelId, DEFAULT_CHANNEL_ID } from './store/channelsSlice.js';
 
 const rollbarConfig = {
   accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
@@ -21,77 +21,46 @@ const rollbarConfig = {
 
 const SocketHandler = () => {
   const dispatch = useDispatch();
-  const channels = useSelector(selectChannels);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const isLoading = useSelector((state) => state.channels.isLoading);
-  const token = localStorage.getItem('token');
 
-  const isSocketConnected = useRef(false);
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
 
   useEffect(() => {
-    if (!channels || isLoading || !token || isSocketConnected.current) return;
+    if (isLoading || isSocketConnected) return;
 
-    console.log('Подключение к WebSocket...');
-    connectSocket(token);
-    isSocketConnected.current = true;
+    connectSocket();
+    setIsSocketConnected(true);
 
-    const handleNewMessage = (message) => {
-      dispatch(
-        dataApi.util.updateQueryData('fetchMessages', message.channelId, (draft) => {
-          draft.push(message);
-        })
-      );
+    const handleNewMessage = () => {
+      dispatch(dataApi.util.invalidateTags(['Messages']));
     };
 
-    const handleNewChannel = (newChannel) => {
+    const handleNewChannel = () => {
       dispatch(dataApi.util.invalidateTags(['Channels']));
-      dispatch(
-        dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-          draft.push(newChannel);
-        })
-      );
     };
 
     const handleRemoveChannel = (channelId) => {
       dispatch(dataApi.util.invalidateTags(['Channels', 'Messages']));
-
-      dispatch(
-        dataApi.util.updateQueryData('fetchChannels', undefined, (draft) =>
-          draft.filter((channel) => channel.id !== channelId)
-        )
-      );
-      dispatch(
-        dataApi.util.updateQueryData('fetchMessages', channelId, () => [])
-      );
 
       if (currentChannelId === channelId) {
         dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
       }
     };
 
-    const handleRenameChannel = ({ id, name }) => {
+    const handleRenameChannel = () => {
       dispatch(dataApi.util.invalidateTags(['Channels']));
-
-      dispatch(
-        dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-          const channel = draft.find((channel) => channel.id === id);
-          if (channel) {
-            channel.name = name;
-          }
-        })
-      );
     };
 
     subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
 
     return () => {
-      console.log('Отписка от событий WebSocket...');
-      socket.off('newMessage', handleNewMessage);
-      socket.off('newChannel', handleNewChannel);
-      socket.off('removeChannel', handleRemoveChannel);
-      socket.off('renameChannel', handleRenameChannel);
+      console.log('Отписка от WebSocket событий...');
+      ['newMessage', 'newChannel', 'removeChannel', 'renameChannel'].forEach(event => {
+        socket.off(event);
+      });
     };
-  }, [dispatch, isLoading, channels, currentChannelId, token]);
+  }, [dispatch, isLoading, currentChannelId]);
 
   return null;
 };

@@ -1,13 +1,5 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable import/extensions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {
-  DEFAULT_CHANNEL_ID,
-  setCurrentChannelId,
-  addChannels,
-  addChannel as addChannelToStore
-} from '../store/channelsSlice.js';
-import { addMessage, addMessages } from '../store/messagesSlice.js';
 
 export const dataApi = createApi({
   reducerPath: 'dataApi',
@@ -25,22 +17,6 @@ export const dataApi = createApi({
   endpoints: (builder) => ({
     fetchChannels: builder.query({
       query: () => 'channels',
-      async onQueryStarted(_, { dispatch, queryFulfilled, getState }) {
-        try {
-          const { data: channels } = await queryFulfilled;
-          dispatch(addChannels(channels));
-
-          const state = getState();
-          if (
-            !state.channels.currentChannelId ||
-            !channels.some((ch) => ch.id === state.channels.currentChannelId)
-          ) {
-            dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
-          }
-        } catch (error) {
-          console.error('Ошибка загрузки каналов:', error);
-        }
-      },
       providesTags: ['Channels']
     }),
 
@@ -50,19 +26,6 @@ export const dataApi = createApi({
         method: 'POST',
         body: newChannel
       }),
-      async onQueryStarted(newChannel, { dispatch, queryFulfilled }) {
-        try {
-          const { data: addedChannel } = await queryFulfilled;
-          dispatch(addChannelToStore(addedChannel));
-
-          const isInitiator = localStorage.getItem('isInitiator') === 'true';
-          if (isInitiator) {
-            dispatch(setCurrentChannelId(addedChannel.id));
-          }
-        } catch (error) {
-          console.error('Ошибка добавления канала:', error);
-        }
-      },
       invalidatesTags: ['Channels']
     }),
 
@@ -71,20 +34,6 @@ export const dataApi = createApi({
         url: `channels/${id}`,
         method: 'DELETE'
       }),
-      async onQueryStarted(id, { dispatch, queryFulfilled, getState }) {
-        const state = getState();
-        const { currentChannelId } = state.channels;
-
-        if (currentChannelId === id) {
-          dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
-        }
-
-        try {
-          await queryFulfilled;
-        } catch (error) {
-          console.error('Ошибка удаления канала:', error);
-        }
-      },
       invalidatesTags: ['Channels', 'Messages']
     }),
 
@@ -94,48 +43,20 @@ export const dataApi = createApi({
         method: 'PATCH',
         body: { name }
       }),
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (error) {
-          console.error('Ошибка переименования канала:', error);
-        }
-      },
       invalidatesTags: ['Channels']
     }),
 
     fetchMessages: builder.query({
       query: (channelId) => `messages?channelId=${channelId}`,
-      async onQueryStarted(channelId, { dispatch, queryFulfilled }) {
-        try {
-          const { data: messages } = await queryFulfilled;
-          dispatch(addMessages(messages));
-        } catch (error) {
-          console.error('Ошибка загрузки сообщений:', error);
-        }
-      },
       providesTags: ['Messages']
     }),
 
     sendMessage: builder.mutation({
-      query: ({ body, channelId, username }) => {
-        return {
-          url: 'messages',
-          method: 'POST',
-          body: { body, channelId, username }
-        };
-      },
-      async onQueryStarted(
-        { body, channelId, username },
-        { dispatch, queryFulfilled }
-      ) {
-        try {
-          const { data: newMessage } = await queryFulfilled;
-          dispatch(addMessage(newMessage));
-        } catch (error) {
-          console.error('Ошибка при отправке сообщения:', error);
-        }
-      },
+      query: (newMessage) => ({
+        url: 'messages',
+        method: 'POST',
+        body: newMessage
+      }),
       invalidatesTags: ['Messages']
     })
   })

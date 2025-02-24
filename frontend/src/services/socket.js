@@ -6,12 +6,11 @@ const socket = io('http://localhost:5001', {
 
 let isConnected = false;
 
-export const connectSocket = (token) => {
+export const connectSocket = () => {
   if (isConnected) {
     console.warn('WebSocket уже подключен');
     return;
   }
-  socket.auth = { token };
   socket.connect();
   isConnected = true;
 

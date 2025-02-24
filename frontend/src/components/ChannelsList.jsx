@@ -4,25 +4,46 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { BsPlusSquare } from 'react-icons/bs';
 import { openModal } from '../store/modalSlice.js';
-import { selectChannels, setCurrentChannelId, DEFAULT_CHANNEL_ID } from '../store/channelsSlice.js';
+import { selectChannels, setCurrentChannelId, addChannels, DEFAULT_CHANNEL_ID } from '../store/channelsSlice.js';
+import { useFetchChannelsQuery } from '../services/dataApi.js';
 
 const ChannelsList = memo(({ currentChannelId }) => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
-  const channels = useSelector(selectChannels);
+  const { data: channels = [], isSuccess } = useFetchChannelsQuery();
+  const storedChannels = useSelector(selectChannels);
 
   useEffect(() => {
-    if (!Array.isArray(channels) || channels.length === 0 || !currentChannelId) {
-      return;
+    if (isSuccess && channels) {
+      dispatch(addChannels(channels));
     }
+  }, [isSuccess, channels, dispatch]);
 
-    const isCurrentChannelValid = channels.some((channel) => channel.id === currentChannelId);
-    
-    if (!isCurrentChannelValid) {
-      console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
-      dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
-    }
-  }, [channels, currentChannelId, dispatch]);
+  useEffect(() => {
+	if (storedChannels.length === 0) {
+	  return;
+	}
+ 
+	const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
+ 
+	if (lastCreatedChannelId) {
+	  const lastChannelExists = storedChannels.some((ch) => ch.id === Number(lastCreatedChannelId));
+ 
+	  if (lastChannelExists) {
+		 console.log('Переключаемся на новый канал:', lastCreatedChannelId);
+		 dispatch(setCurrentChannelId(Number(lastCreatedChannelId)));
+		 localStorage.removeItem('lastCreatedChannelId');
+		 return;
+	  }
+	}
+ 
+	const isCurrentChannelValid = storedChannels.some((channel) => channel.id === currentChannelId);
+ 
+	if (!isCurrentChannelValid) {
+	  console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
+	  dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
+	}
+  }, [storedChannels, dispatch]);
 
   const handleChannelSelect = (channelId) => {
     if (currentChannelId !== channelId) {
@@ -56,7 +77,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills">
-        {channels.map((channel) => {
+        {storedChannels.map((channel) => {
           const isActive = channel.id === currentChannelId;
           return (
             <li key={channel.id} className="nav-item w-100">

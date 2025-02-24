@@ -1,23 +1,33 @@
 import React, { memo, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectCurrentChannel } from '../store/channelsSlice';
-import { selectCurrentChannelMessages } from '../store/messagesSlice';
+import { selectCurrentChannelMessages, addMessages } from '../store/messagesSlice';
+import { useFetchMessagesQuery } from '../services/dataApi';
 
 const MessagesBox = memo(({ currentChannelId }) => {
   const { t } = useTranslation('chat');	
-  const currentChannel = useSelector((state) => {
-		const channel = selectCurrentChannel(state);
-		return channel;
-	 });	 
+  const dispatch = useDispatch();
+  const currentChannel = useSelector(selectCurrentChannel);
   const messages = useSelector(selectCurrentChannelMessages);
+  console.log('messages:', messages);
   const messagesCount = messages?.length || 0;
-  const bottomRef = useRef(null);
+  const messagesBoxRef = useRef(null);
+
+  const { data: fetchedMessages = [], isSuccess } = useFetchMessagesQuery(currentChannelId, { skip: !currentChannelId });
 
   useEffect(() => {
-	setTimeout(() => {
-		bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-	}, 100);
+    if (isSuccess && fetchedMessages) {
+      dispatch(addMessages(fetchedMessages));
+    }
+  }, [isSuccess, fetchedMessages, dispatch]);
+
+  useEffect(() => {
+	if (!messagesBoxRef.current) return;
+ 
+	requestAnimationFrame(() => {
+	  messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+	});
   }, [messages]);
 
   return (
@@ -30,7 +40,10 @@ const MessagesBox = memo(({ currentChannelId }) => {
 		 )}
 		 <span className="text-muted">{t('messages.messagesCount.messages', { count: messagesCount })}</span>
 	  </div>
-	  <div id="messages-box" className="chat-messages overflow-auto px-5 text-dark">
+	  <div id="messages-box" 
+	  className="chat-messages px-5 text-dark"
+	  ref={messagesBoxRef}
+	  >
 		 {messages.length > 0 ? (
 			messages.map((message) => (
 			  <div key={message.id} className="text-break mb-2">
@@ -40,7 +53,6 @@ const MessagesBox = memo(({ currentChannelId }) => {
 		 ) : (
 			<p className="text-muted">{t('messages.noMessages')}</p>
 		 )}
-		 <div ref={bottomRef} />
 	  </div>
 	</>
  );

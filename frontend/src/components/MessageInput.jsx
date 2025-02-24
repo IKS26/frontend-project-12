@@ -32,16 +32,18 @@ const MessageInput = ({ currentChannelId }) => {
       }
 
       try {
-        const cleanMessage = leoProfanity.clean(values.message);
-        await sendMessage({ body: cleanMessage, channelId: currentChannelId, username });
+			const cleanMessage = leoProfanity.clean(values.message);
+			const newMessage = { body: cleanMessage, channelId: currentChannelId, username };
+	  
+			await sendMessage(newMessage);
+			resetForm();
 
-        resetForm();
-        requestAnimationFrame(() => {
-          inputRef.current?.focus();
-        });
-      } catch (err) {
-        toast.error(t('messages.sendError'));
-      }
+			requestAnimationFrame(() => {
+			  inputRef.current?.focus();
+			});
+		 } catch (err) {
+			toast.error(t('messages.sendError'));
+		 }
     },
   });
 
