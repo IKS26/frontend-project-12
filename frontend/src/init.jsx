@@ -12,7 +12,8 @@ import socket, {
   subscribeToEvents,
 } from './services/socket.js';
 import { dataApi } from './services/dataApi.js';
-import { setCurrentChannelId, selectCurrentChannelId, DEFAULT_CHANNEL_ID } from './store/channelsSlice.js';
+import { addMessage } from './store/messagesSlice.js';
+import { addChannel, setCurrentChannelId, selectCurrentChannelId, DEFAULT_CHANNEL_ID } from './store/channelsSlice.js';
 
 const rollbarConfig = {
   accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
@@ -32,13 +33,19 @@ const SocketHandler = () => {
     connectSocket();
     setIsSocketConnected(true);
 
-    const handleNewMessage = () => {
-      dispatch(dataApi.util.invalidateTags(['Messages']));
-    };
+    const handleNewMessage = (message) => {
+		dispatch(addMessage(message));
+		dispatch(dataApi.util.updateQueryData('fetchMessages', message.channelId, (draft) => {
+		  draft.push(message);
+		}));
+	 };	 
 
-    const handleNewChannel = () => {
-      dispatch(dataApi.util.invalidateTags(['Channels']));
-    };
+    const handleNewChannel = (channel) => {
+		dispatch(addChannel(channel));
+		dispatch(dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
+		  draft.push(channel);
+		}));
+	 };	 
 
     const handleRemoveChannel = (channelId) => {
       dispatch(dataApi.util.invalidateTags(['Channels', 'Messages']));

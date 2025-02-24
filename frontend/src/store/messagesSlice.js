@@ -12,10 +12,11 @@ const messagesSlice = createSlice({
     addMessage: messagesAdapter.addOne,
     addMessages: messagesAdapter.addMany,
     removeMessagesByChannelId: (state, { payload: channelId }) => {
-      const remainingMessages = Object.values(state.entities).filter(
-        (message) => message.channelId !== channelId
-      );
-      messagesAdapter.setAll(state, remainingMessages);
+      const idsToRemove = Object.values(state.entities)
+        .filter((message) => message.channelId === channelId)
+        .map((message) => message.id);
+
+      messagesAdapter.removeMany(state, idsToRemove);
     }
   }
 });
