@@ -13,17 +13,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.21.0",
     "@reduxjs/toolkit": "^2.5.1",
     "@rollbar/react": "^0.12.0-beta",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.7",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-define-config": "^2.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "formik": "^2.4.6",
+    "globals": "^16.0.0",
     "i18next": "^24.2.2",
     "i18next-browser-languagedetector": "^8.0.2",
     "i18next-http-backend": "^3.0.2",
     "leo-profanity": "^1.7.0",
-    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^18.3.1",
@@ -39,20 +47,12 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint-config-prettier": "^10.0.1",
-    "eslint-define-config": "^2.1.0",
-    "eslint-plugin-functional": "^8.0.0",
-    "eslint-plugin-prettier": "^5.2.2",
-    "eslint-plugin-react-refresh": "^0.4.16",
-    "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
     "typescript": "^5.7.3",
-    "vite": "^6.0.5",
-    "wait-on": "^8.0.2"
+    "vite": "^6.0.5"
   }
 }

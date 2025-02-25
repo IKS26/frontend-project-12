@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: pluginJs.configs.recommended,
+  recommendedConfig: pluginJs.configs.recommended
 });
 
 export default defineConfig([
@@ -52,16 +52,23 @@ export default defineConfig([
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
       'prettier/prettier': 'error',
-      'import/extensions': ["error", "ignorePackages", {
-			"js": "never",
-			"jsx": "never"
-		 }],
+      'import/extensions': [
+        'error',
+        'ignorePackages',
+        {
+          js: 'never',
+          jsx: 'never'
+        }
+      ],
       'import/no-unresolved': 0,
       'react/prop-types': 0,
       'no-console': 0,
       'react/react-in-jsx-scope': 0,
       'no-underscore-dangle': ['error', { allow: ['__filename', '__dirname'] }],
-      'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
+      'react/function-component-definition': [
+        'error',
+        { namedComponents: 'arrow-function' }
+      ],
       'testing-library/no-debug': 0,
       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }]
     }
@@ -86,7 +93,7 @@ export default defineConfig([
       'import/no-named-as-default-member': 'off',
       'no-console': 'off',
       'import/no-extraneous-dependencies': 'off',
-      'linebreak-style': 'off'
+      'linebreak-style': ['error', 'unix']
     }
   }
 ]);
