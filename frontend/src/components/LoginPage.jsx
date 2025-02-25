@@ -10,7 +10,7 @@ import {
   Col,
   Button,
   Alert,
-  Form as BootstrapForm
+  Form as BootstrapForm,
 } from 'react-bootstrap';
 import { login } from '../store/authSlice.js';
 

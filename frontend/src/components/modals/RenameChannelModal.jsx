@@ -10,15 +10,15 @@ import { selectChannelById } from '../../store/channelsSlice.js';
 import { selectModalState } from '../../store/modalSlice.js';
 import {
   useFetchChannelsQuery,
-  useRenameChannelMutation
+  useRenameChannelMutation,
 } from '../../services/dataApi';
 
 const RenameChannelModal = ({ handleClose }) => {
   const { t } = useTranslation('modals');
   const { data: channels, isLoading } = useFetchChannelsQuery();
   const { channelId } = useSelector(selectModalState);
-  const currentChannel = useSelector((state) =>
-    selectChannelById(state, channelId)
+  const currentChannel = useSelector(state =>
+    selectChannelById(state, channelId),
   );
   const channelToRename = currentChannel.name;
 
@@ -39,9 +39,9 @@ const RenameChannelModal = ({ handleClose }) => {
       .min(3, t('renameChannel.validation.minMax'))
       .max(20, t('renameChannel.validation.minMax'))
       .notOneOf(
-        channels.map((ch) => ch.name),
-        t('renameChannel.validation.unique')
-      )
+        channels.map(ch => ch.name),
+        t('renameChannel.validation.unique'),
+      ),
   });
 
   const formik = useFormik({
@@ -52,14 +52,14 @@ const RenameChannelModal = ({ handleClose }) => {
       try {
         await renameChannel({ id: channelId, name: cleanName }).unwrap();
         toast.success(
-          t('renameChannel.renamed')
+          t('renameChannel.renamed'),
           //	<div dangerouslySetInnerHTML={{ __html: t('renameChannel.success', { channelToRename, newChannelName: cleanName })}} />
         );
         handleClose();
       } catch {
         toast.error(t('renameChannel.error'));
       }
-    }
+    },
   });
 
   return (

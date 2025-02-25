@@ -11,7 +11,7 @@ import { useSendMessageMutation } from '../services/dataApi';
 
 const MessageInput = ({ currentChannelId }) => {
   const { t } = useTranslation('chat');
-  const username = useSelector((state) => state.auth.username);
+  const username = useSelector(state => state.auth.username);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
   const inputRef = useRef(null);
 
@@ -24,7 +24,7 @@ const MessageInput = ({ currentChannelId }) => {
   const formik = useFormik({
     initialValues: { message: '' },
     validationSchema: Yup.object({
-      message: Yup.string().trim().required(t('messages.newMessage'))
+      message: Yup.string().trim().required(t('messages.newMessage')),
     }),
     onSubmit: async (values, { resetForm }) => {
       if (leoProfanity.check(values.message)) {
@@ -36,7 +36,7 @@ const MessageInput = ({ currentChannelId }) => {
         const newMessage = {
           body: cleanMessage,
           channelId: currentChannelId,
-          username
+          username,
         };
 
         await sendMessage(newMessage).unwrap();
@@ -49,7 +49,7 @@ const MessageInput = ({ currentChannelId }) => {
       } catch (err) {
         toast.error(t('messages.sendError'));
       }
-    }
+    },
   });
 
   return (

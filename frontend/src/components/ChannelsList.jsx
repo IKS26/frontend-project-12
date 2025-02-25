@@ -8,7 +8,7 @@ import {
   selectChannels,
   setCurrentChannelId,
   addChannels,
-  DEFAULT_CHANNEL_ID
+  DEFAULT_CHANNEL_ID,
 } from '../store/channelsSlice.js';
 import { useFetchChannelsQuery } from '../services/dataApi.js';
 
@@ -33,7 +33,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
 
     if (lastCreatedChannelId) {
       const lastChannelExists = storedChannels.some(
-        (ch) => ch.id === Number(lastCreatedChannelId)
+        ch => ch.id === Number(lastCreatedChannelId),
       );
 
       if (lastChannelExists) {
@@ -46,7 +46,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     }
 
     const isCurrentChannelValid = storedChannels.some(
-      (channel) => channel.id === currentChannelId
+      channel => channel.id === currentChannelId,
     );
 
     if (!isCurrentChannelValid) {
@@ -55,7 +55,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     }
   }, [storedChannels, dispatch]);
 
-  const handleChannelSelect = (channelId) => {
+  const handleChannelSelect = channelId => {
     if (currentChannelId !== channelId) {
       dispatch(setCurrentChannelId(channelId));
     }
@@ -65,11 +65,11 @@ const ChannelsList = memo(({ currentChannelId }) => {
     dispatch(openModal({ type: 'add' }));
   };
 
-  const handleRemoveChannel = (channelId) => {
+  const handleRemoveChannel = channelId => {
     dispatch(openModal({ type: 'remove', channelId }));
   };
 
-  const handleRenameChannel = (channelId) => {
+  const handleRenameChannel = channelId => {
     dispatch(openModal({ type: 'rename', channelId }));
   };
 
@@ -87,7 +87,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills">
-        {storedChannels.map((channel) => {
+        {storedChannels.map(channel => {
           const isActive = channel.id === currentChannelId;
           return (
             <li key={channel.id} className="nav-item w-100">

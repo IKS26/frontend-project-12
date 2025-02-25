@@ -7,7 +7,7 @@ const USERNAME_KEY = 'username';
 const initialState = {
   isAuthenticated: !!localStorage.getItem(TOKEN_KEY),
   token: localStorage.getItem(TOKEN_KEY) || null,
-  username: localStorage.getItem(USERNAME_KEY) || null
+  username: localStorage.getItem(USERNAME_KEY) || null,
 };
 
 const authSlice = createSlice({
@@ -28,8 +28,8 @@ const authSlice = createSlice({
       state.username = null;
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USERNAME_KEY);
-    }
-  }
+    },
+  },
 });
 
 export const { login, logout } = authSlice.actions;

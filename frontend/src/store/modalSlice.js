@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   type: null,
   channelId: null,
-  isOpen: false
+  isOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -18,16 +18,16 @@ const modalSlice = createSlice({
       state.channelId = channelId;
       state.isOpen = true;
     },
-    closeModal: (state) => {
+    closeModal: state => {
       if (!state.isOpen) return;
       state.type = null;
       state.channelId = null;
       state.isOpen = false;
-    }
-  }
+    },
+  },
 });
 
-export const selectModalState = (state) => state.modal;
+export const selectModalState = state => state.modal;
 
 export const { openModal, closeModal } = modalSlice.actions;
 

@@ -10,7 +10,7 @@
     "start": "npx start-server -s ./dist",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-	 "format": "prettier --write \"src/**/*.{js,jsx,json,html,css}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,html,css}\"",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -45,15 +45,15 @@
     "rollbar": "^2.26.4",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
+    "vite": "^6.0.5",
+    "@vitejs/plugin-react": "^4.3.4",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^4.3.4",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
-    "typescript": "^5.7.3",
-    "vite": "^6.0.5"
+    "typescript": "^5.7.3"
   }
 }

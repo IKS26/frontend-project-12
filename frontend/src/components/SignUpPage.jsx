@@ -33,7 +33,7 @@ const SignUpPage = () => {
     confirmPassword: yup
       .string()
       .oneOf([yup.ref('password')], t('errorPasswordsMatch'))
-      .required(t('confirmPasswordRequired'))
+      .required(t('confirmPasswordRequired')),
   });
 
   const formik = useFormik({
@@ -44,7 +44,7 @@ const SignUpPage = () => {
       try {
         const response = await axios.post('/api/v1/signup', {
           username: values.username,
-          password: values.password
+          password: values.password,
         });
         const { token, username } = response.data;
 
@@ -61,7 +61,7 @@ const SignUpPage = () => {
       } finally {
         setSubmitting(false);
       }
-    }
+    },
   });
 
   return (

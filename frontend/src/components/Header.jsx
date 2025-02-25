@@ -7,7 +7,7 @@ import { logout } from '../store/authSlice.js';
 const Header = () => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const handleLogout = () => {
     dispatch(logout());

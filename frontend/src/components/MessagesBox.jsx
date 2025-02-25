@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { selectCurrentChannel } from '../store/channelsSlice';
 import {
   selectCurrentChannelMessages,
-  addMessages
+  addMessages,
 } from '../store/messagesSlice';
 import { useFetchMessagesQuery } from '../services/dataApi';
 
@@ -19,7 +19,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
 
   const { data: fetchedMessages = [], isSuccess } = useFetchMessagesQuery(
     currentChannelId,
-    { skip: !currentChannelId }
+    { skip: !currentChannelId },
   );
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
         ref={messagesBoxRef}
       >
         {messages.length > 0 ? (
-          messages.map((message) => (
+          messages.map(message => (
             <div key={message.id} className="text-break mb-2">
               <b>{message.username || 'Unknown'}:</b> {message.body}
             </div>

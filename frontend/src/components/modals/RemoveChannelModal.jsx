@@ -8,15 +8,15 @@ import { selectModalState, closeModal } from '../../store/modalSlice.js';
 import {
   selectChannelById,
   setCurrentChannelId,
-  DEFAULT_CHANNEL_ID
+  DEFAULT_CHANNEL_ID,
 } from '../../store/channelsSlice.js';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation('modals');
   const dispatch = useDispatch();
   const { channelId } = useSelector(selectModalState);
-  const channelToRemove = useSelector((state) =>
-    selectChannelById(state, channelId)
+  const channelToRemove = useSelector(state =>
+    selectChannelById(state, channelId),
   )?.name;
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
