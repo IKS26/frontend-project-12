@@ -58,12 +58,6 @@ const SocketHandler = () => {
 
     subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
 
-    /* return () => {
-      console.log('Отписка от WebSocket событий...');
-      ['newMessage', 'newChannel', 'removeChannel', 'renameChannel'].forEach(event => {
-        socket.off(event);
-      });
-    }; */
   }, [dispatch, isLoading, currentChannelId]);
 
   return null;
