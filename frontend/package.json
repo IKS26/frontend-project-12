@@ -10,6 +10,7 @@
     "start": "npx start-server -s ./dist",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
+	 "format": "prettier --write \"src/**/*.{js,jsx,json,html,css}\"",
     "preview": "vite preview"
   },
   "dependencies": {
