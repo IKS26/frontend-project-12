@@ -7,13 +7,12 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import App from './components/App.jsx';
 import store from './store/store.js';
-import socket, {
+import {
   connectSocket,
   subscribeToEvents,
 } from './services/socket.js';
 import { dataApi } from './services/dataApi.js';
-import { addMessage } from './store/messagesSlice.js';
-import { addChannel, setCurrentChannelId, selectCurrentChannelId, DEFAULT_CHANNEL_ID } from './store/channelsSlice.js';
+import { selectCurrentChannelId } from './store/channelsSlice.js';
 
 const rollbarConfig = {
   accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
