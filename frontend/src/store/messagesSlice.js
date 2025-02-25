@@ -9,7 +9,10 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    addMessage: messagesAdapter.addOne,
+    addMessage: (state, action) => {
+      console.log('Добавление сообщения в store:', action.payload);
+      messagesAdapter.addOne(state, action.payload);
+    },
     addMessages: messagesAdapter.addMany,
     removeMessagesByChannelId: (state, { payload: channelId }) => {
       const idsToRemove = Object.values(state.entities)
@@ -35,8 +38,13 @@ export const selectCurrentChannelMessages = createSelector(
     (state) => selectAllMessages(state),
     (state) => state.channels.currentChannelId
   ],
-  (messages, currentChannelId) =>
-    messages.filter((message) => message.channelId === currentChannelId)
+  (messages, currentChannelId) => {
+    const filteredMessages = messages.filter(
+      (message) => message.channelId === currentChannelId
+    );
+    console.log(`Сообщения для канала ${currentChannelId}:`, filteredMessages);
+    return filteredMessages;
+  }
 );
 
 export default messagesSlice.reducer;

@@ -15,7 +15,7 @@ export const connectSocket = () => {
   isConnected = true;
 
   socket.on('connect', () => {
-    console.log('WebSocket подключен');
+    console.log('Подключение к WebSocket');
   });
 };
 

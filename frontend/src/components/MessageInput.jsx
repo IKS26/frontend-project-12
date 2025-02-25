@@ -36,6 +36,7 @@ const MessageInput = ({ currentChannelId }) => {
 			const newMessage = { body: cleanMessage, channelId: currentChannelId, username };
 	  
 			await sendMessage(newMessage).unwrap();
+			console.log('Сообщение успешно отправлено');
 			resetForm();
 
 			requestAnimationFrame(() => {

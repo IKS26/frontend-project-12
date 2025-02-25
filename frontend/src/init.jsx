@@ -34,39 +34,37 @@ const SocketHandler = () => {
     setIsSocketConnected(true);
 
     const handleNewMessage = (message) => {
-		dispatch(addMessage(message));
+		console.log('Новое сообщение из WebSocket:', message);
 		dispatch(dataApi.util.updateQueryData('fetchMessages', message.channelId, (draft) => {
 		  draft.push(message);
 		}));
-	 };	 
+	 };
 
     const handleNewChannel = (channel) => {
-		dispatch(addChannel(channel));
+		console.log('Новый канал из WebSocket:', channel);
 		dispatch(dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
 		  draft.push(channel);
 		}));
-	 };	 
+	 };		  
 
     const handleRemoveChannel = (channelId) => {
+		console.log('Удаление канала из WebSocket:', channelId);
       dispatch(dataApi.util.invalidateTags(['Channels', 'Messages']));
-
-      if (currentChannelId === channelId) {
-        dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
-      }
     };
 
-    const handleRenameChannel = () => {
+    const handleRenameChannel = (channel) => {
+		console.log('Переименование канала из WebSocket:', channel);
       dispatch(dataApi.util.invalidateTags(['Channels']));
     };
 
     subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
 
-    return () => {
+    /* return () => {
       console.log('Отписка от WebSocket событий...');
       ['newMessage', 'newChannel', 'removeChannel', 'renameChannel'].forEach(event => {
         socket.off(event);
       });
-    };
+    }; */
   }, [dispatch, isLoading, currentChannelId]);
 
   return null;

@@ -10,7 +10,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
   const dispatch = useDispatch();
   const currentChannel = useSelector(selectCurrentChannel);
   const messages = useSelector(selectCurrentChannelMessages);
-  console.log('messages:', messages);
+  console.log('Ререндер сообщений:', messages);
   const messagesCount = messages?.length || 0;
   const messagesBoxRef = useRef(null);
 
@@ -19,6 +19,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
   useEffect(() => {
 	if (isSuccess && fetchedMessages.length > 0) {
 		dispatch(addMessages([...messages, ...fetchedMessages]));
+      console.log('Обновление сообщений после загрузки:', fetchedMessages);
 	}
   }, [isSuccess, fetchedMessages, dispatch]);
 

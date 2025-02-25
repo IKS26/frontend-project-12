@@ -112,13 +112,13 @@ export const dataApi = createApi({
       }),
       async onQueryStarted(newMessage, { dispatch, queryFulfilled }) {
         try {
-          const { data: sentMessage } = await queryFulfilled;
+          const { data: message } = await queryFulfilled;
           dispatch(
             dataApi.util.updateQueryData(
               'fetchMessages',
-              sentMessage.channelId,
+              message.channelId,
               (draft) => {
-                draft.push(sentMessage);
+                draft.push(message);
               }
             )
           );
