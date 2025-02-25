@@ -2,17 +2,17 @@
   "addChannel": {
     "title": "Добавить канал",
     "placeholder": "Введите имя канала",
-	 "name": "Имя канала",
+    "name": "Имя канала",
     "submit": "Добавить",
     "cancel": "Отмена",
-	 "created": "Канал создан",
+    "created": "Канал создан",
     "success": "Канал <strong>\"{{newChannelName}}\"</strong> добавлен",
     "error": "Не удалось добавить канал",
     "validation": {
       "required": "Имя канала обязательно",
       "minMax": "Имя канала должно быть от 3 до 20 символов",
       "unique": "Канал с таким именем уже существует",
-		"errorProfanityChannelName": "Имя канала содержит запрещенные слова. Пожалуйста, выберите другое имя."
+      "errorProfanityChannelName": "Имя канала содержит запрещенные слова. Пожалуйста, выберите другое имя."
     }
   },
   "removeChannel": {
@@ -20,17 +20,17 @@
     "confirmation": "Вы уверены, что хотите удалить этот канал? Все сообщения будут удалены.",
     "submit": "Удалить",
     "cancel": "Отмена",
-	 "removed": "Канал удалён",
+    "removed": "Канал удалён",
     "success": "Канал <strong>\"{{channelToRemove}}\"</strong> удалён",
     "error": "Не удалось удалить канал"
   },
   "renameChannel": {
     "title": "Переименовать канал <strong>\"{{channelToRename}}\"</strong>",
     "placeholder": "Введите новое имя",
-	 "name": "Имя канала",
+    "name": "Имя канала",
     "submit": "Сохранить",
     "cancel": "Отмена",
-	 "renamed": "Канал переименован",
+    "renamed": "Канал переименован",
     "success": "Канал <strong>\"{{channelToRename}}\"</strong> был переименован в <strong>\"{{newChannelName}}\"</strong>",
     "error": "Не удалось переименовать канал",
     "validation": {

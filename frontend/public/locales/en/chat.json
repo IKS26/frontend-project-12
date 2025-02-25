@@ -5,21 +5,21 @@
   },
   "channels": {
     "title": "Channels",
-	 "setupChannel": "Setup channel",
+    "setupChannel": "Setup channel",
     "rename": "Rename",
     "remove": "Delete"
   },
   "messages": {
     "noMessages": "No messages",
-	 "messageCount": {
-		"messages_one": "{{count}} message",
-		"messages_few": "{{count}} messages",
-		"messages_many": "{{count}} messages"
-	 },
+    "messageCount": {
+      "messages_one": "{{count}} message",
+      "messages_few": "{{count}} messages",
+      "messages_many": "{{count}} messages"
+    },
     "newMessage": "Enter your message...",
-	 "newMessageLabel": "New message",
+    "newMessageLabel": "New message",
     "send": "Send",
-	 "sendError": "Error sending message",
-	 "errorProfanityDetected": "Your message contains prohibited words. Please modify it and try again."
+    "sendError": "Error sending message",
+    "errorProfanityDetected": "Your message contains prohibited words. Please modify it and try again."
   }
 }

@@ -19,7 +19,7 @@ const HomePage = () => {
   }, []);
 
   return (
-	 <div className="container h-100 my-4 rounded shadow overflow-hidden d-flex flex-column">
+    <div className="container h-100 my-4 rounded shadow overflow-hidden d-flex flex-column">
       <div className="row flex-grow-1 flex-md-row chat-bg">
         <div className="col-4 col-md-2 border-end px-0 d-flex flex-column channels-bg">
           <ChannelsList currentChannelId={currentChannelId} />

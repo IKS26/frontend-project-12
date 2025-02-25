@@ -8,13 +8,18 @@ import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
 import { selectChannelById } from '../../store/channelsSlice.js';
 import { selectModalState } from '../../store/modalSlice.js';
-import { useFetchChannelsQuery, useRenameChannelMutation } from '../../services/dataApi';
+import {
+  useFetchChannelsQuery,
+  useRenameChannelMutation
+} from '../../services/dataApi';
 
 const RenameChannelModal = ({ handleClose }) => {
   const { t } = useTranslation('modals');
   const { data: channels, isLoading } = useFetchChannelsQuery();
   const { channelId } = useSelector(selectModalState);
-  const currentChannel = useSelector((state) => selectChannelById(state, channelId));
+  const currentChannel = useSelector((state) =>
+    selectChannelById(state, channelId)
+  );
   const channelToRename = currentChannel.name;
 
   if (!channels || !currentChannel) return null;
@@ -33,7 +38,10 @@ const RenameChannelModal = ({ handleClose }) => {
       .required(t('renameChannel.validation.required'))
       .min(3, t('renameChannel.validation.minMax'))
       .max(20, t('renameChannel.validation.minMax'))
-      .notOneOf(channels.map((ch) => ch.name), t('renameChannel.validation.unique')),
+      .notOneOf(
+        channels.map((ch) => ch.name),
+        t('renameChannel.validation.unique')
+      )
   });
 
   const formik = useFormik({
@@ -44,53 +52,59 @@ const RenameChannelModal = ({ handleClose }) => {
       try {
         await renameChannel({ id: channelId, name: cleanName }).unwrap();
         toast.success(
-			t('renameChannel.renamed')
-		//	<div dangerouslySetInnerHTML={{ __html: t('renameChannel.success', { channelToRename, newChannelName: cleanName })}} />
-		);
+          t('renameChannel.renamed')
+          //	<div dangerouslySetInnerHTML={{ __html: t('renameChannel.success', { channelToRename, newChannelName: cleanName })}} />
+        );
         handleClose();
       } catch {
         toast.error(t('renameChannel.error'));
       }
-    },
+    }
   });
 
   return (
     <>
-		<BootstrapModal.Header closeButton>
-		  <BootstrapModal.Title>
-			 <Trans i18nKey="renameChannel.title" values={{ channelToRename }} />
-		  </BootstrapModal.Title>
-		</BootstrapModal.Header>
-		<BootstrapModal.Body>
-		 <Form onSubmit={formik.handleSubmit}>
-			<Form.Group className="mb-3">
-				<Form.Label className='visually-hidden' htmlFor='name'>{t('renameChannel.name')}</Form.Label>
-				<Form.Control
-				ref={inputRef}
-				type="text"
-				id="name"
-				name="name"
-				value={formik.values.name}
-				onChange={formik.handleChange}
-				onBlur={formik.handleBlur}
-				isInvalid={formik.touched.name && !!formik.errors.name}
-				placeholder={t('renameChannel.placeholder')}
-				disabled={isLoading}
-				/>
-				<Form.Control.Feedback type="invalid">
-				{formik.errors.name}
-				</Form.Control.Feedback>
-			</Form.Group>
-			<div className="d-flex justify-content-end">
-				<Button variant="secondary" onClick={handleClose} className="me-2">
-				{t('renameChannel.cancel')}
-				</Button>
-				<Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
-				{t('renameChannel.submit')}
-				</Button>
-			</div>
-		 </Form>
-		</BootstrapModal.Body>  
+      <BootstrapModal.Header closeButton>
+        <BootstrapModal.Title>
+          <Trans i18nKey="renameChannel.title" values={{ channelToRename }} />
+        </BootstrapModal.Title>
+      </BootstrapModal.Header>
+      <BootstrapModal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label className="visually-hidden" htmlFor="name">
+              {t('renameChannel.name')}
+            </Form.Label>
+            <Form.Control
+              ref={inputRef}
+              type="text"
+              id="name"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.name && !!formik.errors.name}
+              placeholder={t('renameChannel.placeholder')}
+              disabled={isLoading}
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <div className="d-flex justify-content-end">
+            <Button variant="secondary" onClick={handleClose} className="me-2">
+              {t('renameChannel.cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={formik.isSubmitting || isLoading}
+            >
+              {t('renameChannel.submit')}
+            </Button>
+          </div>
+        </Form>
+      </BootstrapModal.Body>
     </>
   );
 };

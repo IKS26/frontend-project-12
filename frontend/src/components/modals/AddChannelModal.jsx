@@ -6,7 +6,10 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import { selectAllChannelNames, setCurrentChannelId } from '../../store/channelsSlice.js';
+import {
+  selectAllChannelNames,
+  setCurrentChannelId
+} from '../../store/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/dataApi';
 
 const AddChannelModal = ({ handleClose }) => {
@@ -22,7 +25,7 @@ const AddChannelModal = ({ handleClose }) => {
       .required(t('addChannel.validation.required'))
       .min(3, t('addChannel.validation.minMax'))
       .max(20, t('addChannel.validation.minMax'))
-      .notOneOf(channelNames, t('addChannel.validation.unique')),
+      .notOneOf(channelNames, t('addChannel.validation.unique'))
   });
 
   const formik = useFormik({
@@ -52,7 +55,7 @@ const AddChannelModal = ({ handleClose }) => {
       } finally {
         setSubmitting(false);
       }
-    },
+    }
   });
 
   return (
@@ -87,7 +90,11 @@ const AddChannelModal = ({ handleClose }) => {
             <Button variant="secondary" onClick={handleClose} className="me-2">
               {t('addChannel.cancel')}
             </Button>
-            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={formik.isSubmitting || isLoading}
+            >
               {t('addChannel.submit')}
             </Button>
           </div>

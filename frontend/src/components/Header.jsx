@@ -19,7 +19,11 @@ const Header = () => {
         <Navbar.Brand as={Link} to="/" className="text-light">
           <strong>{t('header.title')}</strong>
         </Navbar.Brand>
-        {isAuthenticated && <Button onClick={handleLogout} variant="outline-light">{t('header.logout')}</Button>}
+        {isAuthenticated && (
+          <Button onClick={handleLogout} variant="outline-light">
+            {t('header.logout')}
+          </Button>
+        )}
       </div>
     </Navbar>
   );

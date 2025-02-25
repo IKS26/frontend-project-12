@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { BsPlusSquare } from 'react-icons/bs';
 import { openModal } from '../store/modalSlice.js';
-import { selectChannels, setCurrentChannelId, addChannels, DEFAULT_CHANNEL_ID } from '../store/channelsSlice.js';
+import {
+  selectChannels,
+  setCurrentChannelId,
+  addChannels,
+  DEFAULT_CHANNEL_ID
+} from '../store/channelsSlice.js';
 import { useFetchChannelsQuery } from '../services/dataApi.js';
 
 const ChannelsList = memo(({ currentChannelId }) => {
@@ -20,30 +25,34 @@ const ChannelsList = memo(({ currentChannelId }) => {
   }, [isSuccess, channels, dispatch]);
 
   useEffect(() => {
-	if (storedChannels.length === 0) {
-	  return;
-	}
- 
-	const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
- 
-	if (lastCreatedChannelId) {
-	  const lastChannelExists = storedChannels.some((ch) => ch.id === Number(lastCreatedChannelId));
- 
-	  if (lastChannelExists) {
-		console.log('Текущий пользователь:', currentUser);
-		console.log('Проверяем переключение канала:', lastCreatedChannelId);
-		 dispatch(setCurrentChannelId(Number(lastCreatedChannelId)));
-		 localStorage.removeItem('lastCreatedChannelId');
-		 return;
-	  }
-	}
- 
-	const isCurrentChannelValid = storedChannels.some((channel) => channel.id === currentChannelId);
- 
-	if (!isCurrentChannelValid) {
-	  console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
-	  dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
-	}
+    if (storedChannels.length === 0) {
+      return;
+    }
+
+    const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
+
+    if (lastCreatedChannelId) {
+      const lastChannelExists = storedChannels.some(
+        (ch) => ch.id === Number(lastCreatedChannelId)
+      );
+
+      if (lastChannelExists) {
+        console.log('Текущий пользователь:', currentUser);
+        console.log('Проверяем переключение канала:', lastCreatedChannelId);
+        dispatch(setCurrentChannelId(Number(lastCreatedChannelId)));
+        localStorage.removeItem('lastCreatedChannelId');
+        return;
+      }
+    }
+
+    const isCurrentChannelValid = storedChannels.some(
+      (channel) => channel.id === currentChannelId
+    );
+
+    if (!isCurrentChannelValid) {
+      console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
+      dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
+    }
   }, [storedChannels, dispatch]);
 
   const handleChannelSelect = (channelId) => {
@@ -93,14 +102,23 @@ const ChannelsList = memo(({ currentChannelId }) => {
                 </Button>
                 {channel.removable && (
                   <>
-                    <Dropdown.Toggle split variant={isActive ? 'secondary' : 'light'}>
-                      <span className="visually-hidden">{t('channels.setupChannel')}</span>
+                    <Dropdown.Toggle
+                      split
+                      variant={isActive ? 'secondary' : 'light'}
+                    >
+                      <span className="visually-hidden">
+                        {t('channels.setupChannel')}
+                      </span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => handleRenameChannel(channel.id)}>
+                      <Dropdown.Item
+                        onClick={() => handleRenameChannel(channel.id)}
+                      >
                         {t('channels.rename')}
                       </Dropdown.Item>
-                      <Dropdown.Item onClick={() => handleRemoveChannel(channel.id)}>
+                      <Dropdown.Item
+                        onClick={() => handleRemoveChannel(channel.id)}
+                      >
                         {t('channels.remove')}
                       </Dropdown.Item>
                     </Dropdown.Menu>

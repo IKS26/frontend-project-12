@@ -1,39 +1,39 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 body {
-	background: #4d4d4d;
+  background: #4d4d4d;
 }
 
 .navbar-custom {
-	background-color: #333333; 
+  background-color: #333333;
 }
 
 .channels-bg {
-	background-color: #d9d9d9;
+  background-color: #d9d9d9;
 }
 
 .messages-bg {
-	background-color: #e6e6e6;
+  background-color: #e6e6e6;
 }
 
 .chat-bg {
-	background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 .input-message-bg {
-	background-color: #e6e6e6;
+  background-color: #e6e6e6;
 }
 
 .text-yellow {
@@ -41,6 +41,6 @@ body {
 }
 
 #messages-box {
-	max-height: 100%;
-	overflow-y: auto;
+  max-height: 100%;
+  overflow-y: auto;
 }

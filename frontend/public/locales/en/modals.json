@@ -2,17 +2,17 @@
   "addChannel": {
     "title": "Add Channel",
     "placeholder": "Enter channel name",
-	 "name": "Channel name",
+    "name": "Channel name",
     "submit": "Add",
     "cancel": "Cancel",
-	 "created": "Channel created",
+    "created": "Channel created",
     "success": "Channel <strong>\"{{newChannelName}}\"</strong> added",
     "error": "Failed to add channel",
     "validation": {
       "required": "Channel name is required",
       "minMax": "Channel name must be between 3 and 20 characters",
       "unique": "A channel with this name already exists",
-		"errorProfanityChannelName": "The channel name contains prohibited words. Please choose a different name."
+      "errorProfanityChannelName": "The channel name contains prohibited words. Please choose a different name."
     }
   },
   "removeChannel": {
@@ -20,17 +20,17 @@
     "confirmation": "Are you sure you want to delete this channel? All messages will be deleted.",
     "submit": "Delete",
     "cancel": "Cancel",
-	 "removed": "Channel removed",
+    "removed": "Channel removed",
     "success": "Channel <strong>\"{{channelToRemove}}\"</strong> deleted",
     "error": "Failed to delete channel"
   },
   "renameChannel": {
     "title": "Rename Channel <strong>\"{{channelToRename}}\"</strong>",
     "placeholder": "Enter new name",
-	 "name": "Channel name",
+    "name": "Channel name",
     "submit": "Save",
     "cancel": "Cancel",
-	 "renamed": "Channel renamed",
+    "renamed": "Channel renamed",
     "success": "Channel <strong>\"{{channelToRename}}\"</strong> has been renamed to <strong>\"{{newChannelName}}\"</strong>",
     "error": "Failed to rename channel",
     "validation": {

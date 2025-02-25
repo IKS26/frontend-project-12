@@ -5,21 +5,21 @@
   },
   "channels": {
     "title": "Каналы",
-	 "setupChannel": "Управление каналом",
+    "setupChannel": "Управление каналом",
     "rename": "Переименовать",
     "remove": "Удалить"
   },
   "messages": {
     "noMessages": "Сообщений нет",
     "messagesCount": {
-		"messages_one": "{{count}} сообщение",
-		"messages_few": "{{count}} сообщения",
-		"messages_many": "{{count}} сообщений"
-	 },
+      "messages_one": "{{count}} сообщение",
+      "messages_few": "{{count}} сообщения",
+      "messages_many": "{{count}} сообщений"
+    },
     "newMessage": "Введите сообщение...",
-	 "newMessageLabel": "Новое сообщение",
+    "newMessageLabel": "Новое сообщение",
     "send": "Отправить",
-	 "sendError": "Ошибка при отправке сообщения",
-	 "errorProfanityDetected": "Ваше сообщение содержит запрещенные слова. Пожалуйста, измените его и попробуйте еще раз."
+    "sendError": "Ошибка при отправке сообщения",
+    "errorProfanityDetected": "Ваше сообщение содержит запрещенные слова. Пожалуйста, измените его и попробуйте еще раз."
   }
 }

@@ -1,5 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 import LoginPage from './LoginPage.jsx';
@@ -28,16 +34,16 @@ const App = () => {
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
-        <ToastContainer 
-		  position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-        closeOnClick={true}  
-		  closeButton={true}
-        limit={3}
-		  theme="dark"
-		  transition={Slide}
-		  />
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={true}
+          closeOnClick={true}
+          closeButton={true}
+          limit={3}
+          theme="dark"
+          transition={Slide}
+        />
       </div>
     </BrowserRouter>
   );

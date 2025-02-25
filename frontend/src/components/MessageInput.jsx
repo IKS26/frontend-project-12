@@ -16,15 +16,15 @@ const MessageInput = ({ currentChannelId }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-	requestAnimationFrame(() => {
-	  inputRef.current?.focus();
-	});
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
   }, [currentChannelId]);
 
   const formik = useFormik({
     initialValues: { message: '' },
     validationSchema: Yup.object({
-      message: Yup.string().trim().required(t('messages.newMessage')),
+      message: Yup.string().trim().required(t('messages.newMessage'))
     }),
     onSubmit: async (values, { resetForm }) => {
       if (leoProfanity.check(values.message)) {
@@ -32,25 +32,33 @@ const MessageInput = ({ currentChannelId }) => {
       }
 
       try {
-			const cleanMessage = leoProfanity.clean(values.message);
-			const newMessage = { body: cleanMessage, channelId: currentChannelId, username };
-	  
-			await sendMessage(newMessage).unwrap();
-			console.log('Сообщение успешно отправлено');
-			resetForm();
+        const cleanMessage = leoProfanity.clean(values.message);
+        const newMessage = {
+          body: cleanMessage,
+          channelId: currentChannelId,
+          username
+        };
 
-			requestAnimationFrame(() => {
-			  inputRef.current?.focus();
-			});
-		 } catch (err) {
-			toast.error(t('messages.sendError'));
-		 }
-    },
+        await sendMessage(newMessage).unwrap();
+        console.log('Сообщение успешно отправлено');
+        resetForm();
+
+        requestAnimationFrame(() => {
+          inputRef.current?.focus();
+        });
+      } catch (err) {
+        toast.error(t('messages.sendError'));
+      }
+    }
   });
 
   return (
     <div className="mt-auto px-5 py-3">
-      <Form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2">
+      <Form
+        onSubmit={formik.handleSubmit}
+        noValidate
+        className="py-1 border rounded-2"
+      >
         <Form.Group className="input-group has-validation">
           <Form.Control
             name="message"
@@ -67,7 +75,12 @@ const MessageInput = ({ currentChannelId }) => {
           <Form.Control.Feedback type="invalid">
             {formik.errors.message}
           </Form.Control.Feedback>
-          <Button type="submit" className="btn-group-vertical" variant="light" disabled={isLoading || !formik.values.message.trim()}>
+          <Button
+            type="submit"
+            className="btn-group-vertical"
+            variant="light"
+            disabled={isLoading || !formik.values.message.trim()}
+          >
             <BsArrowRightSquare size={20} />
             <span className="visually-hidden">{t('messages.send')}</span>
           </Button>

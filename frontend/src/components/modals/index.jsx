@@ -18,7 +18,7 @@ const Modal = () => {
     const modals = {
       add: AddChannelModal,
       remove: RemoveChannelModal,
-      rename: RenameChannelModal,
+      rename: RenameChannelModal
     };
     return modals[type] || null;
   }, [type]);

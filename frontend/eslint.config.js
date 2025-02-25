@@ -93,7 +93,8 @@ export default defineConfig([
       'import/no-named-as-default-member': 'off',
       'no-console': 'off',
       'import/no-extraneous-dependencies': 'off',
-      'linebreak-style': ['error', 'unix']
+      'linebreak-style': ['error', 'unix'],
+		'object-curly-newline': 'off'
     }
   }
 ]);
