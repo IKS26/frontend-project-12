@@ -1,9 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { 
+	useState,
+	useRef,
+	useEffect
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Button, Form, Container, Row, Col, Alert } from 'react-bootstrap';
+import { 
+	Button,
+	Form,
+	Container,
+	Row,
+	Col,
+	Alert
+} from 'react-bootstrap';
 import axios from 'axios';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';

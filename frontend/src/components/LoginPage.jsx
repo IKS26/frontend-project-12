@@ -1,10 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { 
+	useState,
+	useRef,
+	useEffect
+} from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, Field } from 'formik';
-import { Container, Row, Col, Button, Alert, Form as BootstrapForm } from 'react-bootstrap';
+import { 
+	Formik,
+	Form,
+	Field
+} from 'formik';
+import { 
+	Container,
+	Row,
+	Col,
+	Button,
+	Alert,
+	Form as BootstrapForm
+} from 'react-bootstrap';
 import { login } from '../store/authSlice.js';
 
 const LoginPage = () => {

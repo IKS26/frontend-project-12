@@ -30,7 +30,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     if (storedChannels.length === 0) {
       return;
     }
-	 
+
     if (lastCreatedChannelId) {
       const lastChannelExists = storedChannels.some((ch) => ch.id === Number(lastCreatedChannelId));
 

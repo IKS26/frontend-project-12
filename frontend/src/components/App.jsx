@@ -1,7 +1,16 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import {
+	BrowserRouter,
+	Routes,
+	Route,
+	Navigate,
+	Outlet,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Slide, ToastContainer } from 'react-toastify';
+import { 
+	Slide, 
+	ToastContainer 
+} from 'react-toastify';
 import LoginPage from './LoginPage.jsx';
 import Header from './Header.jsx';
 import HomePage from './HomePage.jsx';

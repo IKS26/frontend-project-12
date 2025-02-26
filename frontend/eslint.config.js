@@ -68,7 +68,7 @@ export default defineConfig([
       'react/jsx-one-expression-per-line': ['error', { allow: 'none' }],
 
       // Стиль кода
-      'object-curly-newline': ['error', { multiline: true, minProperties: 1 }],
+      'object-curly-newline': ['error', { multiline: true, consistent: true }],
       'linebreak-style': ['error', 'unix'],
       'comma-dangle': ['error', 'always-multiline'],
       'arrow-body-style': 'off',
@@ -82,6 +82,7 @@ export default defineConfig([
       'function-paren-newline': 'off',
       'implicit-arrow-linebreak': 'off',
       'no-confusing-arrow': ['error', { allowParens: true }],
+		"prettier/prettier": "off",
     },
   },
   ...compat.extends('airbnb-base', 'plugin:prettier/recommended'),
