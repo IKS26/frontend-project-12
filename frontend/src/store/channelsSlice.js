@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-confusing-arrow, implicit-arrow-linebreak, comma-dangle */
 import { createSelector } from 'reselect';
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
