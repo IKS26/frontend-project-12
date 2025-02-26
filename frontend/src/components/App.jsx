@@ -30,9 +30,9 @@ const App = () => (
       <ToastContainer
         position="top-center"
         autoClose={3000}
-        hideProgressBar={true}
-        closeOnClick={true}
-        closeButton={true}
+        hideProgressBar
+        closeOnClick
+        closeButton
         limit={3}
         theme="dark"
         transition={Slide}
