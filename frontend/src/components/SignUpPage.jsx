@@ -103,7 +103,9 @@ const SignUpPage = () => {
                 {...formik.getFieldProps('confirmPassword')}
                 isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
               />
-              <Form.Control.Feedback type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.confirmPassword}
+              </Form.Control.Feedback>
             </Form.Group>
             <div className="d-grid">
               <Button variant="primary" type="submit" disabled={formik.isSubmitting}>

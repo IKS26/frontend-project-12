@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { BsPlusSquare } from 'react-icons/bs';
 import { openModal } from '../store/modalSlice.js';
-import { selectChannels, setCurrentChannelId, addChannels, DEFAULT_CHANNEL_ID } from '../store/channelsSlice.js';
+import {
+  selectChannels,
+  setCurrentChannelId,
+  addChannels,
+  DEFAULT_CHANNEL_ID,
+} from '../store/channelsSlice.js';
 import { useFetchChannelsQuery } from '../services/dataApi.js';
 
 const ChannelsList = memo(({ currentChannelId }) => {
@@ -68,7 +73,11 @@ const ChannelsList = memo(({ currentChannelId }) => {
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b className="text-dark">{t('channels.title')}</b>
-        <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleAddChannel}>
+        <button
+          type="button"
+          className="p-0 text-primary btn btn-group-vertical"
+          onClick={handleAddChannel}
+        >
           <BsPlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </button>

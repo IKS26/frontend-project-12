@@ -3,10 +3,8 @@
   "singleQuote": true,
   "trailingComma": "all",
   "endOfLine": "lf",
-  "printWidth": 120,
+  "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
-  "arrowParens": "always",
-  "jsxSingleQuote": false,
-  "proseWrap": "preserve"
+  "arrowParens": "always"
 }

@@ -41,7 +41,9 @@ const MessagesBox = memo(({ currentChannelId }) => {
             <b className="text-dark"># {currentChannel.name}</b>
           </p>
         )}
-        <span className="text-muted">{t('messages.messagesCount.messages', { count: messagesCount })}</span>
+        <span className="text-muted">
+          {t('messages.messagesCount.messages', { count: messagesCount })}
+        </span>
       </div>
       <div id="messages-box" className="chat-messages px-5 text-dark" ref={messagesBoxRef}>
         {messages.length > 0 ? (

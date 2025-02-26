@@ -77,7 +77,9 @@ const AddChannelModal = ({ handleClose }) => {
               placeholder={t('addChannel.placeholder')}
               disabled={isLoading}
             />
-            {formik.errors.name && <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>}
+            {formik.errors.name && (
+              <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
+            )}
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button variant="secondary" onClick={handleClose} className="me-2">

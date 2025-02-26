@@ -73,7 +73,8 @@ export const dataApi = createApi({
 
     fetchMessages: builder.query({
       query: (channelId) => `messages?channelId=${channelId}`,
-      providesTags: (result, error, channelId) => (result ? [{ type: 'Messages', id: channelId }] : ['Messages']),
+      providesTags: (result, error, channelId) =>
+        result ? [{ type: 'Messages', id: channelId }] : ['Messages'],
     }),
 
     sendMessage: builder.mutation({
