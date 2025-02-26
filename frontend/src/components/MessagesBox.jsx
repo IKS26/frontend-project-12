@@ -19,9 +19,9 @@ const MessagesBox = memo(({ currentChannelId }) => {
 
   useEffect(() => {
     if (isSuccess && fetchedMessages.length > 0) {
-      dispatch(addMessages([...messages, ...fetchedMessages]));
+      dispatch(addMessages(fetchedMessages));
     }
-  }, [isSuccess, messages, fetchedMessages, dispatch]);
+  }, [isSuccess, fetchedMessages, dispatch]);
 
   useEffect(() => {
     if (!messagesBoxRef.current) return;
