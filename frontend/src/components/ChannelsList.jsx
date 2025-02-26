@@ -17,6 +17,8 @@ const ChannelsList = memo(({ currentChannelId }) => {
   const dispatch = useDispatch();
   const { data: channels = [], isSuccess } = useFetchChannelsQuery();
   const storedChannels = useSelector(selectChannels);
+  const isCurrentChannelValid = storedChannels.some((channel) => channel.id === currentChannelId);
+  const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
 
   useEffect(() => {
     if (isSuccess && channels) {
@@ -28,9 +30,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     if (storedChannels.length === 0) {
       return;
     }
-
-    const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
-
+	 
     if (lastCreatedChannelId) {
       const lastChannelExists = storedChannels.some((ch) => ch.id === Number(lastCreatedChannelId));
 
@@ -40,8 +40,6 @@ const ChannelsList = memo(({ currentChannelId }) => {
         return;
       }
     }
-
-    const isCurrentChannelValid = storedChannels.some((channel) => channel.id === currentChannelId);
 
     if (!isCurrentChannelValid) {
       dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
