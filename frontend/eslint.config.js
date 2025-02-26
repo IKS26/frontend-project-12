@@ -82,7 +82,7 @@ export default defineConfig([
       'function-paren-newline': 'off',
       'implicit-arrow-linebreak': 'off',
       'no-confusing-arrow': ['error', { allowParens: true }],
-		"prettier/prettier": "off",
+      'prettier/prettier': 'off',
     },
   },
   ...compat.extends('airbnb-base', 'plugin:prettier/recommended'),
