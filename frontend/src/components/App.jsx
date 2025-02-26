@@ -13,34 +13,32 @@ const ProtectedRoute = () => {
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
-const App = () => {
-  return (
-    <BrowserRouter>
-      <div className="d-flex flex-column min-vh-100">
-        <Header />
-        <div className="flex-grow-1 d-flex flex-column">
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/" element={<ProtectedRoute />}>
-              <Route index element={<HomePage />} />
-            </Route>
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </div>
-        <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={true}
-          closeOnClick={true}
-          closeButton={true}
-          limit={3}
-          theme="dark"
-          transition={Slide}
-        />
+const App = () => (
+  <BrowserRouter>
+    <div className="d-flex flex-column min-vh-100">
+      <Header />
+      <div className="flex-grow-1 d-flex flex-column">
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/" element={<ProtectedRoute />}>
+            <Route index element={<HomePage />} />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
       </div>
-    </BrowserRouter>
-  );
-};
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        closeOnClick={true}
+        closeButton={true}
+        limit={3}
+        theme="dark"
+        transition={Slide}
+      />
+    </div>
+  </BrowserRouter>
+);
 
 export default App;

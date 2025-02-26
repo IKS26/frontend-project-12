@@ -77,7 +77,7 @@ const LoginPage = () => {
             )}
           </Formik>
           <div className="card-footer p-4 text-center">
-            <span>{t('noAccount')} </span>
+            <span>{t('noAccount')}</span>
             <Link to="/signup" className="text-yellow">
               {t('signup')}
             </Link>

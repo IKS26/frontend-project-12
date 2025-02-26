@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { logout } from '../store/authSlice.js';
+
 const Header = () => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();

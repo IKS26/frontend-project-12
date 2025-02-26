@@ -16,9 +16,6 @@ const RenameChannelModal = ({ handleClose }) => {
   const { channelId } = useSelector(selectModalState);
   const currentChannel = useSelector((state) => selectChannelById(state, channelId));
   const channelToRename = currentChannel.name;
-
-  if (!channels || !currentChannel) return null;
-
   const [renameChannel] = useRenameChannelMutation();
   const inputRef = useRef();
 
@@ -46,10 +43,7 @@ const RenameChannelModal = ({ handleClose }) => {
       const cleanName = leoProfanity.clean(name);
       try {
         await renameChannel({ id: channelId, name: cleanName }).unwrap();
-        toast.success(
-          t('renameChannel.renamed'),
-          //	<div dangerouslySetInnerHTML={{ __html: t('renameChannel.success', { channelToRename, newChannelName: cleanName })}} />
-        );
+        toast.success(t('renameChannel.renamed'));
         handleClose();
       } catch {
         toast.error(t('renameChannel.error'));

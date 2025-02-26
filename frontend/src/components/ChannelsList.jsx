@@ -35,8 +35,6 @@ const ChannelsList = memo(({ currentChannelId }) => {
       const lastChannelExists = storedChannels.some((ch) => ch.id === Number(lastCreatedChannelId));
 
       if (lastChannelExists) {
-        console.log('Текущий пользователь:', currentUser);
-        console.log('Проверяем переключение канала:', lastCreatedChannelId);
         dispatch(setCurrentChannelId(Number(lastCreatedChannelId)));
         localStorage.removeItem('lastCreatedChannelId');
         return;
@@ -46,10 +44,9 @@ const ChannelsList = memo(({ currentChannelId }) => {
     const isCurrentChannelValid = storedChannels.some((channel) => channel.id === currentChannelId);
 
     if (!isCurrentChannelValid) {
-      console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
       dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
     }
-  }, [storedChannels, dispatch]);
+  }, [storedChannels, currentChannelId, dispatch]);
 
   const handleChannelSelect = (channelId) => {
     if (currentChannelId !== channelId) {

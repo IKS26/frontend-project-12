@@ -10,7 +10,6 @@ const MessagesBox = memo(({ currentChannelId }) => {
   const dispatch = useDispatch();
   const currentChannel = useSelector(selectCurrentChannel);
   const messages = useSelector(selectCurrentChannelMessages);
-  console.log('Ререндер сообщений:', messages);
   const messagesCount = messages?.length || 0;
   const messagesBoxRef = useRef(null);
 
@@ -21,9 +20,8 @@ const MessagesBox = memo(({ currentChannelId }) => {
   useEffect(() => {
     if (isSuccess && fetchedMessages.length > 0) {
       dispatch(addMessages([...messages, ...fetchedMessages]));
-      console.log('Обновление сообщений после загрузки:', fetchedMessages);
     }
-  }, [isSuccess, fetchedMessages, dispatch]);
+  }, [isSuccess, messages, fetchedMessages, dispatch]);
 
   useEffect(() => {
     if (!messagesBoxRef.current) return;
@@ -38,7 +36,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
       <div className="mb-4 p-3 shadow-sm small messages-bg">
         {currentChannel && (
           <p className="m-0">
-            <b className="text-dark"># {currentChannel.name}</b>
+            <b className="text-dark">#{currentChannel.name}</b>
           </p>
         )}
         <span className="text-muted">
@@ -49,7 +47,8 @@ const MessagesBox = memo(({ currentChannelId }) => {
         {messages.length > 0 ? (
           messages.map((message) => (
             <div key={message.id} className="text-break mb-2">
-              <b>{message.username || 'Unknown'}:</b> {message.body}
+              <b>{message.username || 'Unknown'}:</b>
+              {message.body}
             </div>
           ))
         ) : (

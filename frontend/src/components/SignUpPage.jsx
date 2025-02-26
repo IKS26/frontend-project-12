@@ -11,6 +11,7 @@ import { login } from '../store/authSlice.js';
 
 const SignUpPage = () => {
   const { t } = useTranslation('auth', 'errors');
+
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -76,11 +77,14 @@ const SignUpPage = () => {
                 placeholder={t('enterUsername')}
                 autoComplete="off"
                 ref={inputEl}
-                {...formik.getFieldProps('username')}
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 isInvalid={formik.touched.username && !!formik.errors.username}
               />
               <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="password">
               <Form.Label>{t('password')}</Form.Label>
               <Form.Control
@@ -88,11 +92,14 @@ const SignUpPage = () => {
                 name="password"
                 placeholder={t('enterPassword')}
                 autoComplete="new-password"
-                {...formik.getFieldProps('password')}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 isInvalid={formik.touched.password && !!formik.errors.password}
               />
               <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="confirmPassword">
               <Form.Label>{t('confirmPassword')}</Form.Label>
               <Form.Control
@@ -100,13 +107,16 @@ const SignUpPage = () => {
                 name="confirmPassword"
                 placeholder={t('enterConfirmPassword')}
                 autoComplete="new-password"
-                {...formik.getFieldProps('confirmPassword')}
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
               />
               <Form.Control.Feedback type="invalid">
                 {formik.errors.confirmPassword}
               </Form.Control.Feedback>
             </Form.Group>
+
             <div className="d-grid">
               <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
                 {t('signupButton')}

@@ -58,7 +58,7 @@ const SocketHandler = () => {
     };
 
     subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
-  }, [dispatch, isLoading, currentChannelId]);
+  }, [dispatch, isLoading, currentChannelId, isSocketConnected]);
 
   return null;
 };
