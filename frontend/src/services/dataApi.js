@@ -16,11 +16,8 @@ export const dataApi = createApi({
   endpoints: (builder) => ({
     fetchChannels: builder.query({
       query: () => 'channels',
-      providesTags: (result) => {
-        return result
-          ? [...result.map(({ id }) => ({ type: 'Channels', id })), 'Channels']
-          : ['Channels'];
-      },
+      providesTags: (result) =>
+        result ? [...result.map(({ id }) => ({ type: 'Channels', id })), 'Channels'] : ['Channels'],
     }),
 
     addChannel: builder.mutation({
@@ -47,9 +44,9 @@ export const dataApi = createApi({
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         await queryFulfilled;
         dispatch(
-          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-            return draft.filter((channel) => channel.id !== id);
-          }),
+          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) =>
+            draft.filter((channel) => channel.id !== id),
+          ),
         );
         dispatch(dataApi.util.updateQueryData('fetchMessages', id, () => []));
       },
@@ -66,9 +63,7 @@ export const dataApi = createApi({
         dispatch(
           dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
             const channel = draft.find((ch) => ch.id === id);
-            if (channel) {
-              channel.name = name;
-            }
+            if (channel) channel.name = name;
           }),
         );
       },
@@ -76,9 +71,8 @@ export const dataApi = createApi({
 
     fetchMessages: builder.query({
       query: (channelId) => `messages?channelId=${channelId}`,
-      providesTags: (result, error, channelId) => {
-        return result ? [{ type: 'Messages', id: channelId }] : ['Messages'];
-      },
+      providesTags: (result, error, channelId) =>
+        result ? [{ type: 'Messages', id: channelId }] : ['Messages'],
     }),
 
     sendMessage: builder.mutation({

@@ -25,16 +25,13 @@ const channelsSlice = createSlice({
     },
     addChannels: (state, { payload }) => {
       channelsAdapter.setAll(state, payload);
-
       if (!state.currentChannelId) {
         const firstChannel = payload.length > 0 ? payload[0].id : DEFAULT_CHANNEL_ID;
         state.currentChannelId = firstChannel;
       }
     },
-
     removeChannel: (state, { payload: id }) => {
       channelsAdapter.removeOne(state, id);
-
       if (state.currentChannelId === id) {
         state.currentChannelId = DEFAULT_CHANNEL_ID;
       }
@@ -43,35 +40,31 @@ const channelsSlice = createSlice({
   },
 });
 
-export const { 
-  setCurrentChannelId, 
-  addChannels, 
-  addChannel, 
-  removeChannel, 
-  updateChannel 
+export const {
+  setCurrentChannelId,
+  addChannels,
+  addChannel,
+  removeChannel,
+  updateChannel,
 } = channelsSlice.actions;
 
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 
 export const selectChannels = (state) => selectors.selectAll(state);
 
-export const selectAllChannelNames = createSelector([selectChannels], (channels) =>
-  channels.map((channel) => channel.name),
+export const selectAllChannelNames = createSelector(
+  [selectChannels],
+  (channels) => channels.map((channel) => channel.name)
 );
 
 export const selectCurrentChannelId = (state) => state.channels.currentChannelId;
 
 export const selectCurrentChannel = createSelector(
   [(state) => state.channels.currentChannelId, (state) => state.channels.entities],
-  (currentChannelId, entities) => {
-    const channel = entities[currentChannelId] || null;
-    return channel;
-  },
+  (currentChannelId, entities) => entities[currentChannelId] || null,
 );
 
-export const selectChannelById = (state, channelId) => {
-  if (!channelId) return undefined;
-  return selectors.selectById(state, channelId);
-};
+export const selectChannelById = (state, channelId) =>
+  channelId ? selectors.selectById(state, channelId) : undefined;
 
 export default channelsSlice.reducer;
