@@ -25,8 +25,8 @@ export default defineConfig([
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.jest,
         ...globals.browser,
+        es2021: true,
       },
       parserOptions: {
         ecmaVersion: 'latest',
@@ -46,45 +46,81 @@ export default defineConfig([
       react: {
         version: 'detect',
       },
+      'import/resolver': {
+        node: {
+          extensions: ['.js', '.jsx', '.json'],
+        },
+        alias: {
+          map: [
+            ['@slices', './src/slices'],
+            ['@src', './src'],
+          ],
+          extensions: ['.js', '.jsx', '.json'],
+        },
+      },
     },
     rules: {
       ...importPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
-      'prettier/prettier': 'error',
-
-      // Импорт
-      'import/extensions': ['error', 'ignorePackages', { js: 'never', jsx: 'never' }],
+      'prettier/prettier': 'off',
 
       // React
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
-      'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
-      'react/display-name': 'error',
-      'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
-      'react/jsx-props-no-spreading': 'off',
-      'react/jsx-boolean-value': ['error', 'never'],
-      'react-hooks/exhaustive-deps': 'warn',
-      'react/jsx-one-expression-per-line': ['error', { allow: 'none' }],
+      'react/function-component-definition': [
+        'error',
+        {
+          namedComponents: 'arrow-function',
+          unnamedComponents: 'arrow-function',
+        },
+      ],
+      'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
 
-      // Стиль кода
-      'object-curly-newline': ['error', { multiline: true, consistent: true }],
-      'linebreak-style': ['error', 'unix'],
-      'comma-dangle': ['error', 'always-multiline'],
+      // JSX Accessibility
+      'jsx-a11y/label-has-associated-control': [
+        'error',
+        {
+          controlComponents: ['Field'],
+          assert: 'either',
+          depth: 3,
+        },
+      ],
+
+      // Импорт
+      'import/extensions': ['error', 'ignorePackages', { js: 'never', jsx: 'never', json: 'always' }],
+      'import/no-unresolved': 'off',
+
+      // Общие правила кодстайла
+      'max-len': [
+        'error',
+        {
+          code: 120,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+          ignoreRegExpLiterals: true,
+          ignoreUrls: true,
+        },
+      ],
+      'no-param-reassign': [
+        'error',
+        {
+          props: true,
+          ignorePropertyModificationsFor: ['state'],
+        },
+      ],
       'arrow-body-style': 'off',
-      'arrow-parens': ['error', 'always'],
-      'no-tabs': 'error',
-      'no-trailing-spaces': 'error',
-      'no-mixed-spaces-and-tabs': 'error',
-      'max-len': ['error', { code: 100, ignoreUrls: true }],
-      indent: ['error', 2, { SwitchCase: 1 }],
-      'operator-linebreak': ['error', 'after'],
-      'function-paren-newline': 'off',
-      'implicit-arrow-linebreak': 'off',
-      'no-confusing-arrow': ['error', { allowParens: true }],
-      'prettier/prettier': 'off',
+      'object-curly-newline': [
+        'error',
+        {
+          ObjectExpression: { multiline: true, consistent: true },
+          ObjectPattern: { multiline: true, consistent: true },
+          ImportDeclaration: { multiline: true, minProperties: 2 },
+          ExportDeclaration: { multiline: true, minProperties: 2 },
+        },
+      ],
     },
   },
-  ...compat.extends('airbnb-base', 'plugin:prettier/recommended'),
+  ...compat.extends('airbnb', 'eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'),
   eslintConfigPrettier,
 ]);
