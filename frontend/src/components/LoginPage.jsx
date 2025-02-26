@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
