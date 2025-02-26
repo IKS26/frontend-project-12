@@ -55,20 +55,20 @@ export default defineConfig([
 
       // Импорт
       'import/extensions': ['error', 'ignorePackages', { js: 'never', jsx: 'never' }],
-      'import/no-unresolved': 0,
 
       // React
-      'react/prop-types': 0,
-      'react/react-in-jsx-scope': 0,
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
       'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
-      'react/display-name': 'off',
+      'react/display-name': 'error',
       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
       'react/jsx-props-no-spreading': 'off',
-      'react/jsx-boolean-value': 'off',
+      'react/jsx-boolean-value': ['error', 'never'],
       'react-hooks/exhaustive-deps': 'warn',
+      'react/jsx-one-expression-per-line': ['error', { allow: 'none' }],
 
       // Стиль кода
-      'object-curly-newline': ['error', { multiline: true, consistent: true, minProperties: 3 }],
+      'object-curly-newline': ['error', { multiline: true, minProperties: 1 }],
       'linebreak-style': ['error', 'unix'],
       'comma-dangle': ['error', 'always-multiline'],
       'arrow-body-style': 'off',
@@ -78,13 +78,10 @@ export default defineConfig([
       'no-mixed-spaces-and-tabs': 'error',
       'max-len': ['error', { code: 100, ignoreUrls: true }],
       indent: ['error', 2, { SwitchCase: 1 }],
-
-      // Исправление ошибок
-      'react/jsx-one-expression-per-line': 'off',
-      'operator-linebreak': ['error', 'before'],
+      'operator-linebreak': ['error', 'after'],
       'function-paren-newline': 'off',
       'implicit-arrow-linebreak': 'off',
-      'no-confusing-arrow': 'off',
+      'no-confusing-arrow': ['error', { allowParens: true }],
     },
   },
   ...compat.extends('airbnb-base', 'plugin:prettier/recommended'),

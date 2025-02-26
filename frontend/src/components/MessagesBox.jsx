@@ -59,4 +59,6 @@ const MessagesBox = memo(({ currentChannelId }) => {
   );
 });
 
+MessagesBox.displayName = 'MessagesBox';
+
 export default MessagesBox;

@@ -115,4 +115,6 @@ const ChannelsList = memo(({ currentChannelId }) => {
   );
 });
 
+ChannelsList.displayName = 'ChannelsList';
+
 export default ChannelsList;
