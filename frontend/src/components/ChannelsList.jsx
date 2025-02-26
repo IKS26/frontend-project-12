@@ -46,7 +46,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     if (!isCurrentChannelValid) {
       dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
     }
-  }, [storedChannels, currentChannelId, dispatch]);
+  }, [storedChannels, dispatch]);
 
   const handleChannelSelect = (channelId) => {
     if (currentChannelId !== channelId) {

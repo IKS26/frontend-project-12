@@ -40,7 +40,6 @@ const MessageInput = ({ currentChannelId }) => {
         };
 
         await sendMessage(newMessage).unwrap();
-        console.log('Сообщение успешно отправлено');
         resetForm();
 
         requestAnimationFrame(() => {
