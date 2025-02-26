@@ -4,12 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { BsPlusSquare } from 'react-icons/bs';
 import { openModal } from '../store/modalSlice.js';
-import {
-  selectChannels,
-  setCurrentChannelId,
-  addChannels,
-  DEFAULT_CHANNEL_ID,
-} from '../store/channelsSlice.js';
+import { selectChannels, setCurrentChannelId, addChannels, DEFAULT_CHANNEL_ID } from '../store/channelsSlice.js';
 import { useFetchChannelsQuery } from '../services/dataApi.js';
 
 const ChannelsList = memo(({ currentChannelId }) => {
@@ -32,9 +27,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
 
     if (lastCreatedChannelId) {
-      const lastChannelExists = storedChannels.some(
-        ch => ch.id === Number(lastCreatedChannelId),
-      );
+      const lastChannelExists = storedChannels.some((ch) => ch.id === Number(lastCreatedChannelId));
 
       if (lastChannelExists) {
         console.log('Текущий пользователь:', currentUser);
@@ -45,9 +38,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
       }
     }
 
-    const isCurrentChannelValid = storedChannels.some(
-      channel => channel.id === currentChannelId,
-    );
+    const isCurrentChannelValid = storedChannels.some((channel) => channel.id === currentChannelId);
 
     if (!isCurrentChannelValid) {
       console.log('Переключаемся обратно на DEFAULT_CHANNEL_ID');
@@ -55,7 +46,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     }
   }, [storedChannels, dispatch]);
 
-  const handleChannelSelect = channelId => {
+  const handleChannelSelect = (channelId) => {
     if (currentChannelId !== channelId) {
       dispatch(setCurrentChannelId(channelId));
     }
@@ -65,11 +56,11 @@ const ChannelsList = memo(({ currentChannelId }) => {
     dispatch(openModal({ type: 'add' }));
   };
 
-  const handleRemoveChannel = channelId => {
+  const handleRemoveChannel = (channelId) => {
     dispatch(openModal({ type: 'remove', channelId }));
   };
 
-  const handleRenameChannel = channelId => {
+  const handleRenameChannel = (channelId) => {
     dispatch(openModal({ type: 'rename', channelId }));
   };
 
@@ -77,17 +68,13 @@ const ChannelsList = memo(({ currentChannelId }) => {
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b className="text-dark">{t('channels.title')}</b>
-        <button
-          type="button"
-          className="p-0 text-primary btn btn-group-vertical"
-          onClick={handleAddChannel}
-        >
+        <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleAddChannel}>
           <BsPlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </button>
       </div>
       <ul className="nav flex-column nav-pills">
-        {storedChannels.map(channel => {
+        {storedChannels.map((channel) => {
           const isActive = channel.id === currentChannelId;
           return (
             <li key={channel.id} className="nav-item w-100">
@@ -102,23 +89,14 @@ const ChannelsList = memo(({ currentChannelId }) => {
                 </Button>
                 {channel.removable && (
                   <>
-                    <Dropdown.Toggle
-                      split
-                      variant={isActive ? 'secondary' : 'light'}
-                    >
-                      <span className="visually-hidden">
-                        {t('channels.setupChannel')}
-                      </span>
+                    <Dropdown.Toggle split variant={isActive ? 'secondary' : 'light'}>
+                      <span className="visually-hidden">{t('channels.setupChannel')}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item
-                        onClick={() => handleRenameChannel(channel.id)}
-                      >
+                      <Dropdown.Item onClick={() => handleRenameChannel(channel.id)}>
                         {t('channels.rename')}
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => handleRemoveChannel(channel.id)}
-                      >
+                      <Dropdown.Item onClick={() => handleRemoveChannel(channel.id)}>
                         {t('channels.remove')}
                       </Dropdown.Item>
                     </Dropdown.Menu>

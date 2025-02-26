@@ -13,8 +13,7 @@ const store = configureStore({
     messages: messagesReducer,
     [dataApi.reducerPath]: dataApi.reducer,
   },
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(dataApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(dataApi.middleware),
 });
 
 export default store;

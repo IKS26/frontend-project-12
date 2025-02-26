@@ -5,19 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../services/dataApi';
 import { selectModalState, closeModal } from '../../store/modalSlice.js';
-import {
-  selectChannelById,
-  setCurrentChannelId,
-  DEFAULT_CHANNEL_ID,
-} from '../../store/channelsSlice.js';
+import { selectChannelById, setCurrentChannelId, DEFAULT_CHANNEL_ID } from '../../store/channelsSlice.js';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation('modals');
   const dispatch = useDispatch();
   const { channelId } = useSelector(selectModalState);
-  const channelToRemove = useSelector(state =>
-    selectChannelById(state, channelId),
-  )?.name;
+  const channelToRemove = useSelector((state) => selectChannelById(state, channelId))?.name;
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
   const handleRemove = async () => {
@@ -38,9 +32,7 @@ const RemoveChannelModal = () => {
           <Trans i18nKey="removeChannel.title" values={{ channelToRemove }} />
         </BootstrapModal.Title>
       </BootstrapModal.Header>
-      <BootstrapModal.Body>
-        {t('removeChannel.confirmation')}
-      </BootstrapModal.Body>
+      <BootstrapModal.Body>{t('removeChannel.confirmation')}</BootstrapModal.Body>
       <BootstrapModal.Footer>
         <Button variant="secondary" onClick={() => dispatch(closeModal())}>
           {t('removeChannel.cancel')}

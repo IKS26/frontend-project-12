@@ -6,10 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import {
-  selectAllChannelNames,
-  setCurrentChannelId,
-} from '../../store/channelsSlice.js';
+import { selectAllChannelNames, setCurrentChannelId } from '../../store/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/dataApi';
 
 const AddChannelModal = ({ handleClose }) => {
@@ -80,21 +77,13 @@ const AddChannelModal = ({ handleClose }) => {
               placeholder={t('addChannel.placeholder')}
               disabled={isLoading}
             />
-            {formik.errors.name && (
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.name}
-              </Form.Control.Feedback>
-            )}
+            {formik.errors.name && <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>}
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button variant="secondary" onClick={handleClose} className="me-2">
               {t('addChannel.cancel')}
             </Button>
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={formik.isSubmitting || isLoading}
-            >
+            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
               {t('addChannel.submit')}
             </Button>
           </div>

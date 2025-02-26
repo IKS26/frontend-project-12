@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 import LoginPage from './LoginPage.jsx';
@@ -15,7 +9,7 @@ import SignUpPage from './SignUpPage.jsx';
 import PageNotFound from './PageNotFound.jsx';
 
 const ProtectedRoute = () => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };

@@ -11,7 +11,7 @@ import { useSendMessageMutation } from '../services/dataApi';
 
 const MessageInput = ({ currentChannelId }) => {
   const { t } = useTranslation('chat');
-  const username = useSelector(state => state.auth.username);
+  const username = useSelector((state) => state.auth.username);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
   const inputRef = useRef(null);
 
@@ -54,11 +54,7 @@ const MessageInput = ({ currentChannelId }) => {
 
   return (
     <div className="mt-auto px-5 py-3">
-      <Form
-        onSubmit={formik.handleSubmit}
-        noValidate
-        className="py-1 border rounded-2"
-      >
+      <Form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2">
         <Form.Group className="input-group has-validation">
           <Form.Control
             name="message"
@@ -72,9 +68,7 @@ const MessageInput = ({ currentChannelId }) => {
             disabled={isLoading}
             autoFocus
           />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.message}
-          </Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">{formik.errors.message}</Form.Control.Feedback>
           <Button
             type="submit"
             className="btn-group-vertical"

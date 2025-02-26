@@ -62,27 +62,27 @@ export default defineConfig([
       ],
       'import/no-unresolved': 0,
       'react/prop-types': 0,
-      'no-console': 0,
       'react/react-in-jsx-scope': 0,
       'no-underscore-dangle': ['error', { allow: ['__filename', '__dirname'] }],
-      'react/function-component-definition': [
-        'error',
-        { namedComponents: 'arrow-function' },
-      ],
-      'testing-library/no-debug': 0,
+      'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
-      'linebreak-style': ['error', 'unix'],
-      'object-curly-newline': 'off',
-      'comma-dangle': ['error', 'always-multiline'],
-      'react/jsx-props-no-spreading': 'off',
-      'operator-linebreak': ['error', 'before'],
-      'react/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
       'react-hooks/exhaustive-deps': 'warn',
-      'react/jsx-boolean-value': ['error', 'never'],
-      'arrow-body-style': ['error', 'as-needed'],
+      'react/jsx-boolean-value': 'off', // Разрешить писать `hideProgressBar={true}`
+      'react/display-name': 'off', // Отключаем ошибку отсутствия displayName в компонентах
+      'react/jsx-one-expression-per-line': 'off', // Отключаем требование переноса выражений в JSX
+      'react/jsx-props-no-spreading': 'off', // Разрешить {...props}
+      'react-hooks/rules-of-hooks': 'error', // Следит за правильным порядком хуков
+      'arrow-parens': ['error', 'always'], // Всегда требовать скобки в стрелочных функциях
+      'arrow-body-style': ['error', 'as-needed', { requireReturnForObjectLiteral: false }], // Разрешить фигурные скобки в стрелочных функциях
+      'object-curly-newline': 'off', // Отключаем переносы внутри объектов
+      'comma-dangle': ['error', 'always-multiline'],
+      'operator-linebreak': 'off', // Отключить ошибки переноса операторов (&&, =)
+      'implicit-arrow-linebreak': 'off', // Отключаем ошибку разрыва строки перед `=>`
+      'function-paren-newline': 'off', // Отключаем ошибку переноса скобок в функциях
+      'max-len': ['error', { code: 120, ignoreStrings: true, ignoreTemplateLiterals: true }], // Увеличить лимит длины строки
+      'linebreak-style': ['error', 'unix'],
       'no-tabs': 'error',
       indent: ['error', 2, { SwitchCase: 1 }],
-      'react-hooks/rules-of-hooks': 'error',
     },
   },
   ...compat.extends('airbnb-base', 'plugin:prettier/recommended'),

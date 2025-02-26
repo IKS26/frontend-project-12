@@ -18,7 +18,7 @@ const modalSlice = createSlice({
       state.channelId = channelId;
       state.isOpen = true;
     },
-    closeModal: state => {
+    closeModal: (state) => {
       if (!state.isOpen) return;
       state.type = null;
       state.channelId = null;
@@ -27,7 +27,7 @@ const modalSlice = createSlice({
   },
 });
 
-export const selectModalState = state => state.modal;
+export const selectModalState = (state) => state.modal;
 
 export const { openModal, closeModal } = modalSlice.actions;
 

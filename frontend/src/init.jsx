@@ -19,7 +19,7 @@ const rollbarConfig = {
 const SocketHandler = () => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector(selectCurrentChannelId);
-  const isLoading = useSelector(state => state.channels.isLoading);
+  const isLoading = useSelector((state) => state.channels.isLoading);
 
   const [isSocketConnected, setIsSocketConnected] = useState(false);
 
@@ -29,44 +29,35 @@ const SocketHandler = () => {
     connectSocket();
     setIsSocketConnected(true);
 
-    const handleNewMessage = message => {
+    const handleNewMessage = (message) => {
       console.log('Новое сообщение из WebSocket:', message);
       dispatch(
-        dataApi.util.updateQueryData(
-          'fetchMessages',
-          message.channelId,
-          draft => {
-            draft.push(message);
-          },
-        ),
+        dataApi.util.updateQueryData('fetchMessages', message.channelId, (draft) => {
+          draft.push(message);
+        }),
       );
     };
 
-    const handleNewChannel = channel => {
+    const handleNewChannel = (channel) => {
       console.log('Новый канал из WebSocket:', channel);
       dispatch(
-        dataApi.util.updateQueryData('fetchChannels', undefined, draft => {
+        dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
           draft.push(channel);
         }),
       );
     };
 
-    const handleRemoveChannel = channelId => {
+    const handleRemoveChannel = (channelId) => {
       console.log('Удаление канала из WebSocket:', channelId);
       dispatch(dataApi.util.invalidateTags(['Channels', 'Messages']));
     };
 
-    const handleRenameChannel = channel => {
+    const handleRenameChannel = (channel) => {
       console.log('Переименование канала из WebSocket:', channel);
       dispatch(dataApi.util.invalidateTags(['Channels']));
     };
 
-    subscribeToEvents(
-      handleNewMessage,
-      handleNewChannel,
-      handleRemoveChannel,
-      handleRenameChannel,
-    );
+    subscribeToEvents(handleNewMessage, handleNewChannel, handleRemoveChannel, handleRenameChannel);
   }, [dispatch, isLoading, currentChannelId]);
 
   return null;

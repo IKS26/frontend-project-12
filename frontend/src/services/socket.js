@@ -20,12 +20,7 @@ export const disconnectSocket = () => {
   isConnected = false;
 };
 
-export const subscribeToEvents = (
-  onMessage,
-  onChannel,
-  onRemoveChannel,
-  onRenameChannel,
-) => {
+export const subscribeToEvents = (onMessage, onChannel, onRemoveChannel, onRenameChannel) => {
   socket.on('newMessage', onMessage);
   socket.on('newChannel', onChannel);
   socket.on('removeChannel', onRemoveChannel);

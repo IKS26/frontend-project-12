@@ -26,10 +26,7 @@ const SignUpPage = () => {
       .min(3, t('errorUsernameShort'))
       .max(20, t('errorUsernameLong'))
       .required(t('usernameRequired')),
-    password: yup
-      .string()
-      .min(6, t('errorPasswordShort'))
-      .required(t('passwordRequired')),
+    password: yup.string().min(6, t('errorPasswordShort')).required(t('passwordRequired')),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref('password')], t('errorPasswordsMatch'))
@@ -82,9 +79,7 @@ const SignUpPage = () => {
                 {...formik.getFieldProps('username')}
                 isInvalid={formik.touched.username && !!formik.errors.username}
               />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.username}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="password">
               <Form.Label>{t('password')}</Form.Label>
@@ -96,9 +91,7 @@ const SignUpPage = () => {
                 {...formik.getFieldProps('password')}
                 isInvalid={formik.touched.password && !!formik.errors.password}
               />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.password}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="confirmPassword">
               <Form.Label>{t('confirmPassword')}</Form.Label>
@@ -108,21 +101,12 @@ const SignUpPage = () => {
                 placeholder={t('enterConfirmPassword')}
                 autoComplete="new-password"
                 {...formik.getFieldProps('confirmPassword')}
-                isInvalid={
-                  formik.touched.confirmPassword &&
-                  !!formik.errors.confirmPassword
-                }
+                isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
               />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.confirmPassword}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
             </Form.Group>
             <div className="d-grid">
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={formik.isSubmitting}
-              >
+              <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
                 {t('signupButton')}
               </Button>
             </div>
