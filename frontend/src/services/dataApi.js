@@ -1,5 +1,3 @@
-/* eslint-disable object-curly-newline, no-confusing-arrow */
-/* eslint-disable implicit-arrow-linebreak, function-paren-newline, operator-linebreak */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const dataApi = createApi({

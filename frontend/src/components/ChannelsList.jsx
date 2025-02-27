@@ -44,7 +44,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
     if (!isCurrentChannelValid) {
       dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storedChannels, dispatch]);
 
   const handleChannelSelect = (channelId) => {

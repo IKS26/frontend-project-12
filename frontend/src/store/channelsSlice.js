@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-confusing-arrow, implicit-arrow-linebreak, comma-dangle */
+/* eslint-disable no-param-reassign */
 import { createSelector } from 'reselect';
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
@@ -40,21 +40,15 @@ const channelsSlice = createSlice({
   },
 });
 
-export const {
-  setCurrentChannelId,
-  addChannels,
-  addChannel,
-  removeChannel,
-  updateChannel,
-} = channelsSlice.actions;
+export const { setCurrentChannelId, addChannels, addChannel, removeChannel, updateChannel } =
+  channelsSlice.actions;
 
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 
 export const selectChannels = (state) => selectors.selectAll(state);
 
-export const selectAllChannelNames = createSelector(
-  [selectChannels],
-  (channels) => channels.map((channel) => channel.name)
+export const selectAllChannelNames = createSelector([selectChannels], (channels) =>
+  channels.map((channel) => channel.name),
 );
 
 export const selectCurrentChannelId = (state) => state.channels.currentChannelId;
