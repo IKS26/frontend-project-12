@@ -1,5 +1,5 @@
 /* eslint-disable object-curly-newline */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -40,9 +40,9 @@ const SignUpPage = () => {
         navigate('/');
       } catch (error) {
         if (error.response?.status === 409) {
-         setErrors({ username: t('errorUsernameExists')});
+          setErrors({ username: t('errorUsernameExists') });
         } else {
-			setErrors({ confirmPassword: t('axiosError') });
+          setErrors({ confirmPassword: t('axiosError') });
         }
         inputEl.current?.select();
       } finally {
@@ -58,13 +58,13 @@ const SignUpPage = () => {
           <Card className="shadow-sm signup-card">
             <Card.Body className="row p-5 d-flex flex-column flex-md-row justify-content-around align-items-center">
               <Col xs={12} md={6} className="d-flex align-items-center justify-content-center">
-                <img src='/assets/avaSignUp.jpg' className="rounded-circle signup-avatar" alt={t('signup')} />
+                <img src="/assets/avaSignUp.jpg" className="rounded-circle signup-avatar" alt={t('signup')} />
               </Col>
               <Col as="form" onSubmit={formik.handleSubmit} className="w-50">
                 <h1 className="text-center mb-4">{t('signup')}</h1>
                 <BootstrapForm.Group className="form-floating mb-3">
                   <BootstrapForm.Control
-						  id="username"
+                    id="username"
                     type="text"
                     name="username"
                     placeholder={t('enterUsername')}
@@ -84,7 +84,7 @@ const SignUpPage = () => {
 
                 <BootstrapForm.Group className="form-floating mb-3">
                   <BootstrapForm.Control
-						  id="password"
+                    id="password"
                     type="password"
                     name="password"
                     placeholder={t('enterPassword')}
@@ -103,7 +103,7 @@ const SignUpPage = () => {
 
                 <BootstrapForm.Group className="form-floating mb-4">
                   <BootstrapForm.Control
-						  id="confirmPassword"
+                    id="confirmPassword"
                     type="password"
                     name="confirmPassword"
                     placeholder={t('enterConfirmPassword')}
@@ -127,7 +127,7 @@ const SignUpPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span className=''>{t('haveAccount')}</span>
+                <span className="me-1">{t('haveAccount')}</span>
                 <Link to="/login" className="text-yellow">{t('login')}</Link>
               </div>
             </Card.Footer>

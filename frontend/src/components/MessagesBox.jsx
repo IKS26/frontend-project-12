@@ -38,9 +38,9 @@ const MessagesBox = memo(({ currentChannelId }) => {
         {currentChannel && (
           <p className="m-0">
             <b>
-				<span className="me-1">#</span>
-				{currentChannel.name}
-				</b>
+              <span className="me-1">#</span>
+              {currentChannel.name}
+            </b>
           </p>
         )}
         <span>

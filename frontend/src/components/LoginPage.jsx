@@ -4,7 +4,14 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Container, Row, Col, Button, Form as BootstrapForm, Card } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form as BootstrapForm,
+  Card,
+} from 'react-bootstrap';
 import axios from 'axios';
 import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
@@ -14,7 +21,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const inputEl = useRef(null);
-  
 
   useEffect(() => {
     inputEl.current?.focus();
@@ -36,17 +42,15 @@ const LoginPage = () => {
         dispatch(login({ token, username }));
         navigate('/');
       } catch (error) {
-			if (error.response?.status === 401) {
-			  setErrors({ 
-				 password: t('errorInvalidCredentials') 
-			  });
-			} else if (error.request) { 
-			  setErrors({ password: t('axiosError') });
-			} else {
-			  setErrors({ password: t('unexpectedError') });
-			}
-			inputEl.current?.select();
-		} finally {
+        if (error.response?.status === 401) {
+          setErrors({ password: t('errorInvalidCredentials') });
+        } else if (error.request) {
+          setErrors({ password: t('axiosError') });
+        } else {
+          setErrors({ password: t('unexpectedError') });
+        }
+        inputEl.current?.select();
+      } finally {
         setSubmitting(false);
       }
     },
@@ -59,14 +63,18 @@ const LoginPage = () => {
           <Card className="shadow-sm login-card">
             <Card.Body className="row p-5">
               <Col xs={12} md={6} className="d-flex align-items-center justify-content-center">
-                <img src='/assets/avaLogin.jpg' className="rounded-circle login-avatar" alt={t('login')} />
+                <img
+                  src="/assets/avaLogin.jpg"
+                  className="rounded-circle login-avatar"
+                  alt={t('login')}
+                />
               </Col>
               <Col as="form" onSubmit={formik.handleSubmit} className="w-50">
                 <h1 className="text-center mb-4">{t('login')}</h1>
 
                 <BootstrapForm.Group className="form-floating mb-3">
                   <BootstrapForm.Control
-						  id="username"
+                    id="username"
                     type="text"
                     name="username"
                     placeholder={t('enterNickname')}
@@ -86,7 +94,7 @@ const LoginPage = () => {
 
                 <BootstrapForm.Group className="form-floating mb-4">
                   <BootstrapForm.Control
-						  id="password"
+                    id="password"
                     type="password"
                     name="password"
                     placeholder={t('enterPassword')}
@@ -110,7 +118,7 @@ const LoginPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{t('noAccount')} </span>
+                <span className="me-1">{t('noAccount')}</span>
                 <Link to="/signup" className="text-yellow">{t('signup')}</Link>
               </div>
             </Card.Footer>

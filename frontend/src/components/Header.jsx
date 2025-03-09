@@ -17,13 +17,13 @@ const Header = () => {
   return (
     <Navbar expand="lg" className="navbar-custom shadow-sm">
       <div className="container">
-		{isAuthenticated ? (
-  <span className="navbar-brand-span"><strong>{t('header.title')}</strong></span>
-) : (
-  <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
-    <strong>{t('header.title')}</strong>
-  </Navbar.Brand>
-)}
+        {isAuthenticated ? (
+          <span className="navbar-brand-span"><strong>{t('header.title')}</strong></span>
+        ) : (
+          <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
+            <strong>{t('header.title')}</strong>
+          </Navbar.Brand>
+        )}
         {isAuthenticated && (
           <Button onClick={handleLogout} className="btn-custom-logout">
             {t('header.logout')}

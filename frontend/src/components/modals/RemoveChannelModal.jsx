@@ -31,20 +31,20 @@ const RemoveChannelModal = () => {
 
   return (
     <>
-  <BootstrapModal.Header closeButton className="modal-header-dark">
-    <BootstrapModal.Title className="modal-title-dark">
-      <Trans i18nKey="removeChannel.title" values={{ channelToRemove }} />
-    </BootstrapModal.Title>
-  </BootstrapModal.Header>
-  <BootstrapModal.Body className="modal-body-dark">{t('removeChannel.confirmation')}</BootstrapModal.Body>
-  <BootstrapModal.Footer className="modal-footer-dark">
-    <Button variant="secondary" onClick={() => dispatch(closeModal())} className="btn-secondary-dark">
-      {t('removeChannel.cancel')}
-    </Button>
-    <Button variant="danger" onClick={handleRemove} disabled={isLoading} className="btn-danger-dark">
-      {t('removeChannel.submit')}
-    </Button>
-  </BootstrapModal.Footer>
+      <BootstrapModal.Header closeButton className="modal-header-dark">
+        <BootstrapModal.Title className="modal-title-dark">
+          <Trans i18nKey="removeChannel.title" values={{ channelToRemove }} />
+        </BootstrapModal.Title>
+      </BootstrapModal.Header>
+      <BootstrapModal.Body className="modal-body-dark">{t('removeChannel.confirmation')}</BootstrapModal.Body>
+      <BootstrapModal.Footer className="modal-footer-dark">
+        <Button variant="secondary" onClick={() => dispatch(closeModal())} className="btn-secondary-dark">
+          {t('removeChannel.cancel')}
+        </Button>
+        <Button variant="danger" onClick={handleRemove} disabled={isLoading} className="btn-danger-dark">
+          {t('removeChannel.submit')}
+        </Button>
+      </BootstrapModal.Footer>
     </>
   );
 };

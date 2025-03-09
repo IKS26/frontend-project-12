@@ -21,14 +21,14 @@ const HomePage = () => {
   return (
     <div className="container h-100 my-4 rounded shadow overflow-hidden d-flex flex-column">
       <div className="chat-content">
-    <div className="channels-container">
-      <ChannelsList currentChannelId={currentChannelId} />
-    </div>
-    <div className="messages-container">
-      <MessagesBox currentChannelId={currentChannelId} />
-      <MessageInput currentChannelId={currentChannelId} />
-    </div>
-  </div>
+        <div className="channels-container">
+          <ChannelsList currentChannelId={currentChannelId} />
+        </div>
+        <div className="messages-container">
+          <MessagesBox currentChannelId={currentChannelId} />
+          <MessageInput currentChannelId={currentChannelId} />
+        </div>
+      </div>
       {modalState.isOpen && <Modal />}
     </div>
   );

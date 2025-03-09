@@ -70,7 +70,7 @@ const MessageInput = ({ currentChannelId }) => {
             variant="dark"
             disabled={isLoading || !formik.values.message.trim()}
           >
-            <BsArrowRightSquare size={20} color='#ffc107' />
+            <BsArrowRightSquare size={20} color="#ffc107" />
             <span className="visually-hidden">{t('messages.send')}</span>
           </Button>
         </Form.Group>
