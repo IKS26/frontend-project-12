@@ -58,7 +58,7 @@ const SignUpPage = () => {
           <Card className="shadow-sm signup-card">
             <Card.Body className="row p-5 d-flex flex-column flex-md-row justify-content-around align-items-center">
               <Col xs={12} md={6} className="d-flex align-items-center justify-content-center">
-                <img src='/assets/avaSignup.jpg' className="rounded-circle signup-avatar" alt={t('signup')} />
+                <img src='/assets/avaSignUp.jpg' className="rounded-circle signup-avatar" alt={t('signup')} />
               </Col>
               <Col as="form" onSubmit={formik.handleSubmit} className="w-50">
                 <h1 className="text-center mb-4">{t('signup')}</h1>
