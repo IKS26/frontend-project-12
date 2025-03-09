@@ -38,7 +38,6 @@ const LoginPage = () => {
       } catch (error) {
 			if (error.response?.status === 401) {
 			  setErrors({ 
-				 username: t('errorInvalidCredentials'), 
 				 password: t('errorInvalidCredentials') 
 			  });
 			} else if (error.request) { 
