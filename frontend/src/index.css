@@ -1,4 +1,4 @@
-/* Стили для автозаполненных инпутов */
+/* Стили для автозаполнения инпутов */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -49,6 +49,12 @@ code {
   overflow: hidden;
 }
 
+/* Контейнер всей домашней страницы */
+.container {
+	--bs-gutter-x: 0;
+	--bs-gutter-y: 0;
+}
+
 /* Контейнер списка каналов и чата */
 .chat-content {
   display: flex;
@@ -71,7 +77,22 @@ code {
   background-color: #1e1e1e;
 }
 
-/* Сообщения должны заполнять всё пространство */
+.messages-container-head-bg {
+  background-color: #2a2a2a;
+}
+
+/* Фон инпута для сообщений */
+.input-message-bg {
+  background-color: #303030 !important;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.input-message-bg::placeholder {
+  color: #dddddd;
+}
+
+/* Сообщения должны заполнять всё пространство messages-box */
 #messages-box {
   flex-grow: 1;
   overflow-y: auto;
@@ -162,38 +183,13 @@ code {
   border-top: 1px solid #555555;
 }
 
-/* Фон для каналов */
-.channels-bg {
-  background-color: #303030;
-}
-
-/* Фон для сообщений */
-.messages-bg {
-  background-color: #2a2a2a;
-}
-
-/* Фон чата */
-.chat-bg {
-  background-color: #1e1e1e;
-}
-
-/* Фон инпута для сообщений */
-.input-message-bg {
-  background-color: #303030;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.input-message-bg::placeholder {
-  color: #dddddd;
-}
-
 /* Темные стили для модальных окон */
 .modal-dark .modal-content {
   background: #383838;
   color: #dddddd;
   border: 1px solid #555555;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .modal-header-dark {

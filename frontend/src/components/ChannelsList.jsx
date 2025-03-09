@@ -67,7 +67,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
 
   return (
     <>
-      <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
+      <div className="d-flex justify-content-between mt-1 mb-2 ps-4 pe-2 p-4">
         <h5>
           {t('channels.title')}
         </h5>

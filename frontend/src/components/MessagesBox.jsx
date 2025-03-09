@@ -34,7 +34,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
 
   return (
     <>
-      <div className="mb-4 p-3 shadow-sm small messages-bg">
+      <div className="mb-4 p-3 shadow-sm small messages-container-head-bg">
         {currentChannel && (
           <p className="m-0">
             <b>
