@@ -68,13 +68,15 @@ const ChannelsList = memo(({ currentChannelId }) => {
   return (
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b className="text-dark">{t('channels.title')}</b>
+        <h5>
+			{t('channels.title')}
+		  </h5>
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
           onClick={handleAddChannel}
         >
-          <BsPlusSquare size={20} />
+          <BsPlusSquare size={20} color='#ffc107' />
           <span className="visually-hidden">+</span>
         </button>
       </div>

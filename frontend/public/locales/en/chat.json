@@ -16,7 +16,7 @@
       "messages_few": "{{count}} messages",
       "messages_many": "{{count}} messages"
     },
-    "newMessage": "Enter your message...",
+    "newMessage": "Enter your message ...",
     "newMessageLabel": "New message",
     "send": "Send",
     "sendError": "Error sending message",

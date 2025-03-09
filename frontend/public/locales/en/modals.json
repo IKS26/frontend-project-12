@@ -11,8 +11,7 @@
     "validation": {
       "required": "Channel name is required",
       "minMax": "Channel name must be between 3 and 20 characters",
-      "unique": "A channel with this name already exists",
-      "errorProfanityChannelName": "The channel name contains prohibited words. Please choose a different name."
+      "unique": "A channel with this name already exists"
     }
   },
   "removeChannel": {

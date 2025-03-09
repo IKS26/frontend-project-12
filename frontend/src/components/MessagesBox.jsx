@@ -37,23 +37,26 @@ const MessagesBox = memo(({ currentChannelId }) => {
       <div className="mb-4 p-3 shadow-sm small messages-bg">
         {currentChannel && (
           <p className="m-0">
-            <b className="text-dark">#{currentChannel.name}</b>
+            <b>
+				<span className="me-1">#</span>
+				{currentChannel.name}
+				</b>
           </p>
         )}
-        <span className="text-muted">
+        <span>
           {t('messages.messagesCount.messages', { count: messagesCount })}
         </span>
       </div>
-      <div id="messages-box" className="chat-messages px-5 text-dark" ref={messagesBoxRef}>
+      <div id="messages-box" className="chat-messages px-5" ref={messagesBoxRef}>
         {messages.length > 0 ? (
           messages.map((message) => (
             <div key={message.id} className="text-break mb-2">
-              <b>{message.username || 'Unknown'}:</b>
+              <b className="me-1">{message.username || 'Unknown'}:</b>
               {message.body}
             </div>
           ))
         ) : (
-          <p className="text-muted">{t('messages.noMessages')}</p>
+          <p>{t('messages.noMessages')}</p>
         )}
       </div>
     </>

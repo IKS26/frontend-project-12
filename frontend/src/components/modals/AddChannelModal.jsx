@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,6 +15,14 @@ const AddChannelModal = ({ handleClose }) => {
   const channelNames = useSelector(selectAllChannelNames);
   const [addChannel, { isLoading }] = useAddChannelMutation();
 
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   const validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -29,10 +37,6 @@ const AddChannelModal = ({ handleClose }) => {
     initialValues: { name: '' },
     validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      if (leoProfanity.check(values.name)) {
-        toast.error(t('addChannel.validation.errorProfanityChannelName'));
-      }
-
       const cleanName = leoProfanity.clean(values.name);
       setSubmitting(true);
 
@@ -57,10 +61,10 @@ const AddChannelModal = ({ handleClose }) => {
 
   return (
     <>
-      <BootstrapModal.Header closeButton>
-        <BootstrapModal.Title>{t('addChannel.title')}</BootstrapModal.Title>
+      <BootstrapModal.Header closeButton className="modal-header-dark">
+        <BootstrapModal.Title className="modal-title-dark">{t('addChannel.title')}</BootstrapModal.Title>
       </BootstrapModal.Header>
-      <BootstrapModal.Body>
+      <BootstrapModal.Body className="modal-body-dark">
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label className="visually-hidden" htmlFor="name">
@@ -70,22 +74,22 @@ const AddChannelModal = ({ handleClose }) => {
               type="text"
               id="name"
               name="name"
+              ref={inputRef}
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.name && !!formik.errors.name}
               placeholder={t('addChannel.placeholder')}
               disabled={isLoading}
+              className="form-control-dark"
             />
-            {formik.errors.name && (
-              <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
-            )}
+            <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" onClick={handleClose} className="me-2">
+            <Button variant="secondary" onClick={handleClose} className="btn-secondary-dark me-2">
               {t('addChannel.cancel')}
             </Button>
-            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading}>
+            <Button variant="primary" type="submit" disabled={formik.isSubmitting || isLoading} className="btn-primary-dark">
               {t('addChannel.submit')}
             </Button>
           </div>

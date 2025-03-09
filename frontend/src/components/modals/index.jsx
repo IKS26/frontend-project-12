@@ -24,7 +24,7 @@ const Modal = () => {
   }, [type]);
 
   return (
-    <BootstrapModal show={isOpen} onHide={handleClose} centered>
+    <BootstrapModal show={isOpen} onHide={handleClose} className="modal-dark" centered>
       {Component && <Component handleClose={handleClose} />}
     </BootstrapModal>
   );

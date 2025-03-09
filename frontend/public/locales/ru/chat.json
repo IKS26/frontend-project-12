@@ -16,7 +16,7 @@
       "messages_few": "{{count}} сообщения",
       "messages_many": "{{count}} сообщений"
     },
-    "newMessage": "Введите сообщение...",
+    "newMessage": "Введите сообщение ...",
     "newMessageLabel": "Новое сообщение",
     "send": "Отправить",
     "sendError": "Ошибка при отправке сообщения",

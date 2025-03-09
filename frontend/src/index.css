@@ -1,45 +1,289 @@
-body {
-  margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Стили для автозаполненных инпутов */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  background-color: #444444 !important; /* Серый фон */
+  -webkit-box-shadow: 0 0 0px 1000px #444444 inset !important; /* Фикс фона */
+  -webkit-text-fill-color: #dddddd !important; /* Белый текст */
+  caret-color: #ffffff !important; /* Белый цвет каретки (курсор внутри инпута) */
+  transition: background-color 5000s ease-in-out 0s; /* Убирает анимацию */
 }
 
+/* Дополнительно для Firefox */
+input:-moz-autofill,
+textarea:-moz-autofill {
+  background-color: #444444 !important;
+  color: #dddddd !important;
+}
+
+/* Базовые стили */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #2C2C2C;
+  color: #dddddd;
+}
+
+/* Кодовые блоки */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-body {
-  background: #4d4d4d;
+/* Контейнер всей страницы */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
+/* Контейнер контента после шапки */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/* Контейнер списка каналов и чата */
+.chat-content {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/* Список каналов */
+.channels-container {
+  width: 220px;
+  overflow-y: auto;
+  background-color: #303030;
+}
+
+/* Контейнер окна чата */
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #1e1e1e;
+}
+
+/* Сообщения должны заполнять всё пространство */
+#messages-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* Навбар */
 .navbar-custom {
-  background-color: #333333;
+  background: #383838;
 }
 
-.channels-bg {
-  background-color: #d9d9d9;
+.navbar-brand-custom {
+  color: #dddddd;
 }
 
-.messages-bg {
-  background-color: #e6e6e6;
+.navbar-brand-custom:hover {
+  color: #ffc107;
 }
 
-.chat-bg {
-  background-color: #f2f2f2;
+.navbar-brand-span {
+	font-size: 1.2rem;
+	color: #dddddd;
 }
 
-.input-message-bg {
-  background-color: #e6e6e6;
+/* Кнопка в навбаре */
+.btn-custom-logout {
+  border-color: #ffc107;
+  background-color: #383838;
+  color: #ffc107;
+  transition: all 0.3s ease;
+}
+
+.btn-custom-logout:hover {
+	border-color: #ffcc00;
+	background-color: #ffcc00;
+	color: #222222;
+}
+
+/* Карточки для логина и регистрации */
+.login-card, .signup-card {
+  background: #383838;
+  color: #dddddd;
+  border-radius: 8px;
+}
+
+/* Аватарки */
+.login-avatar, .signup-avatar {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 2px solid #ffc107;
+}
+
+/* Поля ввода */
+.form-control {
+  background: #444444;
+  border: 1px solid #666666;
+  color: #dddddd;
+}
+
+.form-control:focus {
+  background: #555555;
+  color: #dddddd;
+  border-color: #ffc107;
+}
+
+/* Кнопки */
+.btn-outline-primary {
+  border-color: #ffc107;
+  background-color: #444444;
+  color: #ffc107;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  border-color: #ffcc00;
+  background-color: #ffcc00;
+  color: #222222;
 }
 
 .text-yellow {
-  color: yellow;
+  color: #ffc107;
 }
 
-#messages-box {
-  max-height: 100%;
-  overflow-y: auto;
+/* Подвал карточки */
+.card-footer {
+  background: #383838;
+  border-top: 1px solid #555555;
+}
+
+/* Фон для каналов */
+.channels-bg {
+  background-color: #303030;
+}
+
+/* Фон для сообщений */
+.messages-bg {
+  background-color: #2a2a2a;
+}
+
+/* Фон чата */
+.chat-bg {
+  background-color: #1e1e1e;
+}
+
+/* Фон инпута для сообщений */
+.input-message-bg {
+  background-color: #303030;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.input-message-bg::placeholder {
+  color: #dddddd;
+}
+
+/* Темные стили для модальных окон */
+.modal-dark .modal-content {
+  background: #383838;
+  color: #dddddd;
+  border: 1px solid #555555;
+  border-radius: 8px;
+}
+
+.modal-header-dark {
+  background: #303030;
+  border-bottom: 1px solid #555555;
+}
+
+.modal-title-dark {
+  color: #ffd54f;
+  text-shadow: 0 0 2px rgba(255, 193, 7, 0.6);
+}
+
+/* Стили для кнопки закрытия модального окна */
+.modal-dark .btn-close {
+  filter: invert(72%) sepia(72%) saturate(500%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  opacity: 1;
+}
+
+/* Ховер-эффект для кнопки закрытия */
+.modal-dark .btn-close:hover {
+  filter: invert(78%) sepia(50%) saturate(500%) hue-rotate(0deg) brightness(95%) contrast(100%);
+}
+
+.modal-body-dark {
+  background: #383838;
+  color: #dddddd;
+}
+
+.modal-footer-dark {
+  background: #303030;
+  border-top: 1px solid #555555;
+}
+
+/* Стили для полей ввода */
+.form-control-dark {
+  background: #444444;
+  border: 1px solid #666666;
+  color: #dddddd;
+}
+
+.form-control-dark:focus {
+  background: #555555;
+  color: #dddddd;
+  border-color: #ffc107;
+}
+
+.form-control-dark.is-invalid {
+  border-color: #dc3545;
+}
+
+.form-control-dark.is-invalid:focus {
+  border-color: #ff6b6b;
+}
+
+.form-control-dark::-webkit-input-placeholder {
+  color: #dddddd;
+}
+
+/* Кнопки */
+.btn-secondary-dark {
+  background: linear-gradient(180deg, #777777, #666666);
+  border: 1px solid #888888;
+}
+
+.btn-secondary-dark:hover {
+  background: #777777;
+}
+
+.btn-primary-dark {
+  background: #ffc107;
+  border: none;
+  color: #222222;
+}
+
+.btn-primary-dark:hover {
+  background: #ffcc00;
+}
+
+.btn-danger-dark {
+  background: #dc3545;
+  border: none;
+  color: #ffffff;
+}
+
+.btn-danger-dark:hover {
+  background: #ff6b6b;
+}
+
+/* Страница 404 */
+.img-custom {
+  border-radius: 10px;
+  border: 2px solid #ffc107;
 }

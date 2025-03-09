@@ -27,10 +27,6 @@ const MessageInput = ({ currentChannelId }) => {
       message: Yup.string().trim().required(t('messages.newMessage')),
     }),
     onSubmit: async (values, { resetForm }) => {
-      if (leoProfanity.check(values.message)) {
-        toast.error(t('messages.errorProfanityDetected'));
-      }
-
       try {
         const cleanMessage = leoProfanity.clean(values.message);
         const newMessage = {
@@ -71,10 +67,10 @@ const MessageInput = ({ currentChannelId }) => {
           <Button
             type="submit"
             className="btn-group-vertical"
-            variant="light"
+            variant="dark"
             disabled={isLoading || !formik.values.message.trim()}
           >
-            <BsArrowRightSquare size={20} />
+            <BsArrowRightSquare size={20} color='#ffc107' />
             <span className="visually-hidden">{t('messages.send')}</span>
           </Button>
         </Form.Group>

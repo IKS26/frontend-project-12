@@ -16,9 +16,9 @@ const ProtectedRoute = () => {
 };
 const App = () => (
   <BrowserRouter>
-    <div className="d-flex flex-column min-vh-100">
+    <div className="app-container">
       <Header />
-      <div className="flex-grow-1 d-flex flex-column">
+      <div className="chat-container">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
