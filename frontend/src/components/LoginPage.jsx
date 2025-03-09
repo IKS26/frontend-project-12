@@ -8,7 +8,6 @@ import { Container, Row, Col, Button, Form as BootstrapForm, Card } from 'react-
 import axios from 'axios';
 import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
-import avaLogin from '../../public/assets/avaLogin.jpg';
 
 const LoginPage = () => {
   const { t } = useTranslation('auth');
@@ -61,7 +60,7 @@ const LoginPage = () => {
           <Card className="shadow-sm login-card">
             <Card.Body className="row p-5">
               <Col xs={12} md={6} className="d-flex align-items-center justify-content-center">
-                <img src={avaLogin} className="rounded-circle login-avatar" alt={t('login')} />
+                <img src='/assets/avaLogin.jpg' className="rounded-circle login-avatar" alt={t('login')} />
               </Col>
               <Col as="form" onSubmit={formik.handleSubmit} className="w-50">
                 <h1 className="text-center mb-4">{t('login')}</h1>
