@@ -67,6 +67,7 @@ const LoginPage = () => {
 
                 <BootstrapForm.Group className="form-floating mb-3">
                   <BootstrapForm.Control
+						  id="username"
                     type="text"
                     name="username"
                     placeholder={t('enterNickname')}
@@ -86,6 +87,7 @@ const LoginPage = () => {
 
                 <BootstrapForm.Group className="form-floating mb-4">
                   <BootstrapForm.Control
+						  id="password"
                     type="password"
                     name="password"
                     placeholder={t('enterPassword')}

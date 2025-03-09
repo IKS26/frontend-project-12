@@ -64,6 +64,7 @@ const SignUpPage = () => {
                 <h1 className="text-center mb-4">{t('signup')}</h1>
                 <BootstrapForm.Group className="form-floating mb-3">
                   <BootstrapForm.Control
+						  id="username"
                     type="text"
                     name="username"
                     placeholder={t('enterUsername')}
@@ -83,6 +84,7 @@ const SignUpPage = () => {
 
                 <BootstrapForm.Group className="form-floating mb-3">
                   <BootstrapForm.Control
+						  id="password"
                     type="password"
                     name="password"
                     placeholder={t('enterPassword')}
@@ -101,6 +103,7 @@ const SignUpPage = () => {
 
                 <BootstrapForm.Group className="form-floating mb-4">
                   <BootstrapForm.Control
+						  id="confirmPassword"
                     type="password"
                     name="confirmPassword"
                     placeholder={t('enterConfirmPassword')}
@@ -124,7 +127,7 @@ const SignUpPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{t('haveAccount')} </span>
+                <span className=''>{t('haveAccount')}</span>
                 <Link to="/login" className="text-yellow">{t('login')}</Link>
               </div>
             </Card.Footer>
