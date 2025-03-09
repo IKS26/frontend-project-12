@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import notFoundImage from '../assets/Error_404.jpg';
+import notFoundImage from '../../public/assets/Error_404.jpg';
 
 const PageNotFound = () => {
   const { t } = useTranslation('errors');

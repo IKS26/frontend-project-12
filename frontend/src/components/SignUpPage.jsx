@@ -8,7 +8,7 @@ import { Container, Row, Col, Button, Form as BootstrapForm, Card } from 'react-
 import axios from 'axios';
 import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
-import avaSignup from '../assets/avaSignup.jpg';
+import avaSignup from '../../public/assets/avaSignup.jpg';
 
 const SignUpPage = () => {
   const { t } = useTranslation('auth');
