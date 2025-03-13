@@ -6,7 +6,7 @@ import './index.css';
 
 const app = async () => {
   const root = ReactDOM.createRoot(document.querySelector('#chat'));
-  const socket = io({ autoConnect: false });
+  const socket = io();
   const vdom = await init(socket);
 
   root.render(vdom);
