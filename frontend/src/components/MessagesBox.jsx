@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectCurrentChannel } from '../store/channelsSlice';
 import { selectCurrentChannelMessages, addMessages } from '../store/messagesSlice';
-import { useFetchMessagesQuery } from '../services/dataApi';
+import { useFetchMessagesQuery } from '../api/dataApi';
 
 const MessagesBox = memo(({ currentChannelId }) => {
   const { t } = useTranslation('chat');

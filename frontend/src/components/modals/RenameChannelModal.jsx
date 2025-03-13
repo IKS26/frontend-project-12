@@ -8,10 +8,10 @@ import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
 import { selectChannelById } from '../../store/channelsSlice.js';
 import { selectModalState } from '../../store/modalSlice.js';
-import { useFetchChannelsQuery, useRenameChannelMutation } from '../../services/dataApi';
+import { useFetchChannelsQuery, useRenameChannelMutation } from '../../api/dataApi.js';
 
 const RenameChannelModal = ({ handleClose }) => {
-  const { t } = useTranslation('modals');
+  const { t } = useTranslation('chat');
   const { data: channels, isLoading } = useFetchChannelsQuery();
   const { channelId } = useSelector(selectModalState);
   const currentChannel = useSelector((state) => selectChannelById(state, channelId));

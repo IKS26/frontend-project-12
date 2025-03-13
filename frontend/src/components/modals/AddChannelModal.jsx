@@ -7,10 +7,10 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
 import { selectAllChannelNames, setCurrentChannelId } from '../../store/channelsSlice.js';
-import { useAddChannelMutation } from '../../services/dataApi';
+import { useAddChannelMutation } from '../../api/dataApi.js';
 
 const AddChannelModal = ({ handleClose }) => {
-  const { t } = useTranslation('modals');
+  const { t } = useTranslation('chat');
   const dispatch = useDispatch();
   const channelNames = useSelector(selectAllChannelNames);
   const [addChannel, { isLoading }] = useAddChannelMutation();

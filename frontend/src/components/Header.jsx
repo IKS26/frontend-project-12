@@ -3,12 +3,13 @@ import { Button, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { logout } from '../store/authSlice.js';
+import { selectIsAuthenticated, logout } from '../store/authSlice.js';
+import routes from '../routes/routes.js';
 
 const Header = () => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -20,7 +21,7 @@ const Header = () => {
         {isAuthenticated ? (
           <span className="navbar-brand-span"><strong>{t('header.title')}</strong></span>
         ) : (
-          <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
+          <Navbar.Brand as={Link} to={routes.main} className="navbar-brand-custom">
             <strong>{t('header.title')}</strong>
           </Navbar.Brand>
         )}

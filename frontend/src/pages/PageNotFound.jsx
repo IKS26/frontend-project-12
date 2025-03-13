@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 import {
   Container, Row, Col, Card,
 } from 'react-bootstrap';
+import routes from '../routes/routes';
 
 const PageNotFound = () => {
-  const { t } = useTranslation('errors');
+  const { t } = useTranslation('auth');
 
   return (
     <Container fluid className="h-100 d-flex align-items-center justify-content-center">
@@ -19,7 +20,7 @@ const PageNotFound = () => {
               <p>
                 {t('pageNotFound.description')}
                 {' '}
-                <Link to="/" className="text-yellow">
+                <Link to={routes.main} className="text-yellow">
                   {t('pageNotFound.homeLink')}
                 </Link>
               </p>

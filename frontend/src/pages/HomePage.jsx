@@ -1,22 +1,22 @@
-import { useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
-import leoProfanity from 'leo-profanity';
+import { useFetchChannelsQuery } from '../api/dataApi';
 import { selectModalState } from '../store/modalSlice';
 import { selectCurrentChannelId } from '../store/channelsSlice';
-import ChannelsList from './ChannelsList';
-import MessagesBox from './MessagesBox';
-import MessageInput from './MessageInput';
-import Modal from './modals';
+import ChannelsList from '../components/ChannelsList';
+import MessagesBox from '../components/MessagesBox';
+import MessageInput from '../components/MessageInput';
+import ChatSpinner from '../components/spinners/ChatSpinner.jsx';
+import SimpleSpinner from '../components/spinners/SimpleSpinner.jsx';
+
+const Modal = lazy(() => import('../components/modals/index.jsx'));
 
 const HomePage = () => {
+  const { isLoading } = useFetchChannelsQuery();
   const modalState = useSelector(selectModalState);
   const currentChannelId = useSelector(selectCurrentChannelId);
 
-  useEffect(() => {
-    leoProfanity.loadDictionary();
-    leoProfanity.add(leoProfanity.getDictionary('ru'));
-    leoProfanity.add(leoProfanity.getDictionary('en'));
-  }, []);
+  if (isLoading) return <ChatSpinner />;
 
   return (
     <div className="container h-100 my-4 rounded shadow overflow-hidden d-flex flex-column">
@@ -29,7 +29,11 @@ const HomePage = () => {
           <MessageInput currentChannelId={currentChannelId} />
         </div>
       </div>
-      {modalState.isOpen && <Modal />}
+      {modalState.isOpen && (
+        <Suspense fallback={<SimpleSpinner />}>
+          <Modal />
+        </Suspense>
+      )}
     </div>
   );
 };

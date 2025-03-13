@@ -7,7 +7,7 @@ import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import { BsArrowRightSquare } from 'react-icons/bs';
 import { Form, Button } from 'react-bootstrap';
-import { useSendMessageMutation } from '../services/dataApi';
+import { useSendMessageMutation } from '../api/dataApi';
 
 const MessageInput = ({ currentChannelId }) => {
   const { t } = useTranslation('chat');

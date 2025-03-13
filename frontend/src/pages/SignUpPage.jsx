@@ -8,6 +8,8 @@ import { Container, Row, Col, Button, Form as BootstrapForm, Card } from 'react-
 import axios from 'axios';
 import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
+import apiRoutes from '../api/apiRoutes.js';
+import routes from '../routes/routes.js';
 
 const SignUpPage = () => {
   const { t } = useTranslation('auth');
@@ -30,14 +32,14 @@ const SignUpPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const response = await axios.post('/api/v1/signup', {
+        const response = await axios.post(apiRoutes.signUp, {
           username: values.username,
           password: values.password,
         });
         const { token, username } = response.data;
 
         dispatch(login({ token, username }));
-        navigate('/');
+        navigate(routes.main);
       } catch (error) {
         if (error.response?.status === 409) {
           setErrors({ username: t('errorUsernameExists') });
@@ -128,7 +130,7 @@ const SignUpPage = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span className="me-1">{t('haveAccount')}</span>
-                <Link to="/login" className="text-yellow">{t('login')}</Link>
+                <Link to={routes.login} className="text-yellow">{t('login')}</Link>
               </div>
             </Card.Footer>
           </Card>

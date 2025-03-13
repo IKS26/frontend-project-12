@@ -10,7 +10,7 @@ import {
   addChannels,
   DEFAULT_CHANNEL_ID,
 } from '../store/channelsSlice.js';
-import { useFetchChannelsQuery } from '../services/dataApi.js';
+import { useFetchChannelsQuery } from '../api/dataApi.js';
 
 const ChannelsList = memo(({ currentChannelId }) => {
   const { t } = useTranslation('chat');

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { dataApi } from '../services/dataApi';
+import { dataApi } from '../api/dataApi';
 import authReducer from './authSlice';
 import modalReducer from './modalSlice';
 import channelsReducer from './channelsSlice';

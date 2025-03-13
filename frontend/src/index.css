@@ -283,3 +283,75 @@ code {
   border-radius: 10px;
   border: 2px solid #ffc107;
 }
+
+/* Глобальный спиннер */
+.global-spinner-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2C2C2C;
+  z-index: 9999;
+  flex-direction: column;
+}
+
+.ml15 {
+  font-weight: 800;
+  font-size: 3.8em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #ffc107;
+}
+
+.ml15 .word {
+  display: inline-block;
+  line-height: 0.7em;
+}
+
+.ml15 .big-letter {
+  font-size: 2.4em;
+  display: block;
+}
+
+.ml15 .word.chat {
+  font-size: 1.4em;
+  display: block;
+  opacity: 0;
+}
+
+/* Спиннер для чата */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #2C2C2C;
+}
+
+/* Простой спиннер */
+.simple-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #2C2C2C;
+}
+
+.simple-spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid rgba(255, 193, 7, 0.3);
+  border-top-color: #ffc107;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Анимация вращения */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

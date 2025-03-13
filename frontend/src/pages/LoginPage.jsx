@@ -15,6 +15,8 @@ import {
 import axios from 'axios';
 import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
+import apiRoutes from '../api/apiRoutes.js';
+import routes from '../routes/routes.js';
 
 const LoginPage = () => {
   const { t } = useTranslation('auth');
@@ -36,11 +38,11 @@ const LoginPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const response = await axios.post('/api/v1/login', values);
+        const response = await axios.post(apiRoutes.login, values);
         const { token, username } = response.data;
 
         dispatch(login({ token, username }));
-        navigate('/');
+        navigate(routes.main);
       } catch (error) {
         if (error.response?.status === 401) {
           setErrors({ password: t('errorInvalidCredentials') });
@@ -119,7 +121,7 @@ const LoginPage = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span className="me-1">{t('noAccount')}</span>
-                <Link to="/signup" className="text-yellow">{t('signup')}</Link>
+                <Link to={routes.signUp} className="text-yellow">{t('signup')}</Link>
               </div>
             </Card.Footer>
           </Card>

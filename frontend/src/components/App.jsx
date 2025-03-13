@@ -1,45 +1,59 @@
 /* eslint-disable object-curly-newline */
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
-import LoginPage from './LoginPage.jsx';
 import Header from './Header.jsx';
-import HomePage from './HomePage.jsx';
-import SignUpPage from './SignUpPage.jsx';
-import PageNotFound from './PageNotFound.jsx';
+import GlobalSpinner from './spinners/GlobalSpinner.jsx';
+import ProtectedRoute from '../routes/ProtectedRoute.jsx';
+import routes from '../routes/routes.js';
+import LoginPage from '../pages/LoginPage.jsx';
+import SignUpPage from '../pages/SignUpPage.jsx';
+import HomePage from '../pages/HomePage.jsx';
+import PageNotFound from '../pages/PageNotFound.jsx';
 
-const ProtectedRoute = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+const App = () => {
+  const [appLoaded, setAppLoaded] = useState(false);
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
-};
-const App = () => (
-  <BrowserRouter>
-    <div className="app-container">
-      <Header />
-      <div className="chat-container">
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/" element={<ProtectedRoute />}>
-            <Route index element={<HomePage />} />
-          </Route>
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+  useEffect(() => {
+    if (!sessionStorage.getItem('appLoaded')) {
+      setTimeout(() => {
+        setAppLoaded(true);
+        sessionStorage.setItem('appLoaded', 'true');
+      }, 2000);
+    } else {
+      setAppLoaded(true);
+    }
+  }, []);
+
+  if (!appLoaded) return <GlobalSpinner />;
+
+  return (
+    <BrowserRouter>
+      <div className="app-container">
+        <Header />
+        <div className="chat-container">
+          <Routes>
+            <Route path={routes.login} element={<LoginPage />} />
+            <Route path={routes.signUp} element={<SignUpPage />} />
+            <Route path={routes.main} element={<ProtectedRoute />}>
+              <Route index element={<HomePage />} />
+            </Route>
+            <Route path={routes.notFound} element={<PageNotFound />} />
+          </Routes>
+        </div>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar
+          closeOnClick
+          closeButton
+          limit={3}
+          theme="dark"
+          transition={Slide}
+        />
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar
-        closeOnClick
-        closeButton
-        limit={3}
-        theme="dark"
-        transition={Slide}
-      />
-    </div>
-  </BrowserRouter>
-);
+    </BrowserRouter>
+  );
+};
 
 export default App;
