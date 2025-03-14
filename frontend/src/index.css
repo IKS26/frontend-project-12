@@ -34,6 +34,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+@font-face {
+  font-family: 'RussoOne';
+  src: url('/fonts/RussoOne-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Контейнер всей страницы */
 .app-container {
   display: flex;
@@ -302,6 +309,7 @@ code {
 .ml15 {
   font-weight: 800;
   font-size: 3.8em;
+  font-family: 'RussoOne', sans-serif;
   text-transform: uppercase;
   text-align: center;
   color: #ffc107;

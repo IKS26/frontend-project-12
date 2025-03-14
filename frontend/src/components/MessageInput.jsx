@@ -8,10 +8,11 @@ import { useTranslation } from 'react-i18next';
 import { BsArrowRightSquare } from 'react-icons/bs';
 import { Form, Button } from 'react-bootstrap';
 import { useSendMessageMutation } from '../api/dataApi';
+import { selectUsername } from '../store/authSlice';
 
 const MessageInput = ({ currentChannelId }) => {
   const { t } = useTranslation('chat');
-  const username = useSelector((state) => state.auth.username);
+  const username = useSelector(selectUsername);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
   const inputRef = useRef(null);
 

@@ -19,7 +19,7 @@ const App = () => {
       setTimeout(() => {
         setAppLoaded(true);
         sessionStorage.setItem('appLoaded', 'true');
-      }, 2000);
+      }, 2300);
     } else {
       setAppLoaded(true);
     }

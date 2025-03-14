@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import { selectChannelById } from '../../store/channelsSlice.js';
+import { selectCurrentChannelById } from '../../store/channelsSlice.js';
 import { selectModalState } from '../../store/modalSlice.js';
 import { useFetchChannelsQuery, useRenameChannelMutation } from '../../api/dataApi.js';
 
@@ -14,8 +14,8 @@ const RenameChannelModal = ({ handleClose }) => {
   const { t } = useTranslation('chat');
   const { data: channels, isLoading } = useFetchChannelsQuery();
   const { channelId } = useSelector(selectModalState);
-  const currentChannel = useSelector((state) => selectChannelById(state, channelId));
-  const channelToRename = currentChannel.name;
+  const currentChannel = useSelector(selectCurrentChannelById);
+  const channelToRename = currentChannel?.name || '';
   const [renameChannel] = useRenameChannelMutation();
   const inputRef = useRef();
 

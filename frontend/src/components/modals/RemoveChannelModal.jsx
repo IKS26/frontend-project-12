@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/dataApi.js';
 import { selectModalState, closeModal } from '../../store/modalSlice.js';
 import {
-  selectChannelById,
+  selectCurrentChannelById,
   setCurrentChannelId,
   DEFAULT_CHANNEL_ID,
 } from '../../store/channelsSlice.js';
@@ -15,7 +15,7 @@ const RemoveChannelModal = () => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
   const { channelId } = useSelector(selectModalState);
-  const channelToRemove = useSelector((state) => selectChannelById(state, channelId))?.name;
+  const channelToRemove = useSelector(selectCurrentChannelById)?.name;
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
   const handleRemove = async () => {

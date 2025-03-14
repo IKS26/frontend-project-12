@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSelector } from 'reselect';
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { selectModalState } from './modalSlice';
 
 export const DEFAULT_CHANNEL_ID = 1;
 
@@ -60,8 +61,9 @@ export const selectCurrentChannel = createSelector(
   (currentChannelId, entities) => entities[currentChannelId] || null,
 );
 
-export const selectChannelById = (state, channelId) => (
-  channelId ? selectors.selectById(state, channelId) : undefined
+export const selectCurrentChannelById = createSelector(
+  [selectModalState, (state) => state.channels.entities],
+  (modal, entities) => entities[modal.channelId] || null,
 );
 
 export default channelsSlice.reducer;
