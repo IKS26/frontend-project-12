@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
 import Header from './Header.jsx';
-import GlobalSpinner from './spinners/GlobalSpinner.jsx';
+import WelcomeSpinner from './spinners/WelcomeSpinner.jsx';
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import routes from '../routes/routes.js';
 import LoginPage from '../pages/LoginPage.jsx';
@@ -14,22 +14,22 @@ import PageNotFound from '../pages/PageNotFound.jsx';
 const APP_LOAD_DELAY_MS = 2300;
 
 const App = () => {
-  const [appLoaded, setAppLoaded] = useState(false);
+  const [shouldShowWelcome, setShouldShowWelcome] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem('appLoaded')) {
+    if (!localStorage.getItem('shouldShowWelcome')) {
       setTimeout(() => {
-        setAppLoaded(true);
-        localStorage.setItem('appLoaded', 'true');
+        setShouldShowWelcome(true);
+        localStorage.setItem('shouldShowWelcome', 'true');
       }, APP_LOAD_DELAY_MS);
     } else {
-      setAppLoaded(true);
+      setShouldShowWelcome(true);
     }
   }, []);
 
   return (
-    !appLoaded
-      ? (<GlobalSpinner />)
+    !shouldShowWelcome
+      ? (<WelcomeSpinner />)
       : (
         <>
           <BrowserRouter>

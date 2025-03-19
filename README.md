@@ -1,8 +1,7 @@
 # **X-Chat**  
----
+
 [![Actions Status](https://github.com/IKS26/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/IKS26/frontend-project-12/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c81b09736b3d08ab3df3/maintainability)](https://codeclimate.com/github/IKS26/frontend-project-12/maintainability)
----
 
 ## **About the Project**  
 **X-Chat** is a real-time chat application built using modern web technologies. It demonstrates front-end development best practices, including:  
