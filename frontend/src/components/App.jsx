@@ -11,48 +11,54 @@ import SignUpPage from '../pages/SignUpPage.jsx';
 import HomePage from '../pages/HomePage.jsx';
 import PageNotFound from '../pages/PageNotFound.jsx';
 
+const APP_LOAD_DELAY_MS = 2300;
+
 const App = () => {
   const [appLoaded, setAppLoaded] = useState(false);
 
   useEffect(() => {
-    if (!sessionStorage.getItem('appLoaded')) {
+    if (!localStorage.getItem('appLoaded')) {
       setTimeout(() => {
         setAppLoaded(true);
-        sessionStorage.setItem('appLoaded', 'true');
-      }, 2300);
+        localStorage.setItem('appLoaded', 'true');
+      }, APP_LOAD_DELAY_MS);
     } else {
       setAppLoaded(true);
     }
   }, []);
 
-  if (!appLoaded) return <GlobalSpinner />;
-
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        <Header />
-        <div className="chat-container">
-          <Routes>
-            <Route path={routes.login} element={<LoginPage />} />
-            <Route path={routes.signUp} element={<SignUpPage />} />
-            <Route path={routes.main} element={<ProtectedRoute />}>
-              <Route index element={<HomePage />} />
-            </Route>
-            <Route path={routes.notFound} element={<PageNotFound />} />
-          </Routes>
-        </div>
-        <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar
-          closeOnClick
-          closeButton
-          limit={3}
-          theme="dark"
-          transition={Slide}
-        />
-      </div>
-    </BrowserRouter>
+    !appLoaded
+      ? (<GlobalSpinner />)
+      : (
+        <>
+          <BrowserRouter>
+            <div className="d-flex flex-column vh-100">
+              <Header />
+              <div className="d-flex flex-column flex-grow-1 overflow-hidden">
+                <Routes>
+                  <Route path={routes.login} element={<LoginPage />} />
+                  <Route path={routes.signUp} element={<SignUpPage />} />
+                  <Route path={routes.home} element={<ProtectedRoute />}>
+                    <Route index element={<HomePage />} />
+                  </Route>
+                  <Route path={routes.notFound} element={<PageNotFound />} />
+                </Routes>
+              </div>
+            </div>
+          </BrowserRouter>
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar
+            closeOnClick
+            closeButton
+            limit={3}
+            theme="dark"
+            transition={Slide}
+          />
+        </>
+      )
   );
 };
 

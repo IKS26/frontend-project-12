@@ -6,26 +6,22 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col, Button, Form as BootstrapForm, Card } from 'react-bootstrap';
 import axios from 'axios';
-import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
 import apiRoutes from '../api/apiRoutes.js';
 import routes from '../routes/routes.js';
+import { signUpValidationSchema } from '../utils/validate.js';
 
 const SignUpPage = () => {
   const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const inputEl = useRef(null);
+  const usernameRef = useRef(null);
 
   useEffect(() => {
-    inputEl.current?.focus();
+    usernameRef.current?.focus();
   }, []);
 
-  const validationSchema = yup.object({
-    username: yup.string().min(3, t('errorUsernameShort')).max(20, t('errorUsernameLong')).required(t('usernameRequired')),
-    password: yup.string().min(6, t('errorPasswordShort')).required(t('passwordRequired')),
-    confirmPassword: yup.string().oneOf([yup.ref('password')], t('errorPasswordsMatch')).required(t('confirmPasswordRequired')),
-  });
+  const validationSchema = signUpValidationSchema(t);
 
   const formik = useFormik({
     initialValues: { username: '', password: '', confirmPassword: '' },
@@ -39,14 +35,14 @@ const SignUpPage = () => {
         const { token, username } = response.data;
 
         dispatch(login({ token, username }));
-        navigate(routes.main);
+        navigate(routes.home);
       } catch (error) {
         if (error.response?.status === 409) {
           setErrors({ username: t('errorUsernameExists') });
         } else {
           setErrors({ confirmPassword: t('axiosError') });
         }
-        inputEl.current?.select();
+        usernameRef.current?.select();
       } finally {
         setSubmitting(false);
       }
@@ -69,9 +65,9 @@ const SignUpPage = () => {
                     id="username"
                     type="text"
                     name="username"
-                    placeholder={t('enterUsername')}
+                    placeholder={t('username')}
                     autoComplete="username"
-                    ref={inputEl}
+                    ref={usernameRef}
                     value={formik.values.username}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -89,7 +85,7 @@ const SignUpPage = () => {
                     id="password"
                     type="password"
                     name="password"
-                    placeholder={t('enterPassword')}
+                    placeholder={t('password')}
                     autoComplete="new-password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
@@ -108,7 +104,7 @@ const SignUpPage = () => {
                     id="confirmPassword"
                     type="password"
                     name="confirmPassword"
-                    placeholder={t('enterConfirmPassword')}
+                    placeholder={t('confirmPassword')}
                     autoComplete="new-password"
                     value={formik.values.confirmPassword}
                     onChange={formik.handleChange}

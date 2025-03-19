@@ -47,7 +47,7 @@ const MessagesBox = memo(({ currentChannelId }) => {
           {t('messages.messagesCount.messages', { count: messagesCount })}
         </span>
       </div>
-      <div id="messages-box" className="chat-messages px-5" ref={messagesBoxRef}>
+      <div className="flex-grow-1 overflow-auto p-3 px-5" ref={messagesBoxRef}>
         {messages.length > 0 ? (
           messages.map((message) => (
             <div key={message.id} className="text-break mb-2">

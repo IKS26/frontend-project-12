@@ -3,35 +3,26 @@ import { useTranslation } from 'react-i18next';
 import { Modal as BootstrapModal, Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
 import { selectAllChannelNames, setCurrentChannelId } from '../../store/channelsSlice.js';
 import { useAddChannelMutation } from '../../api/dataApi.js';
+import { addChannelValidationSchema } from '../../utils/validate.js';
 
 const AddChannelModal = ({ handleClose }) => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
   const channelNames = useSelector(selectAllChannelNames);
   const [addChannel, { isLoading }] = useAddChannelMutation();
-
   const inputRef = useRef(null);
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     }
   }, []);
 
-  const validationSchema = yup.object().shape({
-    name: yup
-      .string()
-      .trim()
-      .required(t('addChannel.validation.required'))
-      .min(3, t('addChannel.validation.minMax'))
-      .max(20, t('addChannel.validation.minMax'))
-      .notOneOf(channelNames, t('addChannel.validation.unique')),
-  });
+  const validationSchema = addChannelValidationSchema(t, channelNames);
 
   const formik = useFormik({
     initialValues: { name: '' },
@@ -42,12 +33,9 @@ const AddChannelModal = ({ handleClose }) => {
 
       try {
         const newChannel = await addChannel({ name: cleanName }).unwrap();
-
         if (newChannel?.id) {
-          localStorage.setItem('lastCreatedChannelId', newChannel.id);
           dispatch(setCurrentChannelId(newChannel.id));
         }
-
         toast.success(t('addChannel.created'));
         resetForm();
         handleClose();
@@ -62,7 +50,9 @@ const AddChannelModal = ({ handleClose }) => {
   return (
     <>
       <BootstrapModal.Header closeButton className="modal-header-dark">
-        <BootstrapModal.Title className="modal-title-dark">{t('addChannel.title')}</BootstrapModal.Title>
+        <BootstrapModal.Title className="modal-title-dark">
+          {t('addChannel.title')}
+        </BootstrapModal.Title>
       </BootstrapModal.Header>
       <BootstrapModal.Body className="modal-body-dark">
         <Form onSubmit={formik.handleSubmit}>

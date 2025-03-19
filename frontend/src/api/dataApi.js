@@ -17,7 +17,7 @@ export const dataApi = createApi({
   endpoints: (builder) => ({
     fetchChannels: builder.query({
       query: () => apiRoutes.channels,
-      providesTags: (result) => (result ? [...result.map(({ id }) => ({ type: 'Channels', id })), 'Channels'] : ['Channels']),
+      providesTags: ['Channels'],
     }),
 
     addChannel: builder.mutation({
@@ -26,13 +26,9 @@ export const dataApi = createApi({
         method: 'POST',
         body: newChannel,
       }),
-      async onQueryStarted(newChannel, { dispatch, queryFulfilled }) {
-        const { data: createdChannel } = await queryFulfilled;
-        dispatch(
-          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-            draft.push(createdChannel);
-          }),
-        );
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(dataApi.util.invalidateTags(['Channels']));
       },
     }),
 
@@ -43,10 +39,7 @@ export const dataApi = createApi({
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         await queryFulfilled;
-        dispatch(
-          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => draft.filter((channel) => channel.id !== id)),
-        );
-        dispatch(dataApi.util.updateQueryData('fetchMessages', id, () => []));
+        dispatch(dataApi.util.invalidateTags(['Channels', 'Messages']));
       },
     }),
 
@@ -56,20 +49,15 @@ export const dataApi = createApi({
         method: 'PATCH',
         body: { name },
       }),
-      async onQueryStarted({ id, name }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         await queryFulfilled;
-        dispatch(
-          dataApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
-            const channel = draft.find((ch) => ch.id === id);
-            if (channel) channel.name = name;
-          }),
-        );
+        dispatch(dataApi.util.invalidateTags(['Channels']));
       },
     }),
 
     fetchMessages: builder.query({
       query: (channelId) => apiRoutes.messagesByChannel(channelId),
-      providesTags: (result, error, channelId) => (result ? [{ type: 'Messages', id: channelId }] : ['Messages']),
+      providesTags: (result, error, channelId) => [{ type: 'Messages', id: channelId }],
     }),
 
     sendMessage: builder.mutation({
@@ -78,13 +66,8 @@ export const dataApi = createApi({
         method: 'POST',
         body: newMessage,
       }),
-      async onQueryStarted(newMessage, { dispatch, queryFulfilled }) {
-        const { data: message } = await queryFulfilled;
-        dispatch(
-          dataApi.util.updateQueryData('fetchMessages', message.channelId, (draft) => {
-            draft.push(message);
-          }),
-        );
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
         dispatch(dataApi.util.invalidateTags(['Messages']));
       },
     }),

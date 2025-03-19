@@ -1,207 +1,126 @@
-/* Стили для автозаполнения инпутов */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* === Кастомные переменные === */
+:root {
+  --bs-primary: #ffc107;
+  --bs-primary-hover: #ffcc00;
+  --bs-primary-active: #e0a800;
+  --bs-secondary: #6c757d;
+  --bs-dark-bg: #2C2C2C;
+  --bs-dark-gray: #303030;
+  --bs-light-gray: #444444;
+  --bs-lighter-gray: #555555;
+  --bs-text-light: #dddddd;
+  --bs-text-dark: #222222;
+  --bs-text-yellow: #ffc107;
+  --bs-border-color: #555555;
+  --bs-danger: #dc3545;
+  --bs-danger-hover: #ff6b6b;
+  --bs-navbar-bg: #383838;
+  --bs-modal-bg: #383838;
+  --bs-modal-header-bg: #303030;
+  --bs-modal-footer-bg: #303030;
+  --bs-message-bg: #1e1e1e;
+  --bs-message-header-bg: #2a2a2a;
+}
+
+/* === Общие стили === */
+body {
+  margin: 0;
+  font-family: var(--bs-font-sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bs-dark-bg);
+  color: var(--bs-text-light);
+}
+
+/* Автозаполнение */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus {
-  background-color: #444444 !important; /* Серый фон */
-  -webkit-box-shadow: 0 0 0px 1000px #444444 inset !important; /* Фикс фона */
-  -webkit-text-fill-color: #dddddd !important; /* Белый текст */
-  caret-color: #ffffff !important; /* Белый цвет каретки (курсор внутри инпута) */
-  transition: background-color 5000s ease-in-out 0s; /* Убирает анимацию */
+  background-color: var(--bs-light-gray) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--bs-light-gray) inset !important;
+  -webkit-text-fill-color: var(--bs-text-light) !important;
+  caret-color: var(--bs-text-light) !important;
 }
 
-/* Дополнительно для Firefox */
-input:-moz-autofill,
-textarea:-moz-autofill {
-  background-color: #444444 !important;
-  color: #dddddd !important;
+/* === Навбар === */
+.navbar {
+  background: var(--bs-navbar-bg);
 }
 
-/* Базовые стили */
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #2C2C2C;
-  color: #dddddd;
+.navbar-brand {
+  color: var(--bs-text-light);
 }
 
-/* Кодовые блоки */
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-@font-face {
-  font-family: 'RussoOne';
-  src: url('/fonts/RussoOne-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* Контейнер всей страницы */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-/* Контейнер контента после шапки */
-.chat-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-/* Контейнер всей домашней страницы */
-.container {
-	--bs-gutter-x: 0;
-	--bs-gutter-y: 0;
-}
-
-/* Контейнер списка каналов и чата */
-.chat-content {
-  display: flex;
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-/* Список каналов */
-.channels-container {
-  width: 220px;
-  overflow-y: auto;
-  background-color: #303030;
-}
-
-/* Контейнер окна чата */
-.messages-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  background-color: #1e1e1e;
-}
-
-.messages-container-head-bg {
-  background-color: #2a2a2a;
-}
-
-/* Фон инпута для сообщений */
-.input-message-bg {
-  background-color: #303030 !important;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.input-message-bg::placeholder {
-  color: #dddddd;
-}
-
-/* Сообщения должны заполнять всё пространство messages-box */
-#messages-box {
-  flex-grow: 1;
-  overflow-y: auto;
-  padding: 15px;
-}
-
-/* Навбар */
-.navbar-custom {
-  background: #383838;
-}
-
-.navbar-brand-custom {
-  color: #dddddd;
-}
-
-.navbar-brand-custom:hover {
-  color: #ffc107;
+.navbar-brand:hover {
+  color: var(--bs-primary);
 }
 
 .navbar-brand-span {
 	font-size: 1.2rem;
-	color: #dddddd;
 }
 
-/* Кнопка в навбаре */
-.btn-custom-logout {
-  border-color: #ffc107;
-  background-color: #383838;
-  color: #ffc107;
-  transition: all 0.3s ease;
-}
-
-.btn-custom-logout:hover {
-	border-color: #ffcc00;
-	background-color: #ffcc00;
-	color: #222222;
-}
-
-/* Карточки для логина и регистрации */
-.login-card, .signup-card {
-  background: #383838;
-  color: #dddddd;
-  border-radius: 8px;
-}
-
-/* Аватарки */
-.login-avatar, .signup-avatar {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border: 2px solid #ffc107;
-}
-
-/* Поля ввода */
-.form-control {
-  background: #444444;
-  border: 1px solid #666666;
-  color: #dddddd;
-}
-
-.form-control:focus {
-  background: #555555;
-  color: #dddddd;
-  border-color: #ffc107;
-}
-
-/* Кнопки */
+/* === Кнопка навбара и кнопки карточек === */
 .btn-outline-primary {
-  border-color: #ffc107;
-  background-color: #444444;
-  color: #ffc107;
+  border-color: var(--bs-primary);
+  background-color: var(--bs-navbar-bg);
+  color: var(--bs-primary);
   transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-  border-color: #ffcc00;
-  background-color: #ffcc00;
-  color: #222222;
+  border-color: var(--bs-primary-hover);
+  background-color: var(--bs-primary-hover);
+  color: var(--bs-text-dark);
+}
+
+/* === Карточки ввода и регистрации === */
+.login-card, .signup-card  {
+  background: var(--bs-modal-bg);
+  color: var(--bs-text-light);
+  border-radius: 8px;
+}
+
+/* === Аватары для карточек === */
+.login-avatar, .signup-avatar {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 2px solid var(--bs-primary);
+}
+
+/* === Поля ввода === */
+.form-control {
+  background: var(--bs-light-gray);
+  border: 1px solid var(--bs-secondary);
+  color: var(--bs-text-light);
+}
+
+.form-control:focus {
+  background: var(--bs-lighter-gray);
+  border-color: var(--bs-primary);
+  color: var(--bs-text-light);
 }
 
 .text-yellow {
-  color: #ffc107;
+  color: var(--bs-primary);
 }
 
-/* Подвал карточки */
-.card-footer {
-  background: #383838;
-  border-top: 1px solid #555555;
-}
-
-/* Темные стили для модальных окон */
+/* === Модальные окна === */
 .modal-dark .modal-content {
-  background: #383838;
-  color: #dddddd;
-  border: 1px solid #555555;
+  background: var(--bs-modal-bg);
+  border: 1px solid var(--bs-border-color);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .modal-header-dark {
-  background: #303030;
-  border-bottom: 1px solid #555555;
+  background: var(--bs-modal-header-bg);
+  border-bottom: 1px solid var(--bs-border-color);
 }
 
 .modal-title-dark {
@@ -222,76 +141,137 @@ code {
 
 .modal-body-dark {
   background: #383838;
-  color: #dddddd;
+  color: var(--bs-text-light);
 }
 
 .modal-footer-dark {
-  background: #303030;
-  border-top: 1px solid #555555;
+  background: var(--bs-dark-gray);
+  border-top: 1px solid var(--bs-border-color);
 }
 
 /* Стили для полей ввода */
 .form-control-dark {
-  background: #444444;
+  background: var(--bs-light-gray);
   border: 1px solid #666666;
-  color: #dddddd;
+  color: var(--bs-text-light);
 }
 
 .form-control-dark:focus {
-  background: #555555;
-  color: #dddddd;
-  border-color: #ffc107;
+  background: var(--bs-lighter-gray);
+  color: var(--bs-text-light);
+  border-color: var(--bs-primary);
 }
 
 .form-control-dark.is-invalid {
-  border-color: #dc3545;
+  border-color: var(--bs-danger);
 }
 
 .form-control-dark.is-invalid:focus {
-  border-color: #ff6b6b;
+  border-color: var(--bs-danger-hover);
 }
 
 .form-control-dark::-webkit-input-placeholder {
-  color: #dddddd;
+  color: var(--bs-text-light);
 }
 
-/* Кнопки */
+/* Кнопки модальных окон */
 .btn-secondary-dark {
-  background: linear-gradient(180deg, #777777, #666666);
+  background: #666666;
   border: 1px solid #888888;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-secondary-dark:hover {
   background: #777777;
+  box-shadow: 0 2px 6px rgba(136, 136, 136, 0.5);
 }
 
 .btn-primary-dark {
-  background: #ffc107;
+  background: var(--bs-primary);
   border: none;
   color: #222222;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-primary-dark:hover {
-  background: #ffcc00;
+  background: #ffe082;
+  color: #000000;
+  box-shadow: 0 2px 6px rgba(255, 192, 7, 0.5);
+}
+
+.btn-primary-dark:active, .btn-primary-dark:focus {
+  background: var(--bs-primary-active);
+  color: #000000;
+  box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5);
+  border: none;
 }
 
 .btn-danger-dark {
-  background: #dc3545;
+  background: var(--bs-danger);
   border: none;
   color: #ffffff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-danger-dark:hover {
-  background: #ff6b6b;
+  background: var(--bs-danger-hover);
+  box-shadow: 0 2px 6px rgba(255, 107, 107, 0.5);
 }
 
-/* Страница 404 */
+/* === Чат === */
+.channels-container {
+  width: 220px;
+  background: var(--bs-dark-gray);
+}
+
+.messages-container-head-bg {
+  background-color: var(--bs-message-header-bg);
+}
+
+.messages-container {
+  background: var(--bs-message-bg);
+}
+
+.input-message-bg {
+  background-color: var(--bs-dark-gray) !important;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.input-message-bg::placeholder {
+  color: var(--bs-text-light);
+}
+
+/* === Спиннер === */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--bs-dark-bg);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid rgba(255, 193, 7, 0.3);
+  border-top-color: var(--bs-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === 404 Страница === */
 .img-custom {
   border-radius: 10px;
-  border: 2px solid #ffc107;
+  border: 2px solid var(--bs-primary);
 }
 
-/* Глобальный спиннер */
+/* === Глобальный спиннер === */
 .global-spinner-container {
   position: fixed;
   top: 0;
@@ -301,7 +281,7 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #2C2C2C;
+  background: var(--bs-dark-bg);
   z-index: 9999;
   flex-direction: column;
 }
@@ -312,7 +292,7 @@ code {
   font-family: 'RussoOne', sans-serif;
   text-transform: uppercase;
   text-align: center;
-  color: #ffc107;
+  color: var(--bs-primary);
 }
 
 .ml15 .word {
@@ -329,37 +309,4 @@ code {
   font-size: 1.4em;
   display: block;
   opacity: 0;
-}
-
-/* Спиннер для чата */
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #2C2C2C;
-}
-
-/* Простой спиннер */
-.simple-spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #2C2C2C;
-}
-
-.simple-spinner {
-  width: 50px;
-  height: 50px;
-  border: 6px solid rgba(255, 193, 7, 0.3);
-  border-top-color: #ffc107;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-/* Анимация вращения */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }

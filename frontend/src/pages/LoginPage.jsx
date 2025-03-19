@@ -13,25 +13,22 @@ import {
   Card,
 } from 'react-bootstrap';
 import axios from 'axios';
-import * as yup from 'yup';
 import { login } from '../store/authSlice.js';
 import apiRoutes from '../api/apiRoutes.js';
 import routes from '../routes/routes.js';
+import { loginValidationSchema } from '../utils/validate.js';
 
 const LoginPage = () => {
   const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const inputEl = useRef(null);
+  const usernameRef = useRef(null);
 
   useEffect(() => {
-    inputEl.current?.focus();
+    usernameRef.current?.focus();
   }, []);
 
-  const validationSchema = yup.object({
-    username: yup.string().required(t('usernameRequired')),
-    password: yup.string().required(t('passwordRequired')),
-  });
+  const validationSchema = loginValidationSchema(t);
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
@@ -42,7 +39,7 @@ const LoginPage = () => {
         const { token, username } = response.data;
 
         dispatch(login({ token, username }));
-        navigate(routes.main);
+        navigate(routes.home);
       } catch (error) {
         if (error.response?.status === 401) {
           setErrors({ password: t('errorInvalidCredentials') });
@@ -51,7 +48,7 @@ const LoginPage = () => {
         } else {
           setErrors({ password: t('unexpectedError') });
         }
-        inputEl.current?.select();
+        usernameRef.current?.select();
       } finally {
         setSubmitting(false);
       }
@@ -79,9 +76,9 @@ const LoginPage = () => {
                     id="username"
                     type="text"
                     name="username"
-                    placeholder={t('enterNickname')}
+                    placeholder={t('nickname')}
                     autoComplete="username"
-                    ref={inputEl}
+                    ref={usernameRef}
                     value={formik.values.username}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -99,7 +96,7 @@ const LoginPage = () => {
                     id="password"
                     type="password"
                     name="password"
-                    placeholder={t('enterPassword')}
+                    placeholder={t('password')}
                     autoComplete="current-password"
                     value={formik.values.password}
                     onChange={formik.handleChange}

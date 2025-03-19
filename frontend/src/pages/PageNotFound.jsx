@@ -20,7 +20,7 @@ const PageNotFound = () => {
               <p>
                 {t('pageNotFound.description')}
                 {' '}
-                <Link to={routes.main} className="text-yellow">
+                <Link to={routes.home} className="text-yellow">
                   {t('pageNotFound.homeLink')}
                 </Link>
               </p>

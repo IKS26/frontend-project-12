@@ -5,47 +5,30 @@ import { useTranslation } from 'react-i18next';
 import { BsPlusSquare } from 'react-icons/bs';
 import { openModal } from '../store/modalSlice.js';
 import {
-  selectChannels,
   setCurrentChannelId,
   addChannels,
+  selectCurrentChannelId,
   DEFAULT_CHANNEL_ID,
 } from '../store/channelsSlice.js';
 import { useFetchChannelsQuery } from '../api/dataApi.js';
 
-const ChannelsList = memo(({ currentChannelId }) => {
+const ChannelsList = memo(() => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
   const { data: channels = [], isSuccess } = useFetchChannelsQuery();
-  const storedChannels = useSelector(selectChannels);
-  const isCurrentChannelValid = storedChannels.some((channel) => channel.id === currentChannelId);
-  const lastCreatedChannelId = localStorage.getItem('lastCreatedChannelId');
+  const currentChannelId = useSelector(selectCurrentChannelId);
+  const channelExists = channels.some((channel) => channel.id === currentChannelId);
 
   useEffect(() => {
-    if (isSuccess && channels) {
-      dispatch(addChannels(channels));
-    }
-  }, [isSuccess, channels, dispatch]);
+    if (!isSuccess || channels.length === 0) return;
 
-  useEffect(() => {
-    if (storedChannels.length === 0) {
-      return;
-    }
+    dispatch(addChannels(channels));
 
-    if (lastCreatedChannelId) {
-      const lastChannelExists = storedChannels.some((ch) => ch.id === Number(lastCreatedChannelId));
-
-      if (lastChannelExists) {
-        dispatch(setCurrentChannelId(Number(lastCreatedChannelId)));
-        localStorage.removeItem('lastCreatedChannelId');
-        return;
-      }
-    }
-
-    if (!isCurrentChannelValid) {
+    if (!channelExists) {
       dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storedChannels, dispatch]);
+  }, [isSuccess, channels, dispatch]);
 
   const handleChannelSelect = (channelId) => {
     if (currentChannelId !== channelId) {
@@ -68,9 +51,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
   return (
     <>
       <div className="d-flex justify-content-between mt-1 mb-2 ps-4 pe-2 p-4">
-        <h5>
-          {t('channels.title')}
-        </h5>
+        <h5>{t('channels.title')}</h5>
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
@@ -81,7 +62,7 @@ const ChannelsList = memo(({ currentChannelId }) => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills">
-        {storedChannels.map((channel) => {
+        {channels?.map((channel) => {
           const isActive = channel.id === currentChannelId;
           return (
             <li key={channel.id} className="nav-item w-100">

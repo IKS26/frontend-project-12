@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
@@ -8,11 +7,12 @@ import { useTranslation } from 'react-i18next';
 import { BsArrowRightSquare } from 'react-icons/bs';
 import { Form, Button } from 'react-bootstrap';
 import { useSendMessageMutation } from '../api/dataApi';
-import { selectUsername } from '../store/authSlice';
+import { selectUserName } from '../store/authSlice';
+import { messageValidationSchema } from '../utils/validate';
 
 const MessageInput = ({ currentChannelId }) => {
   const { t } = useTranslation('chat');
-  const username = useSelector(selectUsername);
+  const username = useSelector(selectUserName);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
   const inputRef = useRef(null);
 
@@ -22,11 +22,11 @@ const MessageInput = ({ currentChannelId }) => {
     });
   }, [currentChannelId]);
 
+  const validationSchema = messageValidationSchema(t);
+
   const formik = useFormik({
     initialValues: { message: '' },
-    validationSchema: Yup.object({
-      message: Yup.string().trim().required(t('messages.newMessage')),
-    }),
+    validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         const cleanMessage = leoProfanity.clean(values.message);

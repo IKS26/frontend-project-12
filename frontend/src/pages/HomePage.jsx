@@ -14,21 +14,23 @@ const HomePage = () => {
   const modalState = useSelector(selectModalState);
   const currentChannelId = useSelector(selectCurrentChannelId);
 
-  if (isLoading) return <ChatSpinner />;
-
   return (
-    <div className="container h-100 my-4 rounded shadow overflow-hidden d-flex flex-column">
-      <div className="chat-content">
-        <div className="channels-container">
-          <ChannelsList currentChannelId={currentChannelId} />
+    isLoading
+      ? (<ChatSpinner />)
+      : (
+        <div className="container d-flex flex-column rounded shadow overflow-hidden h-100 g-0 my-4">
+          <div className="d-flex flex-grow-1 overflow-hidden">
+            <div className="channels-container overflow-auto">
+              <ChannelsList currentChannelId={currentChannelId} />
+            </div>
+            <div className="messages-container d-flex flex-column flex-grow-1">
+              <MessagesBox currentChannelId={currentChannelId} />
+              <MessageInput currentChannelId={currentChannelId} />
+            </div>
+          </div>
+          {modalState.isOpen && <Modal />}
         </div>
-        <div className="messages-container">
-          <MessagesBox currentChannelId={currentChannelId} />
-          <MessageInput currentChannelId={currentChannelId} />
-        </div>
-      </div>
-      {modalState.isOpen && <Modal />}
-    </div>
+      )
   );
 };
 

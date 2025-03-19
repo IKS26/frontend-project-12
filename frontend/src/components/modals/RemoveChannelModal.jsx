@@ -5,11 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/dataApi.js';
 import { selectModalState, closeModal } from '../../store/modalSlice.js';
-import {
-  selectCurrentChannelById,
-  setCurrentChannelId,
-  DEFAULT_CHANNEL_ID,
-} from '../../store/channelsSlice.js';
+import { selectCurrentChannelById } from '../../store/channelsSlice.js';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation('chat');
@@ -22,7 +18,6 @@ const RemoveChannelModal = () => {
     try {
       await removeChannel(channelId).unwrap();
       toast.success(t('removeChannel.removed'));
-      dispatch(setCurrentChannelId(DEFAULT_CHANNEL_ID));
       dispatch(closeModal());
     } catch {
       toast.error(t('removeChannel.error'));
