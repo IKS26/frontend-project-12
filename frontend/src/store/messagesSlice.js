@@ -21,14 +21,20 @@ const messagesSlice = createSlice({
   },
 });
 
-export const { addMessage, addMessages, removeMessagesByChannelId } = messagesSlice.actions;
+export const {
+  addMessage,
+  addMessages,
+  removeMessagesByChannelId,
+} = messagesSlice.actions;
 
 export const selectors = messagesAdapter.getSelectors((state) => state.messages);
 export const { selectAll: selectAllMessages } = selectors;
 
 export const selectCurrentChannelMessages = createSelector(
   [selectAllMessages, (state) => state.channels.currentChannelId],
-  (messages, currentChannelId) => messages.filter((message) => message.channelId === currentChannelId),
+  (messages, currentChannelId) => messages.filter(
+    (message) => message.channelId === currentChannelId,
+  ),
 );
 
 export default messagesSlice.reducer;

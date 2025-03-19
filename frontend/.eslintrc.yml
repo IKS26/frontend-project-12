@@ -31,4 +31,3 @@ rules:
   no-tabs: error
   no-mixed-spaces-and-tabs: error
   indent: [error, 2]
-  max-len: off
